@@ -2,26 +2,490 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+/* ── Dark mode (default) ───────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --surface: #111111;
+  --surface-2: #18181b;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: #27272a;
+  --text-muted: #71717a;
+  --text-subtle: #52525b;
+  --text-secondary: #a1a1aa;
+  --card-bg: rgba(24, 24, 27, 0.5);
+  --scrollbar-track: #0a0a0a;
+  --scrollbar-thumb: #3f3f46;
+  --scrollbar-thumb-hover: #52525b;
+  --grid-color: rgba(255, 255, 255, 0.03);
+  --robot-body: #111;
+  --robot-eye: #fff;
+  --status-bar-bg: rgba(10, 10, 10, 0.95);
+  --status-bar-border: rgba(255, 255, 255, 0.1);
+  --bubble-bg: rgba(255, 255, 255, 0.95);
+  --bubble-color: #000;
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Light mode ────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --background: #f0f0f0;
+  --foreground: #0a0a0a;
+  --surface: #e8e8e8;
+  --surface-2: #dcdcdc;
+  --border: rgba(0, 0, 0, 0.07);
+  --border-strong: #c4c4c8;
+  --text-muted: #52525b;
+  --text-subtle: #71717a;
+  --text-secondary: #3f3f46;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --scrollbar-track: #f0f0f0;
+  --scrollbar-thumb: #a1a1aa;
+  --scrollbar-thumb-hover: #71717a;
+  --grid-color: rgba(0, 0, 0, 0.04);
+  --robot-body: #1a1a1a;
+  --robot-eye: #f0f0f0;
+  --status-bar-bg: rgba(240, 240, 240, 0.95);
+  --status-bar-border: rgba(0, 0, 0, 0.08);
+  --bubble-bg: rgba(10, 10, 10, 0.9);
+  --bubble-color: #fff;
+  /* Invert zinc scale for light mode */
+  --zinc-50: #18181b;
+  --zinc-100: #27272a;
+  --zinc-200: #3f3f46;
+  --zinc-300: #52525b;
+  --zinc-400: #71717a;
+  --zinc-500: #a1a1aa;
+  --zinc-600: #d4d4d8;
+  --zinc-700: #e4e4e7;
+  --zinc-800: #ececed;
+  --zinc-900: #f4f4f5;
+  --zinc-950: #fafafa;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Open to Work pulse animation */
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Bounce arrow */
+@keyframes bounce-arrow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.bounce-arrow {
+  animation: bounce-arrow 1.5s ease-in-out infinite;
+}
+
+/* Selection */
+::selection {
+  background: rgba(128, 128, 128, 0.2);
+  color: var(--foreground);
+}
+
+/* Link underline slide */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--foreground);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Glass card */
+.glass {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+/* Button glow hover */
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(128, 128, 128, 0.15);
+}
+
+/* Input focus styles */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--foreground) !important;
+}
+
+/* Matter.js canvas container */
+.matter-canvas canvas {
+  display: block;
+}
+
+/* Theme transition for all elements */
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* But NOT for animations/transforms */
+.no-theme-transition,
+.no-theme-transition *,
+motion,
+[style*="transform"] {
+  transition: none !important;
+}
+
+/* Grid background pattern for light mode */
+[data-theme="light"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Robot shake animation for scared state */
+@keyframes robot-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-3px) rotate(-3deg);
+  }
+
+  40% {
+    transform: translateX(3px) rotate(3deg);
+  }
+
+  60% {
+    transform: translateX(-2px) rotate(-2deg);
+  }
+
+  80% {
+    transform: translateX(2px) rotate(2deg);
+  }
+}
+
+.robot-scared {
+  animation: robot-shake 0.4s ease-in-out;
+}
+
+/* Theme toggle button */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--foreground);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--surface);
+  border-color: var(--text-subtle);
+}
+
+/* Language pill toggle — matches reference site */
+.lang-pill {
+  display: flex;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 9999px;
+  overflow: hidden;
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-pill-btn {
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-pill-btn.active {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.lang-pill-btn.inactive {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.lang-pill-btn.inactive:hover {
+  color: var(--foreground);
+}
+
+/* ── Light mode section overrides ──────────────────────────────────── */
+/* These patch hardcoded Tailwind dark colors used in all section components */
+
+[data-theme="light"] .bg-\[\#0a0a0a\],
+[data-theme="light"] section.bg-\[\#0a0a0a\],
+[data-theme="light"] .bg-black {
+  background-color: var(--background) !important;
+}
+
+[data-theme="light"] .bg-zinc-950,
+[data-theme="light"] .bg-zinc-950\/30,
+[data-theme="light"] .bg-zinc-950\/50,
+[data-theme="light"] .bg-zinc-950\/80 {
+  background-color: rgba(248, 248, 249, 0.8) !important;
+}
+
+[data-theme="light"] .bg-zinc-900 {
+  background-color: #f4f4f5 !important;
+}
+
+[data-theme="light"] .bg-zinc-800 {
+  background-color: #e4e4e7 !important;
+}
+
+[data-theme="light"] .text-white {
+  color: #0a0a0a !important;
+}
+
+[data-theme="light"] .text-zinc-400 {
+  color: #52525b !important;
+}
+
+[data-theme="light"] .text-zinc-500 {
+  color: #71717a !important;
+}
+
+[data-theme="light"] .text-zinc-600 {
+  color: #a1a1aa !important;
+}
+
+[data-theme="light"] .text-zinc-700 {
+  color: #a1a1aa !important;
+}
+
+[data-theme="light"] .text-zinc-300 {
+  color: #3f3f46 !important;
+}
+
+[data-theme="light"] .border-zinc-800 {
+  border-color: #d4d4d8 !important;
+}
+
+[data-theme="light"] .border-zinc-700 {
+  border-color: #c4c4c8 !important;
+}
+
+[data-theme="light"] .border-zinc-800\/50 {
+  border-color: rgba(212, 212, 216, 0.5) !important;
+}
+
+[data-theme="light"] .bg-black\/70,
+[data-theme="light"] .bg-black\/60 {
+  background-color: rgba(240, 240, 240, 0.85) !important;
+}
+
+[data-theme="light"] .bg-gradient-to-r.from-zinc-900 {
+  --tw-gradient-from: #e4e4e7 !important;
+}
+
+/* Hero gradient overlay in light mode */
+[data-theme="light"] .from-blue-950\/10 {
+  --tw-gradient-from: rgba(23, 37, 84, 0.05) !important;
+}
+
+/* Hover states in light mode */
+[data-theme="light"] .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .hover\:border-zinc-700:hover {
+  border-color: #a1a1aa !important;
+}
+
+[data-theme="light"] .hover\:border-zinc-600:hover {
+  border-color: #c4c4c8 !important;
+}
+
+[data-theme="light"] .hover\:text-white:hover {
+  color: #0a0a0a !important;
+}
+
+/* About section card */
+[data-theme="light"] .border-zinc-800.bg-zinc-950 {
+  background-color: #ffffff !important;
+  border-color: #d4d4d8 !important;
+}
+
+[data-theme="light"] .border-4.border-zinc-950 {
+  border-color: #ffffff !important;
+}
+
+/* Download button */
+[data-theme="light"] .hover\:bg-white:hover {
+  background-color: #0a0a0a !important;
+}
+
+[data-theme="light"] .hover\:text-black:hover {
+  color: #ffffff !important;
+}
+
+/* Card hire-me button */
+[data-theme="light"] .bg-white.text-black {
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .hover\:bg-zinc-200:hover {
+  background-color: #27272a !important;
+}
+
+/* Scrollbar light mode */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #a1a1aa;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}
+
+/* Grid dot background in light mode */
+[data-theme="light"] body {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+[data-theme="dark"] body {
+  background-image: none;
+}
+
+/* Footer light mode */
+[data-theme="light"] .border-zinc-800.bg-\[\#0a0a0a\] {
+  background-color: var(--background) !important;
+  border-color: #d4d4d8 !important;
+}
+
+/* Backdrop light mode */
+[data-theme="light"] .backdrop-blur-xl,
+[data-theme="light"] .backdrop-blur-sm {
+  backdrop-filter: blur(20px);
 }
