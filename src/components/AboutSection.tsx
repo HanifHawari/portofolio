@@ -166,19 +166,6 @@ function SectionCard({ children, className = "" }: { children: React.ReactNode; 
   );
 }
 
-// ── Label tag ─────────────────────────────────────────────────────────────────
-function SectionLabel({ text }: { text: string }) {
-  return (
-    <span style={{
-      display: "inline-block",
-      fontSize: 11, fontWeight: 700, letterSpacing: "0.2em",
-      textTransform: "uppercase" as const, color: "var(--text-muted)",
-      borderBottom: "1px solid var(--border-strong)", paddingBottom: 6,
-    }}>
-      {text}
-    </span>
-  );
-}
 
 export default function AboutSection() {
   const { t, language } = useLanguage();

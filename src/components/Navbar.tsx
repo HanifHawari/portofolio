@@ -51,7 +51,7 @@ export default function Navbar() {
       try {
         await audio.play();
         setIsPlaying(true);
-      } catch (e) {
+      } catch {
         setIsPlaying(false);
       }
     };
