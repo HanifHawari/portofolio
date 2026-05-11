@@ -168,14 +168,14 @@ export default function AboutSection() {
 
   const philosophyItems = language === "id"
     ? [
-        { icon: "⚡", title: "Kode Bersih", desc: "Saya memprioritaskan keterbacaan dan pemeliharaan code di atas segalanya." },
-        { icon: "🎯", title: "Berfokus pada Pengguna", desc: "Setiap keputusan desain dimulai dari perspektif pengguna akhir." },
-        { icon: "🚀", title: "Kirim & Iterasi", desc: "Saya percaya dalam merilis cepat, belajar, dan meningkatkan secara berkelanjutan." },
+        { icon: "</>", title: "Kode Bersih", desc: "Saya memprioritaskan keterbacaan dan pemeliharaan code di atas segalanya." },
+        { icon: "{ }", title: "Berfokus pada Pengguna", desc: "Setiap keputusan desain dimulai dari perspektif pengguna akhir." },
+        { icon: "/>", title: "Kirim & Iterasi", desc: "Saya percaya dalam merilis cepat, belajar, dan meningkatkan secara berkelanjutan." },
       ]
     : [
-        { icon: "⚡", title: "Clean Code", desc: "I prioritize readability and maintainability above all." },
-        { icon: "🎯", title: "User-Focused", desc: "Every design decision starts from the end-user's perspective." },
-        { icon: "🚀", title: "Ship & Iterate", desc: "I believe in releasing fast, learning, and continuously improving." },
+        { icon: "</>", title: "Clean Code", desc: "I prioritize readability and maintainability above all." },
+        { icon: "{ }", title: "User-Focused", desc: "Every design decision starts from the end-user's perspective." },
+        { icon: "/>", title: "Ship & Iterate", desc: "I believe in releasing fast, learning, and continuously improving." },
       ];
 
   const focusAreas = ["Frontend Development", "UI/UX Design", "React & Next.js", "Mobile-first", "Performance"];
@@ -313,7 +313,7 @@ export default function AboutSection() {
               <div className="space-y-5">
                 {philosophyItems.map((item, i) => (
                   <div key={i} className="flex gap-4">
-                    <span style={{ fontSize: 20, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
+                    <span className="font-mono text-zinc-300" style={{ fontSize: 18, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
                     <div>
                       <p className="text-white font-semibold text-sm mb-1">{item.title}</p>
                       <p className="text-zinc-500 text-xs leading-relaxed">{item.desc}</p>

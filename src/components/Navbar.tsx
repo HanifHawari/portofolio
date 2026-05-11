@@ -93,7 +93,7 @@ export default function Navbar() {
           </button>
 
           {/* Desktop Nav Links */}
-          <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="hidden md:flex">
+          <div style={{ alignItems: "center", gap: 32 }} className="hidden md:flex">
             {navLinks.map((link) => (
               <button
                 key={link.key}
@@ -157,19 +157,21 @@ export default function Navbar() {
             </motion.button>
 
             {/* Language toggle — pill with sliding active state */}
-            <div className="lang-pill">
-              <button
-                onClick={() => setLanguage("en")}
-                className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
-              >
-                US
-              </button>
-              <button
-                onClick={() => setLanguage("id")}
-                className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
-              >
-                ID
-              </button>
+            <div className="hidden md:flex">
+              <div className="lang-pill">
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
+                >
+                  US
+                </button>
+                <button
+                  onClick={() => setLanguage("id")}
+                  className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
+                >
+                  ID
+                </button>
+              </div>
             </div>
 
             {/* Mobile hamburger */}
@@ -241,6 +243,31 @@ export default function Navbar() {
                     {t.nav[link.key as keyof typeof t.nav]}
                   </motion.button>
                 ))}
+                
+                {/* Mobile Language Toggle */}
+                <motion.div
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: navLinks.length * 0.08 }}
+                  style={{ marginTop: 16 }}
+                >
+                  <div className="lang-pill" style={{ display: "inline-flex" }}>
+                    <button
+                      onClick={() => setLanguage("en")}
+                      className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
+                      style={{ fontSize: 14, padding: "8px 20px" }}
+                    >
+                      US
+                    </button>
+                    <button
+                      onClick={() => setLanguage("id")}
+                      className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
+                      style={{ fontSize: 14, padding: "8px 20px" }}
+                    >
+                      ID
+                    </button>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </>

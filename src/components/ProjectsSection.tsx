@@ -5,6 +5,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
+const playClickSound = () => {
+  try {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    
+    const bufferSize = ctx.sampleRate * 0.5; // 0.5 seconds
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    
+    const noiseSource = ctx.createBufferSource();
+    noiseSource.buffer = buffer;
+    
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(100, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+    filter.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.4);
+    
+    const gainNode = ctx.createGain();
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1); 
+    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+    
+    noiseSource.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    noiseSource.start();
+  } catch (e) {
+    console.log("Audio play failed", e);
+  }
+};
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -126,7 +164,10 @@ export default function ProjectsSection() {
                   {/* Buttons */}
                   <div className="flex flex-wrap gap-3">
                     <button 
-                      onClick={() => setActiveCaseStudy(index)}
+                      onClick={() => {
+                        playClickSound();
+                        setActiveCaseStudy(index);
+                      }}
                       className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-sm font-semibold text-white tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
                     >
                       <BookOpen size={14} />
@@ -140,7 +181,13 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Right: Screenshot Image */}
-                <div className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden">
+                <div 
+                  className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden group/img cursor-pointer"
+                  onClick={() => {
+                    playClickSound();
+                    setActiveCaseStudy(index);
+                  }}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={project.image}
@@ -148,7 +195,17 @@ export default function ProjectsSection() {
                     className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                   />
                   {/* Gradient Overlay for aesthetic */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
+                  
+                  {/* Hover button overlay on Image */}
+                  <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
+                    <div className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300">
+                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold tracking-wider rounded-full shadow-2xl">
+                        <BookOpen size={16} />
+                        {project.caseStudy}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -2,9 +2,31 @@
 
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useState, useEffect } from "react";
+
+const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Bengkulu_Indonesia", Role: "Creative_Engineer", Mindset: "Systematic_Thinking_With_Visual_Sensitivity" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; const magic = Developer.create({ clarity: true, aesthetics: "Bold_but_Purposeful", interaction: "Smooth", motion: "Physics_Inspired" }); return magic.deploy(); }; // Status: ONLINE | Mode: OPEN_TO_WORK <END_OF_SCRIPT>`;
 
 export default function HeroSection() {
   const { t } = useLanguage();
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (isTyping) {
+      if (displayedText.length < typewriterText.length) {
+        timeout = setTimeout(() => {
+          setDisplayedText(typewriterText.slice(0, displayedText.length + 1));
+        }, 30);
+      } else {
+        timeout = setTimeout(() => setIsTyping(false), 3000);
+      }
+    } else {
+      setDisplayedText("");
+      setIsTyping(true);
+    }
+    return () => clearTimeout(timeout);
+  }, [displayedText, isTyping]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -86,28 +108,17 @@ export default function HeroSection() {
           HANIF HAWARI
         </motion.h1>
 
-        {/* Code subtitle line */}
+        {/* Code subtitle line with typewriter effect */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center"
+          className="mt-6 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center min-h-[60px]"
         >
-          <span className="text-zinc-600">const</span>{" "}
-          <span className="text-zinc-400">INITIALIZE_SYSTEM</span>{" "}
-          <span className="text-zinc-600">=</span>{" "}
-          <span className="text-zinc-500">async</span>{" "}
-          <span className="text-zinc-600">() =&gt;</span>{" "}
-          <span className="text-zinc-600">{"{"}</span>{" "}
-          <span className="text-zinc-600">const</span>{" "}
-          <span className="text-zinc-400">Developer</span>{" "}
-          <span className="text-zinc-600">=</span>{" "}
-          <span className="text-zinc-600">{"{"}</span>{" "}
-          <span className="text-zinc-500">ID:</span>{" "}
-          <span className="text-zinc-400">&quot;HANIF_HAWARI&quot;</span>,{" "}
-          <span className="text-zinc-500">Origin:</span>{" "}
-          <span className="text-zinc-400">&quot;Indonesia&quot;</span>,{" "}
-          <span className="text-zinc-500">Role:</span>{" "}
-          <span className="text-zinc-400">&quot;Creative_Engineer&quot;</span>
-          {" }"}
+          {displayedText}
+          <motion.span
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ repeat: Infinity, duration: 0.8 }}
+            className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
+          />
         </motion.p>
 
 
