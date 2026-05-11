@@ -38,7 +38,7 @@ function SquareRobot({
 
   // Cycle speech icons
   useEffect(() => {
-    const ICONS = ["👋", "</>", "🔍", "⚡", "🎯", "✨", "🤖"];
+    const ICONS = ["I love you 💖", "You're awesome! ✨", "Have a great day! ☀️", "Keep smiling 😊", "You inspire me 💫", "You look great today! 🌸"];
     const cycle = () => {
       setShowIcon(false);
       setTimeout(() => {
@@ -287,8 +287,8 @@ export default function WalkingRobotBar() {
   }, []);
 
   const robots = [
-    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1  as const, speed: 80, icon: "👋" },
-    { id: 2, startX: Math.round(containerWidth * 0.70), startDir: -1 as const, speed: 65, icon: "</>" },
+    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1  as const, speed: 80, icon: "I love you 💖" },
+    { id: 2, startX: Math.round(containerWidth * 0.70), startDir: -1 as const, speed: 65, icon: "You're awesome! ✨" },
   ];
 
   return (

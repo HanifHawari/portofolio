@@ -80,15 +80,33 @@ export default function ContactSection() {
     setStatus("sending");
 
     try {
-      // EmailJS integration placeholder
-      // Replace with your actual EmailJS credentials:
-      // import emailjs from '@emailjs/browser';
-      // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData, 'YOUR_PUBLIC_KEY');
+      // Mengirim pesan langsung ke email Anda menggunakan layanan Web3Forms
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          // TODO: Anda harus mengganti string di bawah dengan Access Key Anda
+          access_key: "b6671fcb-16bd-4af7-8c77-4540891c0a94", 
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          from_name: "Notifikasi Portfolio",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+      }
       
-      // Simulate send for now
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
       setTimeout(() => setStatus("idle"), 3000);
     } catch {
       setStatus("error");
@@ -99,7 +117,7 @@ export default function ContactSection() {
   const socialLinks = [
     {
       label: "GitHub",
-      href: "https://github.com/yourusername",
+      href: "https://github.com/HanifHawari",
       svg: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
@@ -120,7 +138,7 @@ export default function ContactSection() {
     },
     {
       label: "Instagram",
-      href: "https://instagram.com/yourusername",
+      href: "https://instagram.com/haniefhawari_",
       svg: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -196,7 +214,7 @@ export default function ContactSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="group flex items-center gap-3 p-3 border border-zinc-800 hover:border-zinc-600 transition-all"
+                    className="group flex items-center gap-3 p-3 border border-zinc-800 hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 bg-zinc-950/50"
                   >
                     <span className="text-zinc-500 group-hover:text-white transition-colors">
                       {link.svg}
@@ -215,8 +233,15 @@ export default function ContactSection() {
 
           {/* Right: Contact Form */}
           <motion.div variants={itemVariants}>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name */}
+            <div className="relative overflow-hidden group border border-zinc-800 bg-zinc-950/50 p-8 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300">
+              {/* Ultra Minimalist Top-Glow Accent */}
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
+              <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
+              
+              <div className="relative z-10">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Name */}
               <div>
                 <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                   {t.contact.form.name}
@@ -335,6 +360,8 @@ export default function ContactSection() {
                 </motion.p>
               )}
             </form>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/lib/ThemeContext";
 export const metadata: Metadata = {
   title: "Muhammad Hanif Hawari | Web Developer",
   description:
-    "Professional portfolio of Muhammad Hanif Hawari — Junior Web Developer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
+    "Professional portfolio of Muhammad Hanif Hawari — Full-Stack Web Developer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
   keywords: [
     "web developer",
     "portfolio",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
-      "Professional portfolio of Muhammad Hanif Hawari — Junior Web Developer",
+      "Professional portfolio of Muhammad Hanif Hawari — Full-Stack Web Developer",
     type: "website",
   },
 };

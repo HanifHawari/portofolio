@@ -485,9 +485,13 @@ export default function GeistVillage() {
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.5 }}
           ref={containerRef}
-          className="relative border border-zinc-800 bg-zinc-950/30 overflow-hidden cursor-crosshair"
+          className="relative overflow-hidden group border border-zinc-800 bg-zinc-950/30 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 cursor-crosshair"
           style={{ height: CANVAS_H }}
         >
+          {/* Ultra Minimalist Top-Glow Accent */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent z-0" />
+          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
+          <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none z-0" />
           {/* Grid floor */}
           <div style={{
             position: "absolute", inset: 0,

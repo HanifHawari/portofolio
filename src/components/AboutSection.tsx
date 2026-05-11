@@ -136,8 +136,15 @@ function TechPill({ label }: { label: string }) {
 // ── Bordered section card ─────────────────────────────────────────────────────
 function SectionCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 ${className}`}>
-      {children}
+    <div className={`relative overflow-hidden group border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 ${className}`}>
+      {/* Ultra Minimalist Top-Glow Accent */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
+      <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
+      
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }

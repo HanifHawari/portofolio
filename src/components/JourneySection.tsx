@@ -51,42 +51,7 @@ function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
           boxShadow: progress > 0.02 ? "0 0 8px 1px rgba(255,255,255,0.15)" : "none",
         }}
       />
-      {/* Glowing dot at progress tip */}
-      {progress > 0.01 && progress < 0.99 && (
-        <motion.div
-          style={{
-            position: "absolute",
-            left: "7px",
-            top: `${progress * 100}%`,
-            transform: "translate(-50%, -50%)",
-            zIndex: 30,
-          }}
-          className="hidden sm:block"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-        >
-          <motion.div
-            animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
-            transition={{ duration: 1.4, repeat: Infinity }}
-            style={{
-              position: "absolute",
-              inset: -6,
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.15)",
-            }}
-          />
-          <div
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "var(--foreground)",
-              border: "2px solid var(--background)",
-              boxShadow: "0 0 10px 2px rgba(255,255,255,0.25)",
-            }}
-          />
-        </motion.div>
-      )}
+      {/* Removed the glowing dot as requested, keeping only the smooth line fill */}
     </>
   );
 }
@@ -158,14 +123,12 @@ export default function JourneySection() {
 
                 {/* Right: Card */}
                 <motion.div
-                  whileHover={{ y: -2, borderColor: "rgba(255,255,255,0.15)" }}
-                  transition={{ duration: 0.2 }}
-                  className="ml-6 sm:ml-0 flex-1 border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 relative overflow-hidden"
+                  className="ml-6 sm:ml-0 flex-1 border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300"
                 >
-                  {/* Decorative large year */}
-                  <div className="absolute -right-4 -bottom-6 text-[120px] font-black text-zinc-900/20 leading-none select-none pointer-events-none">
-                    {item.year}
-                  </div>
+                  {/* Ultra Minimalist Top-Glow Accent */}
+                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
+                  <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
 
                   <div className="relative z-10">
                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
@@ -217,23 +180,32 @@ export default function JourneySection() {
                           className="overflow-hidden"
                         >
                           <div className="pt-4 mt-4 border-t border-zinc-800 space-y-3">
-                            {[1, 2, 3].map((p) => (
-                              <div
-                                key={p}
-                                className="flex items-center justify-between p-3 border border-zinc-800 hover:border-zinc-700 transition-colors"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-8 h-8 bg-zinc-800 flex items-center justify-center">
-                                    <span className="text-zinc-500 text-xs">📁</span>
+                            {item.projects && item.projects.length > 0 ? (
+                              item.projects.map((p: any, i: number) => (
+                                <a
+                                  key={i}
+                                  href={p.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center justify-between p-3 border border-zinc-800 hover:border-zinc-700 transition-colors group"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-zinc-800 flex items-center justify-center group-hover:bg-zinc-700 transition-colors">
+                                      <span className="text-zinc-500 group-hover:text-white transition-colors text-xs">📁</span>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm text-white font-medium group-hover:text-zinc-300 transition-colors">{p.name}</p>
+                                      <p className="text-[10px] text-zinc-500">{item.year} · {p.status}</p>
+                                    </div>
                                   </div>
-                                  <div>
-                                    <p className="text-sm text-white font-medium">Project {p}</p>
-                                    <p className="text-[10px] text-zinc-500">{item.year} · Archived</p>
-                                  </div>
-                                </div>
-                                <span className="text-zinc-600 text-xs">→</span>
+                                  <span className="text-zinc-600 group-hover:text-white transition-colors text-xs">→</span>
+                                </a>
+                              ))
+                            ) : (
+                              <div className="p-3 text-center text-xs text-zinc-500 border border-zinc-800 border-dashed">
+                                Tidak ada arsip proyek (Belum ditambahkan)
                               </div>
-                            ))}
+                            )}
                           </div>
                         </motion.div>
                       )}

@@ -20,7 +20,7 @@ export const translations = {
       greeting: "👋",
       hi: "Hi, I'm",
       name: "Muhammad Hanif Hawari",
-      bio1: "I'm a passionate Junior Web Developer from Indonesia with a deep love for crafting beautiful, functional, and user-centered digital experiences. My journey in web development started from curiosity and has grown into a full-blown passion.",
+      bio1: "I'm a passionate Full-Stack Web Developer from Indonesia with a deep love for crafting beautiful, functional, and user-centered digital experiences. My journey in web development started from curiosity and has grown into a full-blown passion.",
       bio2: "I specialize in building modern web applications using React, Next.js, and the latest web technologies. I believe in writing clean, maintainable code and creating designs that not only look great but also provide seamless user experiences.",
       bio3: "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or designing user interfaces that push creative boundaries.",
       downloadResume: "Download Full CV",
@@ -32,7 +32,7 @@ export const translations = {
         university: "UNIVERSITAS AMIKOM YOGYAKARTA",
         description: "Built a strong foundation in software engineering, algorithms, and database architecture. Focused on practical web & mobile development skills.",
         tags: ["ALGORITHM", "DATABASE ARCHITECTURE", "WEB DEVELOPMENT"],
-        year: "2024",
+        year: "2026",
         badge: "ACADEMIC",
       },
       techStack: {
@@ -67,6 +67,7 @@ export const translations = {
           tech: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
           caseStudy: "Read Case Study",
           visitSite: "Visit Site",
+          image: "/ecommerce.png",
         },
         {
           category: "MOBILE APP",
@@ -80,6 +81,7 @@ export const translations = {
           tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
           caseStudy: "Read Case Study",
           visitSite: "Visit App",
+          image: "/fitness.png",
         },
         {
           category: "WEB DESIGN",
@@ -93,6 +95,7 @@ export const translations = {
           tech: ["Laravel", "Vue.js", "MySQL", "Tailwind", "Docker"],
           caseStudy: "Read Case Study",
           visitSite: "Visit Site",
+          image: "/cms.png",
         },
       ],
     },
@@ -103,15 +106,18 @@ export const translations = {
         {
           year: "2026",
           badge: "PROFESSIONAL",
-          role: "Junior Web Developer",
+          role: "Full-Stack Developer",
           company: "Tech Company",
           description: "Working on cutting-edge web applications using modern technologies. Contributing to the development of scalable and performant solutions for clients across various industries.",
           tags: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
           archiveLabel: "PROJECT ARCHIVE",
           archiveTap: "Tap to Open",
+          projects: [
+            { name: "Portfolio GitHub", status: "Public Repository", url: "https://github.com/HanifHawari/portofolio" }
+          ],
         },
         {
-          year: "2025",
+          year: "2026",
           badge: "FREELANCE",
           role: "Freelance Developer",
           company: "Self-Employed",
@@ -121,7 +127,7 @@ export const translations = {
           archiveTap: "Tap to Open",
         },
         {
-          year: "2024",
+          year: "2026",
           badge: "INTERNSHIP",
           role: "Web Development Intern",
           company: "Digital Agency",
@@ -131,7 +137,7 @@ export const translations = {
           archiveTap: "Tap to Open",
         },
         {
-          year: "2023",
+          year: "2024",
           badge: "ACADEMIC",
           role: "Student Developer",
           company: "University",
@@ -141,7 +147,7 @@ export const translations = {
           archiveTap: "Tap to Open",
         },
         {
-          year: "2021",
+          year: "2024",
           badge: "ACADEMIC",
           role: "Information Systems Student",
           company: "University",
@@ -201,8 +207,8 @@ export const translations = {
       contact: "KONTAK",
     },
     hero: {
-      badges: ["JUNIOR WEB DEVELOPER", "FREELANCER"],
-      tagBadges: ["MHH ✦", "INFORMATIKA", "DESIGN SYSTEM"],
+      badges: ["FULL-STACK WEB DEVELOPER", "FREELANCER"],
+      tagBadges: ["INFORMATICS", "VIDEO EDITING", "GRAPHIC DESIGN"],
       codeLine: 'const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "HANIF_HAWARI", Origin: "Indonesia", Role: "Creative_Engineer" }',
       openToWork: "TERBUKA UNTUK BEKERJA",
       basedIn: "BERBASIS DI INDONESIA, ID",
@@ -213,7 +219,7 @@ export const translations = {
       greeting: "👋",
       hi: "Hai, Saya",
       name: "Muhammad Hanif Hawari",
-      bio1: "Saya adalah Junior Web Developer yang bersemangat dari Indonesia dengan kecintaan mendalam untuk membuat pengalaman digital yang indah, fungsional, dan berpusat pada pengguna. Perjalanan saya dalam pengembangan web dimulai dari rasa ingin tahu dan telah berkembang menjadi sebuah passion.",
+      bio1: "Saya adalah Full-Stack Web Developer yang bersemangat dari Indonesia dengan kecintaan mendalam untuk membuat pengalaman digital yang indah, fungsional, dan berpusat pada pengguna. Perjalanan saya dalam pengembangan web dimulai dari rasa ingin tahu dan telah berkembang menjadi sebuah passion.",
       bio2: "Saya mengkhususkan diri dalam membangun aplikasi web modern menggunakan React, Next.js, dan teknologi web terbaru. Saya percaya pada penulisan kode yang bersih dan mudah dipelihara serta membuat desain yang tidak hanya terlihat bagus tetapi juga memberikan pengalaman pengguna yang mulus.",
       bio3: "Ketika tidak sedang coding, Anda akan menemukan saya menjelajahi teknologi baru, berkontribusi pada proyek open-source, atau mendesain antarmuka pengguna yang mendorong batas kreativitas.",
       downloadResume: "Unduh CV Lengkap",
@@ -225,7 +231,7 @@ export const translations = {
         university: "UNIVERSITAS AMIKOM YOGYAKARTA",
         description: "Membangun fondasi yang kuat dalam rekayasa perangkat lunak, algoritma, dan arsitektur database. Fokus pada pengembangan web & mobile yang praktis.",
         tags: ["ALGORITMA", "ARSITEKTUR DATABASE", "PENGEMBANGAN WEB"],
-        year: "2024",
+        year: "2026",
         badge: "AKADEMIK",
       },
       techStack: {
@@ -260,6 +266,7 @@ export const translations = {
           tech: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
           caseStudy: "Baca Studi Kasus",
           visitSite: "Kunjungi Situs",
+          image: "/ecommerce.png",
         },
         {
           category: "APLIKASI MOBILE",
@@ -273,6 +280,7 @@ export const translations = {
           tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
           caseStudy: "Baca Studi Kasus",
           visitSite: "Kunjungi App",
+          image: "/fitness.png",
         },
         {
           category: "DESAIN WEB",
@@ -286,6 +294,7 @@ export const translations = {
           tech: ["Laravel", "Vue.js", "MySQL", "Tailwind", "Docker"],
           caseStudy: "Baca Studi Kasus",
           visitSite: "Kunjungi Situs",
+          image: "/cms.png",
         },
       ],
     },
@@ -296,15 +305,18 @@ export const translations = {
         {
           year: "2026",
           badge: "PROFESIONAL",
-          role: "Junior Web Developer",
+          role: "Full-Stack Web Developer",
           company: "Perusahaan Teknologi",
           description: "Bekerja pada aplikasi web mutakhir menggunakan teknologi modern. Berkontribusi pada pengembangan solusi yang skalabel dan performan untuk klien di berbagai industri.",
           tags: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
           archiveLabel: "ARSIP PROYEK",
           archiveTap: "Ketuk untuk Buka",
+          projects: [
+            { name: "Portfolio GitHub", status: "Repositori Publik", url: "https://github.com/HanifHawari/portofolio" }
+          ],
         },
         {
-          year: "2025",
+          year: "2026",
           badge: "FREELANCE",
           role: "Developer Freelance",
           company: "Wiraswasta",
@@ -314,7 +326,7 @@ export const translations = {
           archiveTap: "Ketuk untuk Buka",
         },
         {
-          year: "2024",
+          year: "2026",
           badge: "MAGANG",
           role: "Magang Pengembangan Web",
           company: "Agensi Digital",
@@ -324,9 +336,9 @@ export const translations = {
           archiveTap: "Ketuk untuk Buka",
         },
         {
-          year: "2023",
+          year: "2024",
           badge: "AKADEMIK",
-          role: "Mahasiswa Developer",
+          role: "Mahasiswa Informatika",
           company: "Universitas",
           description: "Fokus pada proyek akademik dan pengembangan diri. Membangun beberapa aplikasi web sebagai bagian dari tugas kuliah dan berpartisipasi dalam kompetisi coding.",
           tags: ["Java", "Python", "HTML/CSS", "Git"],
@@ -334,11 +346,11 @@ export const translations = {
           archiveTap: "Ketuk untuk Buka",
         },
         {
-          year: "2021",
+          year: "2024",
           badge: "AKADEMIK",
-          role: "Mahasiswa Sistem Informasi",
+          role: "Mahasiswa Informatika",
           company: "Universitas",
-          description: "Memulai perjalanan di Sistem Informasi. Membangun fondasi yang kuat dalam rekayasa perangkat lunak, logika bisnis, dan struktur basis data.",
+          description: "Memulai perjalanan di Informatika. Membangun fondasi yang kuat dalam rekayasa perangkat lunak, logika bisnis, dan struktur basis data.",
           tags: ["Algoritma", "Database", "Problem Solving"],
           archiveLabel: "ARSIP PROYEK",
           archiveTap: "Ketuk untuk Buka",
@@ -380,7 +392,7 @@ export const translations = {
       },
     },
     footer: {
-      copyright: `© ${new Date().getFullYear()} Muhammad Hanif Hawari`,
+      copyright: `© ${new Date().getFullYear()} Muhammad Hanif Hawari. Hak Cipta Dilindungi.`,
       location: "Indonesia",
       remote: "Tersedia untuk Kerja Remote",
     },
