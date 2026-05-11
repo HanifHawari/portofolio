@@ -75,13 +75,17 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         }} />
       )}
 
-      {/* Floating Dark Pill Overlay at the bottom */}
+      {/* Floating Dark/Light Pill Overlay at the bottom */}
       <div 
-        className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-black/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center justify-between z-20"
-        style={{ transform: "translateZ(30px)" }}
+        className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
+        style={{ 
+          transform: "translateZ(30px)",
+          backgroundColor: "var(--card-bg)",
+          border: "1px solid var(--border)"
+        }}
       >
         <div className="flex flex-col gap-1">
-          <h3 className="text-white font-bold text-sm sm:text-base tracking-wide">
+          <h3 className="font-bold text-sm sm:text-base tracking-wide" style={{ color: "var(--foreground)" }}>
             {t.about.discordUser}
           </h3>
           <div className="flex items-center gap-2">
@@ -89,7 +93,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            <span className="text-zinc-400 text-[10px] font-bold tracking-[0.2em] uppercase">
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-muted)" }}>
               {t.about.online}
             </span>
           </div>
@@ -97,7 +101,20 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
 
         <a 
           href="#contact"
-          className="px-5 py-2 bg-white text-black text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-zinc-200 transition-colors rounded-lg"
+          className="px-5 py-2 text-[10px] font-bold tracking-[0.15em] uppercase transition-colors rounded-lg"
+          style={{
+            backgroundColor: "var(--foreground)",
+            color: "var(--background)",
+            border: "1px solid var(--background)" // White border in light mode (since background is white)
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "var(--text-muted)";
+            e.currentTarget.style.color = "var(--background)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "var(--foreground)";
+            e.currentTarget.style.color = "var(--background)";
+          }}
         >
           {t.about.hireMe}
         </a>
@@ -184,15 +201,16 @@ export default function AboutSection() {
     <section id="about" className="py-24 sm:py-32 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* ── Section label */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
+          transition={{ duration: 0.7 }}
+          className="mb-16"
         >
-          <SectionLabel text={language === "id" ? "TENTANG SAYA" : "ABOUT"} />
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4">
+            {t.about.title}
+          </h2>
         </motion.div>
 
         {/* ── Bio + ID Card */}

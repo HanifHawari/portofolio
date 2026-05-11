@@ -17,6 +17,7 @@ export const translations = {
       scrollDown: "SCROLL DOWN",
     },
     about: {
+      title: "About",
       greeting: "👋",
       hi: "Hi, I'm",
       name: "Muhammad Hanif Hawari",
@@ -216,6 +217,7 @@ export const translations = {
       scrollDown: "GULIR KEBAWAH",
     },
     about: {
+      title: "Tentang Saya",
       greeting: "👋",
       hi: "Hai, Saya",
       name: "Muhammad Hanif Hawari",

@@ -38,7 +38,9 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-geist-sans), system-ui, sans-serif" }}
       >
         <ThemeProvider>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
