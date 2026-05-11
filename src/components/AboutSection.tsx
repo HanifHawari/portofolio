@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -52,10 +53,11 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       className="animate-float w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-800 bg-zinc-900"
     >
       {/* Full Background Image */}
-      <img 
+      <Image 
         src="/profile.jpg" 
         alt="Profile" 
-        className="absolute inset-0 w-full h-full object-cover"
+        fill
+        className="object-cover"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = 'none';
         }}

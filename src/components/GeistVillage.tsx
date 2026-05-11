@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
 // ── Mood types and their expressions ────────────────────────────────────────
@@ -49,7 +49,6 @@ interface RobotState {
 }
 
 const CANVAS_H = 460;
-const FLEE_DIST = 140;
 
 // ── Mini Geist robot character ────────────────────────────────────────────────
 function GeistRobotChar({
@@ -285,11 +284,6 @@ export default function GeistVillage() {
       const dt = Math.min((now - lastFrameRef.current) / 1000, 0.05);
       lastFrameRef.current = now;
       const { w } = containerSizeRef.current;
-
-      const containerEl = containerRef.current;
-      const rect = containerEl?.getBoundingClientRect();
-      const localCX = rect ? cursorRef.current.x - rect.left : -999;
-      const localCY = rect ? cursorRef.current.y - rect.top : -999;
 
       let stepsChanged = false;
       const newSteps = { ...stepsRef.current };
