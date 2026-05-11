@@ -181,7 +181,7 @@ export default function JourneySection() {
                         >
                           <div className="pt-4 mt-4 border-t border-zinc-800 space-y-3">
                             {item.projects && item.projects.length > 0 ? (
-                              item.projects.map((p: any, i: number) => (
+                              item.projects.map((p: { url: string; name: string; status: string }, i: number) => (
                                 <a
                                   key={i}
                                   href={p.url}
