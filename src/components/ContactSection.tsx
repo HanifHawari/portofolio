@@ -189,7 +189,7 @@ export default function ContactSection() {
               <div className="flex items-center gap-3">
                 <a
                   href={`mailto:${t.contact.email}`}
-                  className="group flex items-center gap-3 text-xl sm:text-2xl font-bold text-white hover:text-zinc-300 transition-colors"
+                  className="group flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-all border border-zinc-800 bg-zinc-950/50 px-5 py-3 rounded-xl hover:bg-zinc-900 hover:border-zinc-700"
                 >
                   <Mail size={20} className="text-zinc-500 group-hover:text-white transition-colors" />
                   {t.contact.email}

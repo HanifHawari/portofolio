@@ -2,210 +2,169 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/lib/LanguageContext";
 
-// ── Square Geist-style robot (matches GeistVillage) ─────────────────────────
-function SquareRobot({
+// ── Round robot with expressions ─────────────────────────────────────────────
+function RoundRobot({
   direction,
   scared,
-  icon,
+  happy,
+  flipping,
   step,
 }: {
   direction: 1 | -1;
   scared: boolean;
-  icon: string;
+  happy: boolean;
+  flipping: boolean;
   step: boolean;
 }) {
   const [blinking, setBlinking] = useState(false);
-  const [showIcon, setShowIcon] = useState(true);
-  const [currentIcon, setCurrentIcon] = useState(icon);
-  const SIZE = 42;
+  const SIZE = 38;
 
-  // Natural blink
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
     const scheduleBlink = () => {
       timeout = setTimeout(() => {
         setBlinking(true);
-        setTimeout(() => {
-          setBlinking(false);
-          scheduleBlink();
-        }, 120);
+        setTimeout(() => { setBlinking(false); scheduleBlink(); }, 120);
       }, 2500 + Math.random() * 3000);
     };
     scheduleBlink();
     return () => clearTimeout(timeout);
   }, []);
 
-  // Cycle speech icons
-  useEffect(() => {
-    const ICONS = ["I love you 💖", "You're awesome! ✨", "Have a great day! ☀️", "Keep smiling 😊", "You inspire me 💫", "You look great today! 🌸"];
-    const cycle = () => {
-      setShowIcon(false);
-      setTimeout(() => {
-        setCurrentIcon(ICONS[Math.floor(Math.random() * ICONS.length)]);
-        setShowIcon(true);
-      }, 400);
-    };
-    const id = setInterval(cycle, 4000);
-    return () => clearInterval(id);
-  }, []);
-
   const flipped = direction === -1;
+  const eyeColor = scared ? "#ef4444" : happy ? "#22c55e" : "var(--robot-eye)";
+  const eyeScaleY = blinking ? 0.05 : scared ? 1.6 : happy ? 0.7 : 1;
+  const bodyBorder = scared
+    ? "2px solid rgba(239,68,68,0.5)"
+    : happy
+    ? "2px solid rgba(34,197,94,0.3)"
+    : "2px solid rgba(255,255,255,0.08)";
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: SIZE,
-        transform: flipped ? "scaleX(-1)" : "scaleX(1)",
-        filter: scared ? "drop-shadow(0 0 8px rgba(255,80,80,0.6))" : "drop-shadow(0 2px 8px rgba(0,0,0,0.4))",
-        transition: "filter 0.2s ease",
-      }}
+    <motion.div
+      animate={flipping ? { rotateX: [0, 360, 0], y: [0, -30, 0] } : {}}
+      transition={flipping ? { duration: 0.6, ease: "easeInOut" } : {}}
+      style={{ position: "relative", width: SIZE, transformStyle: "preserve-3d" }}
     >
-      {/* Speech bubble */}
-      <AnimatePresence mode="wait">
-        {showIcon && (
-          <motion.div
-            key={scared ? "scared" : currentIcon}
-            initial={{ opacity: 0, y: 4, scale: 0.6 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.6 }}
-            transition={{ duration: 0.25 }}
-            style={{
-              position: "absolute",
-              top: -28,
-              left: "50%",
-              transform: flipped ? "translateX(-50%) scaleX(-1)" : "translateX(-50%)",
-              fontSize: 12,
-              background: "var(--bubble-bg)",
-              color: "var(--bubble-color)",
-              borderRadius: 6,
-              padding: "2px 6px",
-              whiteSpace: "nowrap",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-              pointerEvents: "none",
-              zIndex: 10,
-            }}
-          >
-            {scared ? "😱" : currentIcon}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Antenna moved outside body to match GeistVillage logic */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
+        <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
+        <motion.div
+          animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
+          transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
+          style={{ width: 6, height: 6, borderRadius: "50%", background: happy ? "#22c55e" : scared ? "#ef4444" : "var(--robot-eye)", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
+        />
+      </div>
+      <div style={{ transform: flipped ? "scaleX(-1)" : "scaleX(1)", transformOrigin: "center" }}>
+        {/* Body */}
+        <motion.div
+          animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : happy ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
+          transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            width: SIZE,
+            height: SIZE * 0.9,
+            borderRadius: `${SIZE * 0.35}px ${SIZE * 0.35}px ${SIZE * 0.2}px ${SIZE * 0.2}px`,
+            background: "var(--robot-body)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            border: bodyBorder,
+            overflow: "hidden",
+            boxShadow: scared
+              ? "0 0 15px rgba(239,68,68,0.3)"
+              : happy
+              ? "0 0 12px rgba(34,197,94,0.2)"
+              : "0 4px 12px rgba(0,0,0,0.3)",
+          }}
+        >
+          {/* Screen overlay */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${SIZE * 0.35}px ${SIZE * 0.35}px 0 0` }} />
 
-      {/* Square body (Geist style) */}
-      <motion.div
-        animate={
-          scared
-            ? { y: [0, -5, 0], x: [-2, 2, -2, 0] }
-            : { y: [0, -2, 0] }
-        }
-        transition={
-          scared
-            ? { duration: 0.22, repeat: Infinity }
-            : { duration: 0.85, repeat: Infinity, ease: "easeInOut" }
-        }
-        style={{
-          width: SIZE,
-          height: SIZE * 0.82,
-          background: "var(--robot-body)",
-          borderRadius: 6,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          border: scared ? "1.5px solid rgba(239,68,68,0.6)" : "1.5px solid rgba(255,255,255,0.07)",
-          overflow: "hidden",
-        }}
-      >
-        {/* Scanline top */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "28%", background: "rgba(255,255,255,0.04)", borderRadius: "6px 6px 0 0" }} />
+          {/* Pixel dots decoration */}
+          <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
+            {["#ef4444", "#22c55e"].map((c, i) => (
+              <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
+            ))}
+          </div>
 
-        {/* 3-dot titlebar */}
-        <div style={{ position: "absolute", top: 4, left: 5, display: "flex", gap: 2.5 }}>
-          {["#ef4444", "#f59e0b", "#22c55e"].map((c, i) => (
-            <div key={i} style={{ width: 3.5, height: 3.5, borderRadius: "50%", background: c, opacity: 0.9 }} />
-          ))}
-        </div>
+          {/* Eyes */}
+          <div style={{ display: "flex", gap: SIZE * 0.2 }}>
+            {[0, 1].map((i) => (
+              <div
+                key={i}
+                style={{
+                  width: SIZE * 0.15,
+                  height: SIZE * 0.15,
+                  borderRadius: "50%",
+                  background: eyeColor,
+                  transform: `scaleY(${eyeScaleY})`,
+                  transition: "transform 0.08s ease, background 0.2s",
+                }}
+              />
+            ))}
+          </div>
 
-        {/* Eyes */}
-        <div style={{ display: "flex", gap: SIZE * 0.16 }}>
+          {/* Mouth */}
+          {scared ? (
+            <div style={{ width: SIZE * 0.2, height: SIZE * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
+          ) : happy ? (
+            <div style={{ width: SIZE * 0.3, height: SIZE * 0.12, borderBottom: "2px solid #22c55e", borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
+          ) : (
+            <div style={{ width: SIZE * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
+          )}
+        </motion.div>
+
+        {/* Feet */}
+        <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: SIZE * 0.16, paddingRight: SIZE * 0.16 }}>
           {[0, 1].map((i) => (
-            <div
+            <motion.div
               key={i}
+              animate={{ y: step === (i === 0) ? -3 : 0, rotate: step === (i === 0) ? -12 : 12 }}
+              transition={{ duration: scared ? 0.06 : 0.18 }}
               style={{
-                width: SIZE * 0.14,
-                height: SIZE * 0.14,
-                borderRadius: "50%",
-                background: scared ? "#ef4444" : "var(--robot-eye)",
-                transform: `scaleY(${blinking ? 0.05 : scared ? 1.8 : 1}) scaleX(${scared ? 1.4 : 1})`,
-                transition: "transform 0.08s ease",
+                width: SIZE * 0.2,
+                height: SIZE * 0.16,
+                background: "var(--robot-body)",
+                borderRadius: "3px 3px 6px 6px",
               }}
             />
           ))}
         </div>
-
-        {/* Mouth */}
-        <div style={{
-          width: scared ? SIZE * 0.28 : SIZE * 0.36,
-          height: scared ? SIZE * 0.16 : 2,
-          background: scared ? "#ef4444" : "var(--robot-eye)",
-          borderRadius: scared ? "50%" : 2,
-          marginTop: 4,
-          opacity: 0.75,
-        }} />
-      </motion.div>
-
-      {/* Feet */}
-      <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: SIZE * 0.14, paddingRight: SIZE * 0.14 }}>
-        {[0, 1].map((i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: step === (i === 0) ? -3 : 0,
-              rotate: step === (i === 0) ? -12 : 12,
-            }}
-            transition={{ duration: scared ? 0.07 : 0.16 }}
-            style={{
-              width: SIZE * 0.23,
-              height: SIZE * 0.2,
-              background: "var(--robot-body)",
-              borderRadius: "2px 2px 4px 4px",
-            }}
-          />
-        ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-// ── Single walking robot with cursor avoidance ──────────────────────────────
+// ── Walking robot logic ─────────────────────────────────────────────────────
 function WalkingRobot({
   startX,
   startDir,
   speed,
-  icon,
   cursorX,
   containerWidth,
+  scrollText,
 }: {
   startX: number;
   startDir: 1 | -1;
   speed: number;
-  icon: string;
   cursorX: number;
   containerWidth: number;
+  scrollText: string;
 }) {
   const posRef = useRef(startX);
   const dirRef = useRef<1 | -1>(startDir);
   const [pos, setPos] = useState(startX);
   const [dir, setDir] = useState<1 | -1>(startDir);
   const [scared, setScared] = useState(false);
+  const [flipping, setFlipping] = useState(false);
   const [step, setStep] = useState(false);
   const lastFrameRef = useRef<number>(0);
   const rafRef = useRef<number>(0);
-  const ROBOT_WIDTH = 42;
+  const ROBOT_WIDTH = 38;
   const FLEE_DIST = 160;
   const stepTimerRef = useRef(0);
 
@@ -227,10 +186,9 @@ function WalkingRobot({
       let newPos = posRef.current + newDir * currentSpeed * dt;
 
       const maxX = containerWidth - ROBOT_WIDTH;
-      if (newPos <= 0) { newPos = 0; newDir = 1; }
-      else if (newPos >= maxX) { newPos = maxX; newDir = -1; }
+      if (newPos <= 0) { newPos = 0; if (!isScared) newDir = 1; }
+      else if (newPos >= maxX) { newPos = maxX; if (!isScared) newDir = -1; }
 
-      // Step toggle
       stepTimerRef.current += dt;
       const stepInterval = isScared ? 0.07 : 0.2;
       if (stepTimerRef.current >= stepInterval) {
@@ -240,7 +198,6 @@ function WalkingRobot({
 
       posRef.current = newPos;
       dirRef.current = newDir;
-
       setPos(newPos);
       setDir(newDir);
       setScared(isScared);
@@ -256,17 +213,96 @@ function WalkingRobot({
     return () => cancelAnimationFrame(rafRef.current);
   }, [tick]);
 
+  const handleClick = () => {
+    if (!flipping) {
+      setFlipping(true);
+      setTimeout(() => setFlipping(false), 700);
+    }
+  };
+
   return (
-    <div style={{ position: "absolute", bottom: 0, left: pos, zIndex: 20, willChange: "transform" }}>
-      <SquareRobot direction={dir} scared={scared} icon={icon} step={step} />
+    <div
+      style={{ position: "absolute", bottom: 0, left: pos, zIndex: 20, willChange: "transform", pointerEvents: "auto", cursor: "pointer" }}
+      onClick={handleClick}
+    >
+      {/* Speech bubble */}
+      <AnimatePresence>
+        {!scared && !flipping && (
+          <motion.div
+            initial={{ opacity: 0, y: 4, scale: 0.6 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.6 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: "absolute",
+              top: -26,
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: 10,
+              background: "var(--bubble-bg)",
+              color: "var(--bubble-color)",
+              borderRadius: 6,
+              padding: "2px 8px",
+              whiteSpace: "nowrap",
+              fontFamily: "monospace",
+              fontWeight: 700,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+              pointerEvents: "none",
+              zIndex: 10,
+            }}
+          >
+            {flipping ? "🤸" : `↓ ${scrollText}`}
+          </motion.div>
+        )}
+        {scared && (
+          <motion.div
+            key="scared"
+            initial={{ opacity: 0, y: 4, scale: 0.6 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.6 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "absolute",
+              top: -26,
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: 10,
+              background: "var(--bubble-bg)",
+              color: "#ef4444",
+              borderRadius: 6,
+              padding: "2px 8px",
+              whiteSpace: "nowrap",
+              fontFamily: "monospace",
+              fontWeight: 700,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+              pointerEvents: "none",
+              zIndex: 10,
+            }}
+          >
+            😱 HELP!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <RoundRobot
+        direction={dir}
+        scared={scared}
+        happy={!scared && !flipping}
+        flipping={flipping}
+        step={step}
+      />
     </div>
   );
 }
 
 // ── Main export ─────────────────────────────────────────────────────────────
 export default function WalkingRobotBar() {
+  const { t } = useLanguage();
   const [cursorX, setCursorX] = useState(-999);
   const [containerWidth, setContainerWidth] = useState(1200);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const scrollText = (t.hero as any).scrollDown ?? "SCROLL DOWN";
 
   useEffect(() => {
     setContainerWidth(window.innerWidth);
@@ -287,8 +323,8 @@ export default function WalkingRobotBar() {
   }, []);
 
   const robots = [
-    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1  as const, speed: 80, icon: "I love you 💖" },
-    { id: 2, startX: Math.round(containerWidth * 0.70), startDir: -1 as const, speed: 65, icon: "You're awesome! ✨" },
+    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1  as const, speed: 70 },
+    { id: 2, startX: Math.round(containerWidth * 0.70), startDir: -1 as const, speed: 55 },
   ];
 
   return (
@@ -308,9 +344,9 @@ export default function WalkingRobotBar() {
           startX={r.startX}
           startDir={r.startDir}
           speed={r.speed}
-          icon={r.icon}
           cursorX={cursorX}
           containerWidth={containerWidth}
+          scrollText={scrollText}
         />
       ))}
     </div>

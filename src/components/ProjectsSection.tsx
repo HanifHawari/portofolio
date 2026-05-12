@@ -5,6 +5,41 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
+interface ProjectItem {
+  category: string;
+  title: string;
+  description: string;
+  stats: { value: string; label: string }[];
+  tech: string[];
+  caseStudy: string;
+  liveUrl: string;
+  codeUrl: string;
+  image: string;
+  caseStudyContent: {
+    overview: string;
+    challenges: string;
+    solutions: string;
+    results: string;
+  };
+}
+
+const Github = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
 const playClickSound = () => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,13 +123,13 @@ export default function ProjectsSection() {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4 text-center"
           >
             {t.projects.title}
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-zinc-400 max-w-xl mb-16 leading-relaxed"
+            className="text-zinc-400 max-w-xl mb-16 leading-relaxed text-center mx-auto"
           >
             {t.projects.subtitle}
           </motion.p>
@@ -172,12 +207,28 @@ export default function ProjectsSection() {
                       className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-sm font-semibold text-white tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
                     >
                       <BookOpen size={14} />
-                      {project.caseStudy}
+                      {(project as unknown as ProjectItem).caseStudy}
                     </button>
-                    <button className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors">
-                      {project.visitSite}
+                    <a
+                      href={(project as unknown as ProjectItem).liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
+                    >
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                      {(t.projects as any).liveDemo}
                       <ArrowUpRight size={14} />
-                    </button>
+                    </a>
+                    <a
+                      href={(project as unknown as ProjectItem).codeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 transition-colors"
+                    >
+                      <Github size={14} />
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                      {(t.projects as any).sourceCode}
+                    </a>
                   </div>
                 </div>
 
@@ -199,13 +250,33 @@ export default function ProjectsSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
                   
                   {/* Hover button overlay on Image */}
-                  <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
-                    <div className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300">
-                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold tracking-wider rounded-full shadow-2xl">
-                        <BookOpen size={16} />
-                        {project.caseStudy}
+                  <div className="absolute inset-0 z-20 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
+                    <a 
+                      href={(project as unknown as ProjectItem).liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 delay-75"
+                    >
+                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-200 transition-colors">
+                        <ArrowUpRight size={16} />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {(t.projects as any).liveDemo}
                       </span>
-                    </div>
+                    </a>
+                    <a 
+                      href={(project as unknown as ProjectItem).codeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 delay-150"
+                    >
+                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-800 transition-colors border border-zinc-700">
+                        <Github size={16} />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {(t.projects as any).sourceCode}
+                      </span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -252,16 +323,16 @@ export default function ProjectsSection() {
               
               <div className="space-y-6 text-zinc-400 leading-relaxed text-sm sm:text-base">
                 <p>
-                  <strong className="text-white">Overview:</strong> Ini adalah contoh tampilan studi kasus untuk proyek <strong>{t.projects.items[activeCaseStudy].title}</strong>. Di sini Anda bisa menjelaskan latar belakang masalah, tujuan proyek, dan peran Anda.
+                  <strong className="text-white">Overview:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.overview}
                 </p>
                 <p>
-                  <strong className="text-white">Challenges:</strong> Ceritakan tantangan teknis atau desain yang Anda hadapi selama pengembangan proyek ini dan bagaimana Anda memecahkannya.
+                  <strong className="text-white">Challenges:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.challenges}
                 </p>
                 <p>
-                  <strong className="text-white">Solutions:</strong> Jelaskan secara rinci solusi yang Anda implementasikan. Anda bisa menambahkan gambar struktur database, alur kerja (flowchart), atau cuplikan kode.
+                  <strong className="text-white">Solutions:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.solutions}
                 </p>
                 <p>
-                  <strong className="text-white">Results:</strong> Terakhir, sebutkan hasil akhir yang dicapai. Misalnya peningkatan performa, feedback positif dari pengguna, atau metrik keberhasilan lainnya.
+                  <strong className="text-white">Results:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.results}
                 </p>
               </div>
               

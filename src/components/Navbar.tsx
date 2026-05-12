@@ -132,9 +132,14 @@ export default function Navbar() {
             style={{ background: "none", border: "none", cursor: "pointer", color: "var(--foreground)", display: "flex", alignItems: "center" }}
           >
             <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 4L6 12V28L20 36L34 28V12L20 4Z" stroke="currentColor" strokeWidth="1.5" fill="none" />
-              <path d="M20 10L12 14.5V23.5L20 28L28 23.5V14.5L20 10Z" stroke="currentColor" strokeWidth="1.5" fill="none" />
-              <path d="M20 16L16 18.3V22.7L20 25L24 22.7V18.3L20 16Z" stroke="currentColor" strokeWidth="1" fill="currentColor" fillOpacity="0.1" />
+              {/* Outer frame */}
+              <rect x="2" y="2" width="36" height="36" rx="8" stroke="currentColor" strokeWidth="1.5" fill="none" />
+              {/* H letter — modern geometric style */}
+              <path d="M12 10V30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              <path d="M28 10V30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              <path d="M12 20H28" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              {/* Accent dot */}
+              <circle cx="33" cy="7" r="2.5" fill="currentColor" opacity="0.4" />
             </svg>
           </button>
 

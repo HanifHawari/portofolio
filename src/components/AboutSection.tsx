@@ -217,7 +217,6 @@ export default function AboutSection() {
                 </h2>
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio1}</p>
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio2}</p>
-                <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio3}</p>
                 <a
                   href="/cv.pdf" download
                   className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-white text-sm font-semibold tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
@@ -234,17 +233,18 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* ── Education Card */}
+        {/* ── Education + Tech Stack side by side */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
         >
+          {/* Education (compact) */}
           <motion.div variants={itemVariants}>
-            <SectionCard>
-              <div className="flex flex-wrap items-center gap-3 mb-4">
+            <SectionCard className="h-full">
+              <div className="flex flex-wrap items-center gap-3 mb-3">
                 <span className="px-3 py-1 border border-zinc-700 text-xs font-semibold tracking-wider text-white">
                   {t.about.education.year}
                 </span>
@@ -252,14 +252,14 @@ export default function AboutSection() {
                   {t.about.education.badge}
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight mb-1">
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1">
                 {t.about.education.title}
               </h3>
-              <div className="flex items-center gap-2 text-zinc-500 text-sm mb-4">
+              <div className="flex items-center gap-2 text-zinc-500 text-sm mb-3">
                 <MapPin size={14} />
                 <span>{t.about.education.university}</span>
               </div>
-              <p className="text-zinc-400 leading-relaxed mb-5 max-w-2xl text-sm">
+              <p className="text-zinc-400 leading-relaxed mb-4 text-sm">
                 {t.about.education.description}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -271,25 +271,17 @@ export default function AboutSection() {
               </div>
             </SectionCard>
           </motion.div>
-        </motion.div>
 
-        {/* ── Tech Stack (compact pills) */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="mb-8"
-        >
+          {/* Tech Stack */}
           <motion.div variants={itemVariants}>
-            <SectionCard>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 20 }}>
+            <SectionCard className="h-full">
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 16 }}>
                 {t.about.techStack.title}
               </p>
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {[t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
                   <div key={ci}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 8 }}>
+                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 6 }}>
                       {cat.title}
                     </p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -302,7 +294,7 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* ── Work Philosophy + Focus Areas */}
+        {/* ── Work Philosophy + Focus Areas (compact) */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -312,15 +304,15 @@ export default function AboutSection() {
         >
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 14 }}>
                 {language === "id" ? "FILOSOFI KERJA" : "WORK PHILOSOPHY"}
               </p>
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {philosophyItems.map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <span className="font-mono text-zinc-300" style={{ fontSize: 18, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
+                  <div key={i} className="flex gap-3">
+                    <span className="font-mono text-zinc-300" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
                     <div>
-                      <p className="text-white font-semibold text-sm mb-1">{item.title}</p>
+                      <p className="text-white font-semibold text-sm">{item.title}</p>
                       <p className="text-zinc-500 text-xs leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -331,7 +323,7 @@ export default function AboutSection() {
 
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 14 }}>
                 {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -343,9 +335,9 @@ export default function AboutSection() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
                     style={{
-                      display: "inline-flex", padding: "8px 16px",
+                      display: "inline-flex", padding: "6px 14px",
                       border: "1px solid var(--border-strong)",
-                      fontSize: 13, fontWeight: 500,
+                      fontSize: 12, fontWeight: 500,
                       color: "var(--text-secondary)", letterSpacing: "0.05em",
                     }}
                   >
@@ -353,8 +345,8 @@ export default function AboutSection() {
                   </motion.span>
                 ))}
               </div>
-              <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid var(--border-strong)" }}>
-                <p style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.7 }}>
+              <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border-strong)" }}>
+                <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.6 }}>
                   {language === "id"
                     ? "Terus belajar dan beradaptasi dengan teknologi terbaru untuk memberikan solusi terbaik."
                     : "Constantly learning and adapting to the latest technologies to deliver the best solutions."}

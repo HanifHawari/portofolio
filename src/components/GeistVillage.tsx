@@ -10,7 +10,7 @@ const playBlupSound = () => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContext) return;
     const ctx = new AudioContext();
-    
+
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.connect(gain1);
@@ -45,24 +45,24 @@ const playBlupSound = () => {
 type Mood = "happy" | "laugh" | "angry" | "sleepy" | "scared" | "cool" | "neutral";
 
 const MOODS: { mood: Mood; icon: string; eyeColor: string; mouthShape: string }[] = [
-  { mood: "happy",   icon: "😊", eyeColor: "var(--robot-eye)", mouthShape: "smile"   },
-  { mood: "laugh",   icon: "😄", eyeColor: "var(--robot-eye)", mouthShape: "laugh"   },
-  { mood: "angry",   icon: "😡", eyeColor: "#ef4444",          mouthShape: "frown"   },
-  { mood: "sleepy",  icon: "😴", eyeColor: "var(--robot-eye)", mouthShape: "neutral" },
-  { mood: "cool",    icon: "😎", eyeColor: "#3b82f6",          mouthShape: "smile"   },
+  { mood: "happy", icon: "😊", eyeColor: "var(--robot-eye)", mouthShape: "smile" },
+  { mood: "laugh", icon: "😄", eyeColor: "var(--robot-eye)", mouthShape: "laugh" },
+  { mood: "angry", icon: "😡", eyeColor: "#ef4444", mouthShape: "frown" },
+  { mood: "sleepy", icon: "😴", eyeColor: "var(--robot-eye)", mouthShape: "neutral" },
+  { mood: "cool", icon: "😎", eyeColor: "#3b82f6", mouthShape: "smile" },
   { mood: "neutral", icon: "🤖", eyeColor: "var(--robot-eye)", mouthShape: "neutral" },
-  { mood: "scared",  icon: "😱", eyeColor: "#ef4444",          mouthShape: "open"    },
+  { mood: "scared", icon: "😱", eyeColor: "#ef4444", mouthShape: "open" },
 ];
 
 const ROBOT_PERSONALITIES = [
-  { icon: "👑", label: "KING",   mood: "happy"   as Mood },
-  { icon: "😇", label: "ANGEL",  mood: "happy"   as Mood },
-  { icon: "😡", label: "ANGRY",  mood: "angry"   as Mood },
-  { icon: "😎", label: "COOL",   mood: "cool"    as Mood },
-  { icon: "🤓", label: "NERD",   mood: "neutral" as Mood },
-  { icon: "💤", label: "SLEEPY", mood: "sleepy"  as Mood },
-  { icon: "🎯", label: "AIM",    mood: "neutral" as Mood },
-  { icon: "</>", label: "CODER", mood: "happy"   as Mood },
+  { icon: "👑", label: "KING", mood: "happy" as Mood },
+  { icon: "😇", label: "ANGEL", mood: "happy" as Mood },
+  { icon: "😡", label: "ANGRY", mood: "angry" as Mood },
+  { icon: "😎", label: "COOL", mood: "cool" as Mood },
+  { icon: "🤓", label: "NERD", mood: "neutral" as Mood },
+  { icon: "💤", label: "SLEEPY", mood: "sleepy" as Mood },
+  { icon: "🎯", label: "AIM", mood: "neutral" as Mood },
+  { icon: "</>", label: "CODER", mood: "happy" as Mood },
 ];
 
 interface RobotState {
@@ -82,12 +82,12 @@ interface RobotState {
   isBlinking: boolean;
   moodTimer: number;
   walkTimer: number;
-  walkDir: number; // radians
+  walkDir: number;
 }
 
 const CANVAS_H = 460;
 
-// ── Mini Geist robot character ────────────────────────────────────────────────
+// ── Capsule robot character with antenna + LED screen ──────────────────────────
 function GeistRobotChar({
   size,
   mood,
@@ -108,146 +108,104 @@ function GeistRobotChar({
   step: boolean;
 }) {
   const moodData = MOODS.find(m => m.mood === mood) || MOODS[0];
-
   const eyeScaleY = isBlinking ? 0.05 : (scared ? 1.8 : 1);
-  const eyeScaleX = scared ? 1.4 : 1;
   const eyeColor = scared ? "#ef4444" : moodData.eyeColor;
-
-  // Brow position for angry
-  const browOffset = mood === "angry" ? -2 : 0;
+  const accentColor = scared ? "rgba(239,68,68,0.5)" : mood === "angry" ? "rgba(239,68,68,0.3)" : mood === "cool" ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.08)";
 
   return (
     <div style={{ position: "relative", width: size, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}>
-      {/* Label above */}
-      <div style={{
-        textAlign: "center",
-        fontSize: 8,
-        fontWeight: 800,
-        letterSpacing: "0.15em",
-        color: scared ? "#ef4444" : "var(--text-muted)",
-        marginBottom: 1,
-        fontFamily: "monospace",
-        opacity: 0.8,
-      }}>
+      {/* Label */}
+      <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
         {scared ? "😱 RUN!" : label}
       </div>
 
-      {/* Hat icon */}
-      <div style={{ textAlign: "center", fontSize: size * 0.32, lineHeight: 1, marginBottom: -1 }}>
-        {icon}
+      {/* Antenna */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
+        <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
+        <motion.div
+          animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
+          transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
+          style={{ width: 6, height: 6, borderRadius: "50%", background: scared ? "#ef4444" : mood === "cool" ? "#3b82f6" : "#22c55e", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
+        />
       </div>
 
-      {/* Square body */}
+      {/* Icon badge */}
+      <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>{icon}</div>
+
+      {/* Capsule body */}
       <motion.div
-        animate={
-          scared
-            ? { y: [0, -5, 0], x: [-2, 2, -2, 0] }
-            : mood === "laugh"
-            ? { y: [0, -3, 0], rotate: [-1, 1, -1, 0] }
-            : { y: [0, -1.5, 0] }
-        }
-        transition={
-          scared
-            ? { duration: 0.22, repeat: Infinity }
-            : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }
-        }
+        animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : mood === "laugh" ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
+        transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
         style={{
           width: size,
-          height: size * 0.82,
+          height: size * 0.9,
           background: "var(--robot-body)",
-          borderRadius: 6,
+          borderRadius: `${size * 0.35}px ${size * 0.35}px ${size * 0.2}px ${size * 0.2}px`,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           position: "relative",
-          border: scared
-            ? "1.5px solid rgba(239,68,68,0.7)"
-            : mood === "angry"
-            ? "1.5px solid rgba(239,68,68,0.3)"
-            : "1.5px solid rgba(255,255,255,0.07)",
+          border: `1.5px solid ${accentColor}`,
           overflow: "hidden",
+          boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : dragging ? "0 0 20px rgba(255,255,255,0.15)" : "0 4px 12px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Scanline top highlight */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "28%", background: "rgba(255,255,255,0.04)", borderRadius: "6px 6px 0 0" }} />
+        {/* Screen overlay */}
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
 
-        {/* 3-dots titlebar */}
-        <div style={{ position: "absolute", top: 5, left: 5, display: "flex", gap: 2.5 }}>
-          {["#ef4444", "#f59e0b", "#22c55e"].map((c, i) => (
-            <div key={i} style={{ width: 3.5, height: 3.5, borderRadius: "50%", background: c, opacity: 0.9 }} />
+        {/* Pixel dots decoration */}
+        <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
+          {["#ef4444", "#22c55e"].map((c, i) => (
+            <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
           ))}
         </div>
 
-        {/* Brows (for angry/scared) */}
-        {(mood === "angry" || scared) && (
-          <div style={{ display: "flex", gap: size * 0.16, marginBottom: 2, marginTop: browOffset }}>
-            {[0, 1].map((i) => (
-              <div
-                key={i}
-                style={{
-                  width: size * 0.14,
-                  height: 2.5,
-                  background: "#ef4444",
-                  borderRadius: 2,
-                  transform: i === 0 ? "rotate(15deg)" : "rotate(-15deg)",
-                }}
-              />
-            ))}
-          </div>
-        )}
-
         {/* Eyes */}
-        <div style={{ display: "flex", gap: size * 0.16 }}>
+        <div style={{ display: "flex", gap: size * 0.2 }}>
           {[0, 1].map((i) => (
-            <div
-              key={i}
-              style={{
-                width: size * 0.13,
-                height: size * 0.13,
-                borderRadius: "50%",
-                background: eyeColor,
-                transform: `scaleY(${eyeScaleY}) scaleX(${eyeScaleX})`,
-                transition: "transform 0.08s ease",
-                opacity: mood === "sleepy" ? 0.5 : 1,
-              }}
-            />
+            <div key={i} style={{
+              width: size * 0.15,
+              height: size * 0.15,
+              borderRadius: mood === "cool" ? 2 : "50%",
+              background: eyeColor,
+              transform: `scaleY(${eyeScaleY})`,
+              transition: "transform 0.08s ease",
+              opacity: mood === "sleepy" ? 0.4 : 1,
+            }} />
           ))}
         </div>
 
         {/* Mouth */}
         {moodData.mouthShape === "smile" && (
-          <div style={{ width: size * 0.38, height: size * 0.16, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.8 }} />
+          <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
         )}
         {moodData.mouthShape === "laugh" && (
-          <div style={{ width: size * 0.42, height: size * 0.2, borderBottom: `2.5px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 3, opacity: 0.9, background: "rgba(255,255,255,0.06)" }} />
+          <div style={{ width: size * 0.35, height: size * 0.15, borderBottom: `2.5px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 3, opacity: 0.8, background: "rgba(255,255,255,0.04)" }} />
         )}
         {moodData.mouthShape === "frown" && (
-          <div style={{ width: size * 0.35, height: size * 0.14, borderTop: `2px solid #ef4444`, borderRadius: "50px 50px 0 0", marginTop: 6, opacity: 0.9 }} />
+          <div style={{ width: size * 0.28, height: size * 0.1, borderTop: `2px solid #ef4444`, borderRadius: "50px 50px 0 0", marginTop: 5, opacity: 0.8 }} />
         )}
         {moodData.mouthShape === "neutral" && (
-          <div style={{ width: size * 0.32, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 5, opacity: 0.6 }} />
+          <div style={{ width: size * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
         )}
         {moodData.mouthShape === "open" && (
-          <div style={{ width: size * 0.3, height: size * 0.18, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.9 }} />
+          <div style={{ width: size * 0.2, height: size * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
         )}
       </motion.div>
 
       {/* Feet */}
-      <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.14, paddingRight: size * 0.14 }}>
+      <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
         {[0, 1].map((i) => (
           <motion.div
             key={i}
-            animate={{
-              y: step === (i === 0) ? -3 : 0,
-              rotate: step === (i === 0) ? -12 : 12,
-            }}
+            animate={{ y: step === (i === 0) ? -3 : 0, rotate: step === (i === 0) ? -12 : 12 }}
             transition={{ duration: scared ? 0.06 : 0.18 }}
             style={{
-              width: size * 0.22,
-              height: size * 0.2,
+              width: size * 0.2,
+              height: size * 0.16,
               background: "var(--robot-body)",
-              borderRadius: "2px 2px 4px 4px",
+              borderRadius: "3px 3px 6px 6px",
             }}
           />
         ))}
@@ -269,6 +227,7 @@ export default function GeistVillage() {
   const lastFrameRef = useRef<number>(0);
   const cursorRef = useRef({ x: -999, y: -999 });
   const dragRef = useRef<{ id: number; offsetX: number; offsetY: number } | null>(null);
+  const prevDragPosRef = useRef<{ x: number; y: number } | null>(null);
 
   // Initialize robots
   const initRobots = useCallback((w: number) => {
@@ -326,29 +285,35 @@ export default function GeistVillage() {
       const newSteps = { ...stepsRef.current };
 
       const updated = robotsRef.current.map((r, i, arr) => {
-        if (r.dragging) return r;
-
         let { vx, vy, blinkTimer, isBlinking, moodTimer, walkTimer, walkDir, currentMood } = r;
 
-        // Soft repulsion from other robots
-        let repX = 0;
-        let repY = 0;
+        // ── Collision: compute repulsion + impact from ALL robots (incl. dragged) ──
+        let repX = 0, repY = 0;
         for (let j = 0; j < arr.length; j++) {
           if (i === j) continue;
-          const other = arr[j];
-          const dxR = r.x - other.x;
-          const dyR = r.y - other.y;
-          const distR = Math.sqrt(dxR * dxR + dyR * dyR);
-          const minDist = (r.size + other.size) * 0.55; 
-          
-          if (distR > 0 && distR < minDist) {
-            const force = (minDist - distR) / minDist;
-            repX += (dxR / distR) * force * 800; // Stronger repulsion push
-            repY += (dyR / distR) * force * 800;
+          const o = arr[j];
+          const dx = r.x - o.x;
+          const dy = r.y - o.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const minD = (r.size + o.size) * 0.58;
+          if (dist > 0 && dist < minD) {
+            const overlap = (minD - dist) / minD;
+            const nx2 = dx / dist, ny2 = dy / dist;
+            repX += nx2 * overlap * 1400;
+            repY += ny2 * overlap * 1400;
+            // Transfer kinetic energy from moving robot (dragged or not)
+            const spd = Math.sqrt(o.vx * o.vx + o.vy * o.vy);
+            if (spd > 30) {
+              repX += o.vx * 4;
+              repY += o.vy * 4;
+            }
           }
         }
 
-        // Attraction to center (very soft) to keep them from hugging walls constantly
+        // Dragged robots keep their position set by mouse; just store velocity
+        if (r.dragging) return { ...r };
+
+        // ── Autonomous movement ──
         const centerDx = (w / 2) - (r.x + r.size / 2);
         const centerDy = (CANVAS_H / 2) - (r.y + r.size / 2);
         repX += centerDx * 0.8;
@@ -383,11 +348,11 @@ export default function GeistVillage() {
         vx += (Math.cos(walkDir) * walkSpeed + repX) * dt;
         vy += (Math.sin(walkDir) * walkSpeed + repY) * dt;
 
-        const friction = 0.95; // Less friction so they slide more naturally
+        const friction = 0.92;
         vx *= friction;
         vy *= friction;
 
-        const maxSpeed = currentMood === "sleepy" ? 60 : currentMood === "angry" ? 180 : 120;
+        const maxSpeed = currentMood === "sleepy" ? 80 : currentMood === "angry" ? 250 : 160;
         const speed = Math.sqrt(vx * vx + vy * vy);
         if (speed > maxSpeed) { vx = (vx / speed) * maxSpeed; vy = (vy / speed) * maxSpeed; }
 
@@ -452,11 +417,20 @@ export default function GeistVillage() {
 
     const onMove = (ev: MouseEvent) => {
       const r2 = container.getBoundingClientRect();
-      const lx = Math.max(0, Math.min(containerSizeRef.current.w - (dragRef.current ? robotsRef.current.find(rb=>rb.id===id)?.size??48 : 48), ev.clientX - r2.left - (dragRef.current?.offsetX ?? 0)));
-      const ly = Math.max(0, Math.min(CANVAS_H - (robotsRef.current.find(rb=>rb.id===id)?.size??48)*1.2, ev.clientY - r2.top - (dragRef.current?.offsetY ?? 0)));
-      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: true, scared: true, x: lx, y: ly, vx: 0, vy: 0 } : rb);
+      const rb = robotsRef.current.find(x => x.id === id);
+      const sz = rb?.size ?? 48;
+      const lx = Math.max(0, Math.min(containerSizeRef.current.w - sz, ev.clientX - r2.left - (dragRef.current?.offsetX ?? 0)));
+      const ly = Math.max(0, Math.min(CANVAS_H - sz * 1.2, ev.clientY - r2.top - (dragRef.current?.offsetY ?? 0)));
+      const prev = prevDragPosRef.current;
+      const dragVx = prev ? (lx - prev.x) / 0.016 : 0;
+      const dragVy = prev ? (ly - prev.y) / 0.016 : 0;
+      prevDragPosRef.current = { x: lx, y: ly };
+      robotsRef.current = robotsRef.current.map(rb2 =>
+        rb2.id === id ? { ...rb2, dragging: true, scared: true, x: lx, y: ly, vx: dragVx, vy: dragVy } : rb2
+      );
     };
     const onUp = () => {
+      prevDragPosRef.current = null;
       robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, scared: false } : rb);
       dragRef.current = null;
       window.removeEventListener("mousemove", onMove);
@@ -483,11 +457,18 @@ export default function GeistVillage() {
       ev.preventDefault();
       const t = ev.touches[0];
       const r2 = container.getBoundingClientRect();
-      const lx = Math.max(0, Math.min(containerSizeRef.current.w - (r.size), t.clientX - r2.left - (dragRef.current?.offsetX ?? 0)));
+      const lx = Math.max(0, Math.min(containerSizeRef.current.w - r.size, t.clientX - r2.left - (dragRef.current?.offsetX ?? 0)));
       const ly = Math.max(0, Math.min(CANVAS_H - r.size * 1.2, t.clientY - r2.top - (dragRef.current?.offsetY ?? 0)));
-      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: true, scared: true, x: lx, y: ly, vx: 0, vy: 0 } : rb);
+      const prev = prevDragPosRef.current;
+      const dragVx = prev ? (lx - prev.x) / 0.016 : 0;
+      const dragVy = prev ? (ly - prev.y) / 0.016 : 0;
+      prevDragPosRef.current = { x: lx, y: ly };
+      robotsRef.current = robotsRef.current.map(rb =>
+        rb.id === id ? { ...rb, dragging: true, scared: true, x: lx, y: ly, vx: dragVx, vy: dragVy } : rb
+      );
     };
     const onTEnd = () => {
+      prevDragPosRef.current = null;
       robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, scared: false } : rb);
       dragRef.current = null;
       window.removeEventListener("touchmove", onTMove);
@@ -498,7 +479,7 @@ export default function GeistVillage() {
   }, []);
 
   return (
-    <section className="py-24 sm:py-32 bg-[#0a0a0a] border-t border-b border-zinc-800">
+    <section className="hidden md:block py-24 sm:py-32 bg-[#0a0a0a] border-t border-b border-zinc-800">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
