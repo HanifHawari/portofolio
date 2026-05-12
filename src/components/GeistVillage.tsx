@@ -55,14 +55,18 @@ const MOODS: { mood: Mood; icon: string; eyeColor: string; mouthShape: string }[
 ];
 
 const ROBOT_PERSONALITIES = [
-  { icon: "👑", label: "KING", mood: "happy" as Mood },
-  { icon: "😇", label: "ANGEL", mood: "happy" as Mood },
-  { icon: "😡", label: "ANGRY", mood: "angry" as Mood },
-  { icon: "😎", label: "COOL", mood: "cool" as Mood },
-  { icon: "🤓", label: "NERD", mood: "neutral" as Mood },
-  { icon: "💤", label: "SLEEPY", mood: "sleepy" as Mood },
-  { icon: "🎯", label: "AIM", mood: "neutral" as Mood },
-  { icon: "</>", label: "CODER", mood: "happy" as Mood },
+  { icon: "👑", label: "KING",   mood: "happy"   as Mood },
+  { icon: "😇", label: "ANGEL",  mood: "happy"   as Mood },
+  { icon: "😡", label: "ANGRY",  mood: "angry"   as Mood },
+  { icon: "😎", label: "COOL",   mood: "cool"    as Mood },
+  { icon: "🤓", label: "NERD",   mood: "neutral" as Mood },
+  { icon: "💤", label: "SLEEPY", mood: "sleepy"  as Mood },
+  { icon: "🎯", label: "AIM",    mood: "neutral" as Mood },
+  { icon: "</>", label: "CODER", mood: "happy"   as Mood },
+  { icon: "🚀", label: "ASTRO",  mood: "cool"    as Mood },
+  { icon: "🤡", label: "JOKER",  mood: "laugh"   as Mood },
+  { icon: "👽", label: "ALIEN",  mood: "neutral" as Mood },
+  { icon: "👻", label: "GHOST",  mood: "sleepy"  as Mood },
 ];
 
 interface RobotState {
@@ -83,6 +87,7 @@ interface RobotState {
   moodTimer: number;
   walkTimer: number;
   walkDir: number;
+  stunTimer: number;
 }
 
 const CANVAS_H = 460;
@@ -233,10 +238,11 @@ export default function GeistVillage() {
   const initRobots = useCallback((w: number) => {
     const newRobots: RobotState[] = ROBOT_PERSONALITIES.map((p, i) => {
       const sz = 44 + (i % 3) * 8;
+      const cols = 6;
       return {
         id: i,
-        x: 40 + (i % 4) * ((w - 80) / 4) + Math.random() * 30,
-        y: 30 + Math.floor(i / 4) * 180 + Math.random() * 40,
+        x: 40 + (i % cols) * ((w - 80) / cols) + Math.random() * 30,
+        y: 30 + Math.floor(i / cols) * 160 + Math.random() * 40,
         vx: (Math.random() - 0.5) * 50,
         vy: (Math.random() - 0.5) * 30,
         scared: false,
@@ -251,6 +257,7 @@ export default function GeistVillage() {
         moodTimer: Math.random() * 5 + 3,
         walkTimer: Math.random() * 2,
         walkDir: Math.random() * Math.PI * 2,
+        stunTimer: 0,
       };
     });
     robotsRef.current = newRobots;
@@ -285,9 +292,15 @@ export default function GeistVillage() {
       const newSteps = { ...stepsRef.current };
 
       const updated = robotsRef.current.map((r, i, arr) => {
-        let { vx, vy, blinkTimer, isBlinking, moodTimer, walkTimer, walkDir, currentMood } = r;
+        let currentMood = r.currentMood;
+        let isBlinking = r.isBlinking;
+        let blinkTimer = r.blinkTimer;
+        let moodTimer = r.moodTimer;
+        let walkTimer = r.walkTimer;
+        let walkDir = r.walkDir;
+        let stunTimer = (r.stunTimer ?? 0) - dt;
+        if (stunTimer < 0) stunTimer = 0;
 
-        // ── Collision: compute repulsion + impact from ALL robots (incl. dragged) ──
         let repX = 0, repY = 0;
         for (let j = 0; j < arr.length; j++) {
           if (i === j) continue;
@@ -295,23 +308,26 @@ export default function GeistVillage() {
           const dx = r.x - o.x;
           const dy = r.y - o.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          const minD = (r.size + o.size) * 0.58;
+          const minD = (r.size + o.size) / 2 + 5;
           if (dist > 0 && dist < minD) {
             const overlap = (minD - dist) / minD;
             const nx2 = dx / dist, ny2 = dy / dist;
             repX += nx2 * overlap * 1400;
             repY += ny2 * overlap * 1400;
-            // Transfer kinetic energy from moving robot (dragged or not)
             const spd = Math.sqrt(o.vx * o.vx + o.vy * o.vy);
-            if (spd > 30) {
+            if (spd > 150 && o.dragging) {
+              repX += o.vx * 4;
+              repY += o.vy * 4;
+              stunTimer = 1.2;
+            } else if (spd > 30) {
               repX += o.vx * 4;
               repY += o.vy * 4;
             }
           }
         }
 
-        // Dragged robots keep their position set by mouse; just store velocity
-        if (r.dragging) return { ...r };
+        const isScared = r.dragging || stunTimer > 0;
+        if (r.dragging) return { ...r, scared: isScared, stunTimer };
 
         // ── Autonomous movement ──
         const centerDx = (w / 2) - (r.x + r.size / 2);
@@ -343,16 +359,16 @@ export default function GeistVillage() {
           walkDir = Math.random() * Math.PI * 2;
         }
 
-        // Autonomous wander (increased base speed drastically to overcome friction)
-        const walkSpeed = currentMood === "sleepy" ? 300 : currentMood === "angry" ? 900 : 500;
-        vx += (Math.cos(walkDir) * walkSpeed + repX) * dt;
-        vy += (Math.sin(walkDir) * walkSpeed + repY) * dt;
+        // Autonomous wander (stop if stunned)
+        const walkSpeed = stunTimer > 0 ? 0 : currentMood === "sleepy" ? 300 : currentMood === "angry" ? 900 : 500;
+        let vx = r.vx + (Math.cos(walkDir) * walkSpeed + repX) * dt;
+        let vy = r.vy + (Math.sin(walkDir) * walkSpeed + repY) * dt;
 
         const friction = 0.92;
         vx *= friction;
         vy *= friction;
 
-        const maxSpeed = currentMood === "sleepy" ? 80 : currentMood === "angry" ? 250 : 160;
+        const maxSpeed = stunTimer > 0 ? 300 : currentMood === "sleepy" ? 80 : currentMood === "angry" ? 250 : 160;
         const speed = Math.sqrt(vx * vx + vy * vy);
         if (speed > maxSpeed) { vx = (vx / speed) * maxSpeed; vy = (vy / speed) * maxSpeed; }
 
@@ -377,7 +393,7 @@ export default function GeistVillage() {
         if (ny < 0) { ny = 0; vy = Math.abs(vy) * 0.9; }
         if (ny > maxY) { ny = maxY; vy = -Math.abs(vy) * 0.9; }
 
-        return { ...r, x: nx, y: ny, vx, vy, currentMood, blinkTimer, isBlinking, moodTimer, walkTimer, walkDir };
+        return { ...r, x: nx, y: ny, vx, vy, currentMood, blinkTimer, isBlinking, moodTimer, walkTimer, walkDir, stunTimer, scared: isScared };
       });
 
       robotsRef.current = updated;
@@ -431,7 +447,7 @@ export default function GeistVillage() {
     };
     const onUp = () => {
       prevDragPosRef.current = null;
-      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, scared: false } : rb);
+      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, stunTimer: 1.2, scared: true } : rb);
       dragRef.current = null;
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
@@ -469,7 +485,7 @@ export default function GeistVillage() {
     };
     const onTEnd = () => {
       prevDragPosRef.current = null;
-      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, scared: false } : rb);
+      robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: false, stunTimer: 1.2, scared: true } : rb);
       dragRef.current = null;
       window.removeEventListener("touchmove", onTMove);
       window.removeEventListener("touchend", onTEnd);
