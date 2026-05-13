@@ -89,6 +89,7 @@ export default function HeroSection() {
   const lastPosRef = useRef({ x: 0, y: 0 });
   const lastTimeRef = useRef(0);
   const velRef = useRef({ x: 0, y: 0 });
+  const boundaryYRef = useRef(0);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -115,15 +116,15 @@ export default function HeroSection() {
     render.canvas.style.display = 'none';
 
     // Thick Boundaries to prevent glitching out
-    const floor1W = width * 0.58; // MUHAMMAD
-    const floor2W = width * 0.98; // HANIF HAWARI
+    const floor1W = width * 10; 
+    const floor2W = width * 10; 
 
     const textFloor1 = Bodies.rectangle(width / 2, height * 0.4, floor1W, 200, { isStatic: true, render: { visible: false } });
     const textFloor2 = Bodies.rectangle(width / 2, height * 0.5, floor2W, 200, { isStatic: true, render: { visible: false } });
-    const ceiling = Bodies.rectangle(width / 2, -180, width * 3, 500, { isStatic: true, render: { visible: false } });
-    const wallLeft = Bodies.rectangle(-500, height / 2, 1000, height * 3, { isStatic: true, render: { visible: false } });
-    const wallRight = Bodies.rectangle(width + 500, height / 2, 1000, height * 3, { isStatic: true, render: { visible: false } });
-    const bottomFloor = Bodies.rectangle(width / 2, height + 500, width * 3, 1000, { isStatic: true, render: { visible: false } });
+    const ceiling = Bodies.rectangle(width / 2, -180, width * 10, 500, { isStatic: true, render: { visible: false } });
+    const wallLeft = Bodies.rectangle(-500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
+    const wallRight = Bodies.rectangle(width + 500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
+    const bottomFloor = Bodies.rectangle(width / 2, height + 500, width * 10, 1000, { isStatic: true, render: { visible: false } });
 
     World.add(engine.world, [textFloor1, textFloor2, ceiling, wallLeft, wallRight, bottomFloor]);
 
@@ -183,14 +184,10 @@ export default function HeroSection() {
       Matter.Body.setPosition(wallRight, { x: newW + 500, y: newH / 2 });
 
       // bottomFloor top edge. Height is 1000.
-      // On mobile, keep badges above "MUHAMMAD" (y1).
-      // On desktop, keep badges above "HANIF HAWARI" (y2).
-      const isMobile = newW <= 768;
-      if (isMobile) {
-        Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: y1 + 500 });
-      } else {
-        Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: y2 + 500 });
-      }
+      // We want to block badges at the top of the name block to keep them in the "top zone"
+      const currentBoundaryY = y1;
+      boundaryYRef.current = currentBoundaryY;
+      Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: currentBoundaryY + 500 });
     };
 
     // Small delay to ensure fonts are loaded and layout is complete before measuring
@@ -239,7 +236,10 @@ export default function HeroSection() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    Matter.Body.setPosition(dragBodyRef.current, { x, y });
+    // Clamp y during drag to prevent passing the boundary floor
+    const clampedY = Math.min(y, boundaryYRef.current - 20); 
+
+    Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
 
     const now = Date.now();
     const dt = now - lastTimeRef.current;
@@ -325,7 +325,7 @@ export default function HeroSection() {
       >
         {/* Giant Name */}
         <h1
-          className="font-black text-white text-center uppercase leading-[0.85] w-full text-[clamp(28px,10vw,240px)] md:text-[clamp(60px,14vw,240px)]"
+          className="font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center"
           style={{
             fontWeight: 900,
             letterSpacing: '-0.04em',
@@ -333,9 +333,8 @@ export default function HeroSection() {
             marginTop: '10vh'
           }}
         >
-          <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap">MUHAMMAD</span>
-          <br />
-          <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap">HANIF HAWARI</span>
+          <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap text-[14.5vw] md:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
+          <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14.5vw] md:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
         {/* Code subtitle line with typewriter effect */}
