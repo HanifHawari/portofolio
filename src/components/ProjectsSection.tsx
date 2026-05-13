@@ -24,14 +24,14 @@ interface ProjectItem {
 }
 
 const Github = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
   >
@@ -46,34 +46,41 @@ const playClickSound = () => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContext) return;
     const ctx = new AudioContext();
-    
-    const bufferSize = ctx.sampleRate * 0.5; // 0.5 seconds
+
+    // Click-thud sound
+    const bufferSize = ctx.sampleRate * 0.4;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
-    
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.05));
     }
-    
-    const noiseSource = ctx.createBufferSource();
-    noiseSource.buffer = buffer;
-    
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
     const filter = ctx.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(100, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
-    filter.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.4);
-    
-    const gainNode = ctx.createGain();
-    gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1); 
-    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
-    
-    noiseSource.connect(filter);
-    filter.connect(gainNode);
-    gainNode.connect(ctx.destination);
-    
-    noiseSource.start();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(400, ctx.currentTime);
+    filter.Q.setValueAtTime(1.5, ctx.currentTime);
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start();
+
+    // Whoosh sweep
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(200, ctx.currentTime + 0.05);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.25);
+    oscGain.gain.setValueAtTime(0, ctx.currentTime + 0.05);
+    oscGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.1);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.connect(oscGain);
+    oscGain.connect(ctx.destination);
+    osc.start(ctx.currentTime + 0.05);
+    osc.stop(ctx.currentTime + 0.35);
   } catch (e) {
     console.log("Audio play failed", e);
   }
@@ -113,7 +120,7 @@ export default function ProjectsSection() {
   }, [activeCaseStudy]);
 
   return (
-    <section id="projects" className="py-24 sm:py-32 bg-[#0a0a0a]">
+    <section id="projects" className="py-24 sm:py-32 bg-[#0a0a0a]" style={{ fontFamily: "var(--font-geist-sans), system-ui, sans-serif" }}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           variants={containerVariants}
@@ -138,25 +145,22 @@ export default function ProjectsSection() {
         {/* Project Cards */}
         <div className="space-y-8">
           {t.projects.items.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.7, delay: index * 0.1 }}
-                className="group relative overflow-hidden border border-zinc-800 bg-zinc-950/30 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
-              >
-                {/* Ultra Minimalist Top-Glow Accent */}
-                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent z-20" />
-                <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20" />
-                <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none z-20" />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.7, delay: index * 0.1 }}
+              className="group relative overflow-hidden section-card hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
+            >
+              {/* Top-glow accent via .section-card::before */}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 relative z-10">
-                  {/* Left: Content */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 relative z-10">
+                {/* Left: Content */}
                 <div className="p-8 sm:p-10 flex flex-col justify-between">
                   <div>
-                    {/* Category Badge */}
-                    <span className="inline-block px-3 py-1 border border-zinc-700 text-[10px] font-bold tracking-[0.2em] text-zinc-400 mb-6">
+                    {/* Category Badge — sharp, terminal-style */}
+                    <span className="inline-block px-3 py-1 border border-zinc-700 rounded-none text-[10px] font-bold tracking-[0.2em] text-zinc-400 mb-6">
                       {project.category}
                     </span>
 
@@ -184,12 +188,12 @@ export default function ProjectsSection() {
                       ))}
                     </div>
 
-                    {/* Tech Pills */}
+                    {/* Tech Pills — rounded-full */}
                     <div className="flex flex-wrap gap-2 mb-8">
                       {project.tech.map((tech, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1.5 border border-zinc-800 text-xs font-medium text-zinc-400 tracking-wider"
+                          className="px-3 py-1.5 border border-zinc-800 rounded-full text-xs font-medium text-zinc-400 tracking-wider"
                         >
                           {tech}
                         </span>
@@ -199,12 +203,12 @@ export default function ProjectsSection() {
 
                   {/* Buttons */}
                   <div className="flex flex-wrap gap-3">
-                    <button 
+                    <button
                       onClick={() => {
                         playClickSound();
                         setActiveCaseStudy(index);
                       }}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-sm font-semibold text-white tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
                     >
                       <BookOpen size={14} />
                       {(project as unknown as ProjectItem).caseStudy}
@@ -213,7 +217,7 @@ export default function ProjectsSection() {
                       href={(project as unknown as ProjectItem).liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
                     >
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(t.projects as any).liveDemo}
@@ -223,7 +227,7 @@ export default function ProjectsSection() {
                       href={(project as unknown as ProjectItem).codeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 transition-colors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
                     >
                       <Github size={14} />
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -233,7 +237,7 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Right: Screenshot Image */}
-                <div 
+                <div
                   className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden group/img cursor-pointer"
                   onClick={() => {
                     playClickSound();
@@ -248,10 +252,10 @@ export default function ProjectsSection() {
                   />
                   {/* Gradient Overlay for aesthetic */}
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
-                  
+
                   {/* Hover button overlay on Image */}
                   <div className="absolute inset-0 z-20 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
-                    <a 
+                    <a
                       href={(project as unknown as ProjectItem).liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -264,7 +268,7 @@ export default function ProjectsSection() {
                         {(t.projects as any).liveDemo}
                       </span>
                     </a>
-                    <a 
+                    <a
                       href={(project as unknown as ProjectItem).codeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -295,17 +299,22 @@ export default function ProjectsSection() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
           >
             {/* Backdrop */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={() => setActiveCaseStudy(null)}
             />
             
             {/* Modal Content */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl bg-zinc-950 border border-zinc-800 p-8 sm:p-12 max-h-[90vh] overflow-y-auto shadow-2xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-3xl bg-zinc-950 border border-zinc-700 rounded-[32px] p-8 sm:p-12 max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
             >
               <button
                 onClick={() => setActiveCaseStudy(null)}
@@ -313,14 +322,14 @@ export default function ProjectsSection() {
               >
                 <X size={24} />
               </button>
-              
+
               <h3 className="text-2xl sm:text-4xl font-black text-white mb-2">
                 {t.projects.items[activeCaseStudy].title}
               </h3>
               <p className="text-zinc-500 mb-8 font-bold tracking-[0.2em] uppercase text-xs">
                 {t.projects.items[activeCaseStudy].category} - Case Study
               </p>
-              
+
               <div className="space-y-6 text-zinc-400 leading-relaxed text-sm sm:text-base">
                 <p>
                   <strong className="text-white">Overview:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.overview}
@@ -335,11 +344,11 @@ export default function ProjectsSection() {
                   <strong className="text-white">Results:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.results}
                 </p>
               </div>
-              
+
               <div className="mt-12 pt-8 border-t border-zinc-800 flex justify-end">
                 <button
                   onClick={() => setActiveCaseStudy(null)}
-                  className="px-6 py-2 bg-white text-black text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
+                  className="px-6 py-2 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
                 >
                   TUTUP
                 </button>

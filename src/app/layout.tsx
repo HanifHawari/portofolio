@@ -5,10 +5,18 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { ThemeProvider } from "@/lib/ThemeContext";
 
+import { Space_Grotesk } from "next/font/google";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Muhammad Hanif Hawari | Web Developer",
   description:
-    "Professional portfolio of Muhammad Hanif Hawari — Full-Stack Web Developer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
+    "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
   keywords: [
     "web developer",
     "portfolio",
@@ -21,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
-      "Professional portfolio of Muhammad Hanif Hawari — Full-Stack Web Developer",
+      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer",
     type: "website",
   },
 };
@@ -34,8 +42,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
-        style={{ fontFamily: "var(--font-geist-sans), system-ui, sans-serif" }}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${spaceGrotesk.variable} antialiased`}
+        style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
       >
         <ThemeProvider>
           <LanguageProvider>

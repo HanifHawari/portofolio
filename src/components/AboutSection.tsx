@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Download, MapPin } from "lucide-react";
+import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const containerVariants = {
@@ -50,12 +50,12 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       animate={{ rotateX: tilt.x, rotateY: tilt.y, scale: hovering ? 1.02 : 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{ transformStyle: "preserve-3d", perspective: 800 }}
-      className="animate-float w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-800 bg-zinc-900"
+      className="animate-float w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
     >
       {/* Full Background Image */}
-      <Image 
-        src="/profile.jpg" 
-        alt="Profile" 
+      <Image
+        src="/profile.jpg"
+        alt="Profile"
         fill
         className="object-cover"
         onError={(e) => {
@@ -76,9 +76,9 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       )}
 
       {/* Floating Dark/Light Pill Overlay at the bottom */}
-      <div 
+      <div
         className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
-        style={{ 
+        style={{
           transform: "translateZ(30px)",
           backgroundColor: "var(--card-bg)",
           border: "1px solid var(--border)"
@@ -99,7 +99,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
           </div>
         </div>
 
-        <a 
+        <a
           href="#contact"
           className="px-5 py-2 text-[10px] font-bold tracking-[0.15em] uppercase transition-colors rounded-lg"
           style={{
@@ -133,7 +133,7 @@ function TechPill({ label }: { label: string }) {
         border: "1px solid var(--border-strong)",
         background: "var(--surface-2)",
         fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
-        color: "var(--text-secondary)", borderRadius: 4, whiteSpace: "nowrap",
+        color: "var(--text-secondary)", borderRadius: 9999, whiteSpace: "nowrap",
         transition: "border-color 0.2s, color 0.2s", cursor: "default",
       }}
       onMouseEnter={(e) => {
@@ -153,12 +153,7 @@ function TechPill({ label }: { label: string }) {
 // ── Bordered section card ─────────────────────────────────────────────────────
 function SectionCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`relative overflow-hidden group border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 ${className}`}>
-      {/* Ultra Minimalist Top-Glow Accent */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
-      <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
-      
+    <div className={`section-card p-6 sm:p-8 ${className}`}>
       <div className="relative z-10">
         {children}
       </div>
@@ -172,15 +167,15 @@ export default function AboutSection() {
 
   const philosophyItems = language === "id"
     ? [
-        { icon: "</>", title: "Kode Bersih", desc: "Saya memprioritaskan keterbacaan dan pemeliharaan code di atas segalanya." },
-        { icon: "{ }", title: "Berfokus pada Pengguna", desc: "Setiap keputusan desain dimulai dari perspektif pengguna akhir." },
-        { icon: "/>", title: "Kirim & Iterasi", desc: "Saya percaya dalam merilis cepat, belajar, dan meningkatkan secara berkelanjutan." },
-      ]
+      { icon: "</>", title: "Kode Bersih", desc: "Saya memprioritaskan keterbacaan dan pemeliharaan code di atas segalanya." },
+      { icon: "{ }", title: "Berfokus pada Pengguna", desc: "Setiap keputusan desain dimulai dari perspektif pengguna akhir." },
+      { icon: "/>", title: "Kirim & Iterasi", desc: "Saya percaya dalam merilis cepat, belajar, dan meningkatkan secara berkelanjutan." },
+    ]
     : [
-        { icon: "</>", title: "Clean Code", desc: "I prioritize readability and maintainability above all." },
-        { icon: "{ }", title: "User-Focused", desc: "Every design decision starts from the end-user's perspective." },
-        { icon: "/>", title: "Ship & Iterate", desc: "I believe in releasing fast, learning, and continuously improving." },
-      ];
+      { icon: "</>", title: "Clean Code", desc: "I prioritize readability and maintainability above all." },
+      { icon: "{ }", title: "User-Focused", desc: "Every design decision starts from the end-user's perspective." },
+      { icon: "/>", title: "Ship & Iterate", desc: "I believe in releasing fast, learning, and continuously improving." },
+    ];
 
   const focusAreas = ["Frontend Development", "UI/UX Design", "React & Next.js", "Mobile-first", "Performance"];
 
@@ -211,7 +206,6 @@ export default function AboutSection() {
           <motion.div variants={itemVariants}>
             <SectionCard>
               <div className="space-y-5">
-                <div className="text-4xl sm:text-5xl">{t.about.greeting}</div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">
                   {t.about.hi}{" "}<span className="text-white">{t.about.name}</span>
                 </h2>
@@ -252,8 +246,15 @@ export default function AboutSection() {
                   {t.about.education.badge}
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1">
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1 flex items-center gap-2">
                 {t.about.education.title}
+                <motion.span
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-xl"
+                >
+                  🎓
+                </motion.span>
               </h3>
               <div className="flex items-center gap-2 text-zinc-500 text-sm mb-3">
                 <MapPin size={14} />
@@ -264,7 +265,7 @@ export default function AboutSection() {
               </p>
               <div className="flex flex-wrap gap-2">
                 {t.about.education.tags.map((tag, i) => (
-                  <span key={i} className="px-3 py-1 border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300">
+                  <span key={i} className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300">
                     {tag}
                   </span>
                 ))}
@@ -275,9 +276,12 @@ export default function AboutSection() {
           {/* Tech Stack */}
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 16 }}>
-                {t.about.techStack.title}
-              </p>
+              <div className="flex items-center gap-2 mb-4">
+                <Cpu size={16} className="text-zinc-400" />
+                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                  {t.about.techStack.title}
+                </h3>
+              </div>
               <div className="space-y-4">
                 {[t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
                   <div key={ci}>
@@ -304,12 +308,15 @@ export default function AboutSection() {
         >
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 14 }}>
-                {language === "id" ? "FILOSOFI KERJA" : "WORK PHILOSOPHY"}
-              </p>
+              <div className="flex items-center gap-2 mb-4">
+                <Terminal size={16} className="text-zinc-400" />
+                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                  {language === "id" ? "FILOSOFI KERJA" : "WORK PHILOSOPHY"}
+                </h3>
+              </div>
               <div className="space-y-3">
                 {philosophyItems.map((item, i) => (
-                  <div key={i} className="flex gap-3">
+                  <div key={i} className="flex gap-3 pl-3 border-l-2 border-zinc-800 hover:border-zinc-600 transition-colors">
                     <span className="font-mono text-zinc-300" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
                     <div>
                       <p className="text-white font-semibold text-sm">{item.title}</p>
@@ -323,9 +330,12 @@ export default function AboutSection() {
 
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 14 }}>
-                {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
-              </p>
+              <div className="flex items-center gap-2 mb-4">
+                <Target size={16} className="text-zinc-400" />
+                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                  {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
+                </h3>
+              </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {focusAreas.map((area, i) => (
                   <motion.span
@@ -335,10 +345,11 @@ export default function AboutSection() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
                     style={{
-                      display: "inline-flex", padding: "6px 14px",
+                      display: "inline-flex", padding: "5px 16px",
                       border: "1px solid var(--border-strong)",
                       fontSize: 12, fontWeight: 500,
                       color: "var(--text-secondary)", letterSpacing: "0.05em",
+                      borderRadius: 9999,
                     }}
                   >
                     {area}

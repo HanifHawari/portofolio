@@ -95,11 +95,11 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
 // ── Single photo per journey entry ───────────────────────────────────────────
 // Replace src strings with your actual image paths
 const GALLERY_DATA: { src: string; caption: string }[] = [
-  { src: "/ecommerce.png", caption: "E-Commerce Project" },      // 0: Professional
-  { src: "/cms.png",       caption: "Freelance Web Design" },     // 1: Freelance
-  { src: "/fitness.png",   caption: "Agency Dashboard" },         // 2: Internship
-  { src: "/cms.png",       caption: "Academic Web App" },          // 3: Student Dev
-  { src: "/ecommerce.png", caption: "Database Design Project" },  // 4: Info Systems
+  { src: "/proyek1.png", caption: "" },// 0:
+  { src: "/proyek1.png", caption: "" },// 1:
+  { src: "/proyek1.png", caption: "" },//2.
+  { src: "/proyek1.png", caption: "" },// 3:
+  { src: "/proyek1.png", caption: "" },//4:
 ];
 
 // ── Animated vertical progress line ─────────────────────────────────────────
@@ -163,12 +163,12 @@ function FolderModal({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.82, y: 36 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden"
+        className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
         style={{ boxShadow: "0 0 70px rgba(0,0,0,0.85), 0 0 24px rgba(255,255,255,0.04)" }}
       >
         {/* Top glow */}
@@ -271,12 +271,12 @@ export default function JourneySection() {
                 transition={{ delay: index * 0.08 }}
                 className="relative flex flex-col sm:flex-row gap-4 sm:gap-8"
               >
-                {/* Left: Year + Badge */}
+                {/* Year + Badge — sharp terminal style */}
                 <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0">
                   <span className="text-lg sm:text-xl font-black text-white">
                     {item.year}
                   </span>
-                  <span className="px-2.5 py-1 bg-zinc-800 text-[10px] font-bold tracking-[0.15em] text-zinc-400">
+                  <span className="px-2.5 py-1 rounded-none bg-zinc-800 text-[10px] font-bold tracking-[0.15em] text-zinc-400">
                     {item.badge}
                   </span>
                 </div>
@@ -300,13 +300,9 @@ export default function JourneySection() {
 
                 {/* Right: Card */}
                 <motion.div
-                  className="ml-6 sm:ml-0 flex-1 border border-zinc-800 bg-zinc-950/50 p-6 sm:p-8 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300"
+                  className="ml-6 sm:ml-0 flex-1 section-card p-6 sm:p-8 relative transition-all duration-300"
                 >
-                  {/* Ultra Minimalist Top-Glow Accent */}
-                  <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
-                  <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
-
+                  {/* Top-glow accent handled by .section-card::before */}
                   <div className="relative z-10">
                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
                       {item.role}
@@ -318,25 +314,25 @@ export default function JourneySection() {
                       {item.description}
                     </p>
 
-                    {/* Tech tags */}
+                    {/* Tech tags — rounded-full pill style */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {item.tags.map((tag, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 border border-zinc-800 text-xs font-medium text-zinc-400 tracking-wider"
+                          className="px-3 py-1 border border-zinc-800 rounded-full text-xs font-medium text-zinc-400 tracking-wider"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    {/* ── Animated Folder Button ── */}
+                    {/* Animated Folder Button */}
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
                       onHoverStart={() => setHoverFolder(index)}
                       onHoverEnd={() => setHoverFolder(null)}
                       whileTap={{ scale: 0.93 }}
-                      className="flex items-center gap-3 group/folder"
+                      className="flex items-center gap-3 group/folder border border-zinc-800 rounded-xl px-4 py-3 hover:border-zinc-600 hover:bg-white/5 transition-all duration-200"
                     >
                       <motion.div
                         animate={

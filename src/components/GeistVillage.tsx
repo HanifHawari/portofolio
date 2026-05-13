@@ -375,7 +375,7 @@ export default function GeistVillage() {
         let nx = r.x + vx * dt;
         let ny = r.y + vy * dt;
         const maxX = w - r.size;
-        const maxY = CANVAS_H - r.size * 1.2;
+        const maxY = CANVAS_H - r.size * 1.65;
 
         // Step toggle (foot animation)
         const stepThreshold = 5;
@@ -436,7 +436,7 @@ export default function GeistVillage() {
       const rb = robotsRef.current.find(x => x.id === id);
       const sz = rb?.size ?? 48;
       const lx = Math.max(0, Math.min(containerSizeRef.current.w - sz, ev.clientX - r2.left - (dragRef.current?.offsetX ?? 0)));
-      const ly = Math.max(0, Math.min(CANVAS_H - sz * 1.2, ev.clientY - r2.top - (dragRef.current?.offsetY ?? 0)));
+      const ly = Math.max(0, Math.min(CANVAS_H - sz * 1.65, ev.clientY - r2.top - (dragRef.current?.offsetY ?? 0)));
       const prev = prevDragPosRef.current;
       const dragVx = prev ? (lx - prev.x) / 0.016 : 0;
       const dragVy = prev ? (ly - prev.y) / 0.016 : 0;

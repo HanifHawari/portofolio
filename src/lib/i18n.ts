@@ -8,7 +8,7 @@ export const translations = {
       contact: "CONTACT",
     },
     hero: {
-      badges: ["FULL-STACK WEB DEVELOPER", "FREELANCER"],
+      badges: ["FRONTEND ENGINEER", "FREELANCER"],
       tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
       codeLine: 'const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "HANIF_HAWARI", Origin: "Indonesia", Role: "Creative_Engineer" }',
       openToWork: "OPEN TO WORK",
@@ -18,10 +18,10 @@ export const translations = {
     },
     about: {
       title: "ABOUT",
-      greeting: "👋",
+      greeting: "",
       hi: "Hi, I'm",
       name: "Muhammad Hanif Hawari",
-      bio1: "I'm a passionate Full-Stack Web Developer from Indonesia with a deep love for crafting beautiful, functional, and user-centered digital experiences. My journey in web development started from curiosity and has grown into a full-blown passion.",
+      bio1: "I am a Computer Science Student at University of Amikom Yogyakarta. I have the skills to build websites that are modern, interactive, and user centered. My journey in web development started from curiosity and has grown into a full-blown passion.",
       bio2: "I specialize in building modern web applications using React, Next.js, and the latest web technologies. I believe in writing clean, maintainable code and creating designs that not only look great but also provide seamless user experiences.",
       downloadResume: "Download Full CV",
       discordUser: "@hanifhawari",
@@ -85,7 +85,7 @@ export const translations = {
           stats: [
             { value: "28+", label: "Active Users" },
             { value: "4.8★", label: "App Rating" },
-            { value: "50+", label: "Exercises" },
+            { value: "17+", label: "Exercises" },
           ],
           tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
           caseStudy: "Read Case Study",
@@ -129,7 +129,7 @@ export const translations = {
         {
           year: "2026",
           badge: "PROFESSIONAL",
-          role: "Full-Stack Developer",
+          role: "FULL-STACK DEVELOPER",
           company: "Tech Company",
           description: "Working on cutting-edge web applications using modern technologies. Contributing to the development of scalable and performant solutions for clients across various industries.",
           tags: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
@@ -142,7 +142,7 @@ export const translations = {
         {
           year: "2026",
           badge: "FREELANCE",
-          role: "Freelance Developer",
+          role: "FREELANCE DEVELOPER",
           company: "Self-Employed",
           description: "Took on freelance projects building custom websites and web applications for small businesses and startups. Focused on delivering high-quality, responsive designs.",
           tags: ["React", "Node.js", "MongoDB", "Figma"],
@@ -152,7 +152,7 @@ export const translations = {
         {
           year: "2026",
           badge: "INTERNSHIP",
-          role: "Web Development Intern",
+          role: "WEB DEVELOPMENT INTERN",
           company: "Digital Agency",
           description: "Gained hands-on experience in full-stack web development. Collaborated with senior developers on client projects and learned agile development methodologies.",
           tags: ["Laravel", "PHP", "MySQL", "Bootstrap"],
@@ -162,8 +162,8 @@ export const translations = {
         {
           year: "2024",
           badge: "ACADEMIC",
-          role: "Student Developer",
-          company: "University",
+          role: "STUDENT DEVELOPER",
+          company: "Amikom University Yogyakarta",
           description: "Focused on academic projects and personal development. Built several web applications as part of coursework and participated in coding competitions.",
           tags: ["Java", "Python", "HTML/CSS", "Git"],
           archiveLabel: "PROJECT ARCHIVE",
@@ -172,8 +172,8 @@ export const translations = {
         {
           year: "2024",
           badge: "ACADEMIC",
-          role: "Information Systems Student",
-          company: "University",
+          role: "S1 INFORMATICS",
+          company: "Amikom University Yogyakarta",
           description: "Started my journey in Information Systems. Built a strong foundation in software engineering, business logic, and database structure.",
           tags: ["Algorithm", "Database", "Problem Solving"],
           archiveLabel: "PROJECT ARCHIVE",
@@ -230,7 +230,7 @@ export const translations = {
       contact: "KONTAK",
     },
     hero: {
-      badges: ["FULL-STACK WEB DEVELOPER", "FREELANCER"],
+      badges: ["FRONTEND ENGINEER", "FREELANCER"],
       tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
       codeLine: 'const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "HANIF_HAWARI", Origin: "Indonesia", Role: "Creative_Engineer" }',
       openToWork: "TERBUKA UNTUK BEKERJA",
@@ -240,7 +240,7 @@ export const translations = {
     },
     about: {
       title: "TENTANG SAYA",
-      greeting: "👋",
+      greeting: "",
       hi: "Hai, Saya",
       name: "Muhammad Hanif Hawari",
       bio1: "Saya adalah Mahasiswa Informatika yang sedang berkuliah di Universitas Amikom Yogyakarta. Saya memiliki skill dalam membuat website yang modern, interaktif, dan berpusat pada pengguna. Perjalanan saya dalam pengembangan web dimulai dari rasa ingin tahu dan telah berkembang menjadi sebuah passion.",
@@ -307,7 +307,7 @@ export const translations = {
           stats: [
             { value: "28+", label: "Pengguna Aktif" },
             { value: "4.8★", label: "Rating Aplikasi" },
-            { value: "50+", label: "Latihan" },
+            { value: "17+", label: "Latihan" },
           ],
           tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
           caseStudy: "Baca Studi Kasus",
@@ -350,8 +350,8 @@ export const translations = {
       items: [
         {
           year: "2026",
-          badge: "PROFESIONAL",
-          role: "Full-Stack Web Developer",
+          badge: "PROFESSIONAL",
+          role: "FULL-STACK DEVELOPER",
           company: "Perusahaan Teknologi",
           description: "Bekerja pada aplikasi web mutakhir menggunakan teknologi modern. Berkontribusi pada pengembangan solusi yang skalabel dan performan untuk klien di berbagai industri.",
           tags: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
@@ -364,7 +364,7 @@ export const translations = {
         {
           year: "2026",
           badge: "FREELANCE",
-          role: "Developer Freelance",
+          role: "FREELANCE DEVELOPER",
           company: "Wiraswasta",
           description: "Mengerjakan proyek freelance membangun situs web dan aplikasi web kustom untuk bisnis kecil dan startup. Fokus pada pengiriman desain responsif berkualitas tinggi.",
           tags: ["React", "Node.js", "MongoDB", "Figma"],
@@ -374,7 +374,7 @@ export const translations = {
         {
           year: "2026",
           badge: "MAGANG",
-          role: "Magang Pengembangan Web",
+          role: "MAGANG PENGEMBANGAN WEB",
           company: "Agensi Digital",
           description: "Memperoleh pengalaman langsung dalam pengembangan web full-stack. Berkolaborasi dengan pengembang senior pada proyek klien dan mempelajari metodologi pengembangan agile.",
           tags: ["Laravel", "PHP", "MySQL", "Bootstrap"],
@@ -384,8 +384,8 @@ export const translations = {
         {
           year: "2024",
           badge: "AKADEMIK",
-          role: "Mahasiswa Informatika",
-          company: "Universitas",
+          role: "MAHASISWA INFORMATIKA",
+          company: "Universitas Amikom Yogyakarta",
           description: "Fokus pada proyek akademik dan pengembangan diri. Membangun beberapa aplikasi web sebagai bagian dari tugas kuliah dan berpartisipasi dalam kompetisi coding.",
           tags: ["Java", "Python", "HTML/CSS", "Git"],
           archiveLabel: "ARSIP PROYEK",
@@ -394,8 +394,8 @@ export const translations = {
         {
           year: "2024",
           badge: "AKADEMIK",
-          role: "Mahasiswa Informatika",
-          company: "Universitas",
+          role: "S1 INFORMATIKA",
+          company: "Universitas Amikom Yogyakarta",
           description: "Memulai perjalanan di Informatika. Membangun fondasi yang kuat dalam rekayasa perangkat lunak, logika bisnis, dan struktur basis data.",
           tags: ["Algoritma", "Database", "Problem Solving"],
           archiveLabel: "ARSIP PROYEK",

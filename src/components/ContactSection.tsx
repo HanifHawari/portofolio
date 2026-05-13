@@ -189,7 +189,7 @@ export default function ContactSection() {
               <div className="flex items-center gap-3">
                 <a
                   href={`mailto:${t.contact.email}`}
-                  className="group flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-all border border-zinc-800 bg-zinc-950/50 px-5 py-3 rounded-xl hover:bg-zinc-900 hover:border-zinc-700"
+                  className="group flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-all border border-zinc-700 bg-zinc-950/50 px-5 py-3 rounded-[32px] hover:bg-zinc-900 hover:border-zinc-600"
                 >
                   <Mail size={20} className="text-zinc-500 group-hover:text-white transition-colors" />
                   {t.contact.email}
@@ -214,7 +214,7 @@ export default function ContactSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="group flex items-center gap-3 p-3 border border-zinc-800 hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 bg-zinc-950/50"
+                    className="group flex items-center gap-3 p-3 border border-zinc-800 rounded-2xl hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 bg-zinc-950/50"
                   >
                     <span className="text-zinc-500 group-hover:text-white transition-colors">
                       {link.svg}
@@ -233,12 +233,8 @@ export default function ContactSection() {
 
           {/* Right: Contact Form */}
           <motion.div variants={itemVariants}>
-            <div className="relative overflow-hidden group border border-zinc-800 bg-zinc-950/50 p-8 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] active:translate-y-0 active:scale-[0.98] transition-all duration-300">
-              {/* Ultra Minimalist Top-Glow Accent */}
-              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent" />
-              <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none" />
-              
+            <div className="section-card p-8 transition-all duration-300">
+              {/* Top-glow accent via .section-card::before */}
               <div className="relative z-10">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   {/* Name */}
@@ -254,7 +250,7 @@ export default function ContactSection() {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   placeholder={t.contact.form.namePlaceholder}
-                  className="w-full px-4 py-3 bg-transparent border border-zinc-700 text-white text-sm placeholder-zinc-600 focus:border-white transition-colors"
+                  className="input-terminal placeholder-zinc-600"
                 />
               </div>
 
@@ -271,7 +267,7 @@ export default function ContactSection() {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   placeholder={t.contact.form.emailPlaceholder}
-                  className="w-full px-4 py-3 bg-transparent border border-zinc-700 text-white text-sm placeholder-zinc-600 focus:border-white transition-colors"
+                  className="input-terminal placeholder-zinc-600"
                 />
               </div>
 
@@ -286,11 +282,11 @@ export default function ContactSection() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-transparent border border-zinc-700 text-white text-sm focus:border-white transition-colors appearance-none cursor-pointer"
+                  className="input-terminal cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717a' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
                     backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 12px center",
+                    backgroundPosition: "right 4px center",
                   }}
                 >
                   <option value="" disabled className="bg-zinc-900">
@@ -317,7 +313,7 @@ export default function ContactSection() {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   placeholder={t.contact.form.messagePlaceholder}
-                  className="w-full px-4 py-3 bg-transparent border border-zinc-700 text-white text-sm placeholder-zinc-600 focus:border-white transition-colors resize-none"
+                  className="input-terminal placeholder-zinc-600 resize-none"
                 />
               </div>
 
@@ -325,7 +321,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-black text-sm font-bold tracking-[0.15em] hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all btn-glow"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-black rounded-full text-sm font-bold tracking-[0.15em] hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {status === "sending" ? (
                   <>

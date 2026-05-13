@@ -206,6 +206,95 @@ body {
   box-shadow: 0 0 20px rgba(128, 128, 128, 0.15);
 }
 
+/* ── Unified Border Design System ─────────────────────────────────── */
+/* Reference: styfensagala.vercel.app — Modern Glassy Terminal aesthetic */
+
+/* Main section card — large radius, semi-transparent, top-glow on hover */
+.section-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  border: 1px solid var(--border-strong);
+  background: rgba(24, 24, 27, 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.section-card:hover {
+  border-color: #3f3f46;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.section-card:hover::before {
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.35), transparent);
+}
+
+/* Sharp / terminal-style badge (no border-radius) */
+.badge-sharp {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0;
+  border: 1px solid var(--border-strong);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--text-muted);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.badge-sharp:hover {
+  border-color: var(--text-subtle);
+  color: var(--foreground);
+}
+
+/* Pill badge (fully rounded) */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--border-strong);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Input field with bottom-only border (terminal feel) */
+.input-terminal {
+  width: 100%;
+  padding: 12px 4px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-strong);
+  color: var(--foreground);
+  font-size: 14px;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.2s ease;
+}
+
+.input-terminal:focus {
+  border-bottom-color: var(--foreground);
+}
+
 /* Input focus styles */
 input:focus,
 textarea:focus,
@@ -482,6 +571,24 @@ motion,
 [data-theme="light"] .border-zinc-800.bg-\[\#0a0a0a\] {
   background-color: var(--background) !important;
   border-color: #d4d4d8 !important;
+}
+
+/* Section card light mode */
+[data-theme="light"] .section-card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: #d4d4d8 !important;
+}
+
+[data-theme="light"] .section-card:hover {
+  border-color: #b0b0b8 !important;
+}
+
+[data-theme="light"] .section-card::before {
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.08), transparent) !important;
+}
+
+[data-theme="light"] .section-card:hover::before {
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent) !important;
 }
 
 /* Backdrop light mode */

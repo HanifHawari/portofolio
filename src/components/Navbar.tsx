@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Volume2, VolumeX } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useTheme } from "@/lib/ThemeContext";
+import Logo from "./Logo";
+
 
 const navLinks = [
   { key: "home", href: "#home" },
@@ -38,52 +40,6 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    const audio = new Audio("/backsound.mp3");
-    audio.loop = true;
-    audio.volume = 0.2;
-    audioRef.current = audio;
-
-    const tryPlay = async () => {
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
-    };
-    
-    const onInteract = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        tryPlay();
-      }
-      document.removeEventListener("click", onInteract);
-      document.removeEventListener("scroll", onInteract);
-    };
-
-    document.addEventListener("click", onInteract, { once: true });
-    document.addEventListener("scroll", onInteract, { once: true });
-
-    return () => {
-      audio.pause();
-      document.removeEventListener("click", onInteract);
-      document.removeEventListener("scroll", onInteract);
-    };
-  }, []);
-
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-      }
-    }
-  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -131,17 +87,9 @@ export default function Navbar() {
             onClick={() => handleNavClick("#home")}
             style={{ background: "none", border: "none", cursor: "pointer", color: "var(--foreground)", display: "flex", alignItems: "center" }}
           >
-            <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Outer frame */}
-              <rect x="2" y="2" width="36" height="36" rx="8" stroke="currentColor" strokeWidth="1.5" fill="none" />
-              {/* H letter — modern geometric style */}
-              <path d="M12 10V30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              <path d="M28 10V30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              <path d="M12 20H28" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              {/* Accent dot */}
-              <circle cx="33" cy="7" r="2.5" fill="currentColor" opacity="0.4" />
-            </svg>
+            <Logo variant="monogram" />
           </button>
+
 
           {/* Desktop Nav Links */}
           <div style={{ alignItems: "center", gap: 32 }} className="hidden md:flex">
@@ -171,41 +119,6 @@ export default function Navbar() {
 
           {/* Right: Theme toggle + Language + Mobile Menu */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-
-            {/* Audio toggle button */}
-            <motion.button
-              onClick={toggleAudio}
-              whileTap={{ scale: 0.9 }}
-              className="theme-toggle-btn"
-              title={isPlaying ? "Pause music" : "Play music"}
-              aria-label="Toggle music"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {isPlaying ? (
-                  <motion.span
-                    key="playing"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    <Volume2 size={16} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="paused"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    <VolumeX size={16} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
 
             {/* Theme toggle — circle button with sun/moon icon, matches reference */}
             <motion.button
@@ -329,7 +242,7 @@ export default function Navbar() {
                     {t.nav[link.key as keyof typeof t.nav]}
                   </motion.button>
                 ))}
-                
+
                 {/* Mobile Language Toggle */}
                 <motion.div
                   initial={{ x: 50, opacity: 0 }}
