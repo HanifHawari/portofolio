@@ -4,7 +4,7 @@
 
 
 
-/* ── Dark mode (default) ───────────────────────────────────────────── */
+/* Mode Gelap (Default) */
 :root,
 [data-theme="dark"] {
   --background: #0a0a0a;
@@ -38,9 +38,10 @@
   --zinc-800: #27272a;
   --zinc-900: #18181b;
   --zinc-950: #09090b;
+  --tech-icon-filter: brightness(0) invert(1);
 }
 
-/* ── Light mode ────────────────────────────────────────────────────── */
+/* Mode Terang */
 [data-theme="light"] {
   --background: #f0f0f0;
   --foreground: #0a0a0a;
@@ -62,7 +63,7 @@
   --status-bar-border: rgba(0, 0, 0, 0.08);
   --bubble-bg: rgba(10, 10, 10, 0.9);
   --bubble-color: #fff;
-  /* Invert zinc scale for light mode */
+  /* Inversi skala zinc */
   --zinc-50: #18181b;
   --zinc-100: #27272a;
   --zinc-200: #3f3f46;
@@ -74,6 +75,7 @@
   --zinc-800: #ececed;
   --zinc-900: #f4f4f5;
   --zinc-950: #fafafa;
+  --tech-icon-filter: brightness(0);
 }
 
 
@@ -98,7 +100,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Scrollbar */
+/* Scrollbar Kustom */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -116,7 +118,7 @@ body {
   background: var(--scrollbar-thumb-hover);
 }
 
-/* Open to Work pulse animation */
+/* Animasi denyut Open to Work */
 @keyframes pulse-dot {
 
   0%,
@@ -135,7 +137,7 @@ body {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
-/* Floating animation */
+/* Animasi mengapung */
 @keyframes float {
 
   0%,
@@ -152,7 +154,7 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Bounce arrow */
+/* Panah memantul */
 @keyframes bounce-arrow {
 
   0%,
@@ -169,13 +171,13 @@ body {
   animation: bounce-arrow 1.5s ease-in-out infinite;
 }
 
-/* Selection */
+/* Seleksi */
 ::selection {
   background: rgba(128, 128, 128, 0.2);
   color: var(--foreground);
 }
 
-/* Link underline slide */
+/* Garis bawah tautan */
 .nav-link {
   position: relative;
 }
@@ -195,53 +197,70 @@ body {
   width: 100%;
 }
 
-/* Glass card */
+/* Kartu efek kaca */
 .glass {
   background: var(--card-bg);
   border: 1px solid var(--border);
   backdrop-filter: blur(12px);
 }
 
-/* Button glow hover */
+/* Efek cahaya tombol */
 .btn-glow:hover {
   box-shadow: 0 0 20px rgba(128, 128, 128, 0.15);
 }
 
-/* ── Unified Border Design System ─────────────────────────────────── */
-/* Reference: styfensagala.vercel.app — Modern Glassy Terminal aesthetic */
+/* Sistem Desain Border Terpadu */
 
-/* Main section card — large radius, semi-transparent, top-glow on hover */
+/* Stroke Teks Nama Besar */
+/* Mode gelap: stroke putih */
+.giant-name {
+  -webkit-text-stroke: 4px white;
+}
+
+/* Mode terang: stroke hitam */
+[data-theme="light"] .giant-name {
+  -webkit-text-stroke: 4px #0a0a0a;
+  color: #0a0a0a;
+}
+
+/* Sistem Border Bayangan 3D */
+/* Mode gelap: bayangan abu-abu */
+[data-theme="dark"] {
+  --border-3d-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  --border-3d-shadow-hover: 12px 12px 0px rgba(128, 128, 128, 0.2);
+  --card-border: 1px solid #1a1a1a;
+  --card-border-hover: 1px solid #333333;
+  --card-bg-solid: #0d0d0d;
+}
+
+/* Mode terang: bayangan hitam tebal */
+[data-theme="light"] {
+  --border-3d-shadow: 0px 0px 0px #000000;
+  --border-3d-shadow-hover: 12px 12px 0px #000000;
+  --card-border: 1px solid #c4c4c8;
+  --card-border-hover: 2px solid #000000;
+  --card-bg-solid: #ffffff;
+}
+
+/* Animasi bayangan 3D kartu bagian */
 .section-card {
   position: relative;
   overflow: hidden;
   border-radius: 32px;
-  border: 1px solid var(--border-strong);
-  background: rgba(24, 24, 27, 0.5);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.section-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 25%;
-  right: 25%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
-  pointer-events: none;
-  z-index: 1;
+  background: var(--card-bg-solid);
+  border: var(--card-border, 1px solid var(--border-strong));
+  box-shadow: var(--border-3d-shadow) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .section-card:hover {
-  border-color: #3f3f46;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  transform: translate(-6px, -6px);
+  border: var(--card-border-hover, 2px solid var(--foreground));
+  box-shadow: var(--border-3d-shadow-hover) !important;
 }
 
-.section-card:hover::before {
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.35), transparent);
-}
 
-/* Sharp / terminal-style badge (no border-radius) */
+/* Lencana gaya terminal */
 .badge-sharp {
   display: inline-flex;
   align-items: center;
@@ -262,7 +281,7 @@ body {
   color: var(--foreground);
 }
 
-/* Pill badge (fully rounded) */
+/* Lencana kapsul */
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -278,7 +297,7 @@ body {
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-/* Input field with bottom-only border (terminal feel) */
+/* Input gaya terminal */
 .input-terminal {
   width: 100%;
   padding: 12px 4px;
@@ -296,7 +315,7 @@ body {
   border-bottom-color: var(--foreground);
 }
 
-/* Input focus styles */
+/* Gaya fokus input */
 input:focus,
 textarea:focus,
 select:focus {
@@ -304,19 +323,19 @@ select:focus {
   border-color: var(--foreground) !important;
 }
 
-/* Matter.js canvas container */
+/* Kontainer canvas Matter.js */
 .matter-canvas canvas {
   display: block;
 }
 
-/* Theme transition for all elements */
+/* Transisi tema elemen */
 *,
 *::before,
 *::after {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* But NOT for animations/transforms */
+/* Kecuali untuk animasi */
 .no-theme-transition,
 .no-theme-transition *,
 motion,
@@ -324,20 +343,19 @@ motion,
   transition: none !important;
 }
 
-/* Grid background pattern for light mode */
-[data-theme="light"] body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
+/* Pola grid latar belakang */
+[data-theme="light"] body {
+  background-image: 
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
 }
 
-/* Robot shake animation for scared state */
+[data-theme="dark"] body {
+  background-image: none;
+}
+
+/* Animasi getar robot */
 @keyframes robot-shake {
 
   0%,
@@ -366,7 +384,7 @@ motion,
   animation: robot-shake 0.4s ease-in-out;
 }
 
-/* Theme toggle button */
+/* Tombol ganti tema */
 .theme-toggle-btn {
   display: flex;
   align-items: center;
@@ -386,7 +404,7 @@ motion,
   border-color: var(--text-subtle);
 }
 
-/* Language pill toggle — matches reference site */
+/* Pilihan bahasa kapsul */
 .lang-pill {
   display: flex;
   align-items: center;
@@ -423,8 +441,7 @@ motion,
   color: var(--foreground);
 }
 
-/* ── Light mode section overrides ──────────────────────────────────── */
-/* These patch hardcoded Tailwind dark colors used in all section components */
+/* Override bagian mode terang */
 
 [data-theme="light"] .bg-\[\#0a0a0a\],
 [data-theme="light"] section.bg-\[\#0a0a0a\],
@@ -492,12 +509,12 @@ motion,
   --tw-gradient-from: #e4e4e7 !important;
 }
 
-/* Hero gradient overlay in light mode */
+/* Overlay gradasi hero mode terang */
 [data-theme="light"] .from-blue-950\/10 {
   --tw-gradient-from: rgba(23, 37, 84, 0.05) !important;
 }
 
-/* Hover states in light mode */
+/* State hover mode terang */
 [data-theme="light"] .hover\:bg-white\/5:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
@@ -514,7 +531,7 @@ motion,
   color: #0a0a0a !important;
 }
 
-/* About section card */
+/* Kartu bagian About */
 [data-theme="light"] .border-zinc-800.bg-zinc-950 {
   background-color: #ffffff !important;
   border-color: #d4d4d8 !important;
@@ -524,7 +541,7 @@ motion,
   border-color: #ffffff !important;
 }
 
-/* Download button */
+/* Tombol unduh */
 [data-theme="light"] .hover\:bg-white:hover {
   background-color: #0a0a0a !important;
 }
@@ -533,7 +550,7 @@ motion,
   color: #ffffff !important;
 }
 
-/* Card hire-me button */
+/* Tombol rekrut kartu */
 [data-theme="light"] .bg-white.text-black {
   background-color: #0a0a0a !important;
   color: #ffffff !important;
@@ -543,7 +560,7 @@ motion,
   background-color: #27272a !important;
 }
 
-/* Scrollbar light mode */
+/* Scrollbar mode terang */
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
@@ -556,25 +573,14 @@ motion,
   background: #71717a;
 }
 
-/* Grid dot background in light mode */
-[data-theme="light"] body {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
 
-[data-theme="dark"] body {
-  background-image: none;
-}
-
-/* Footer light mode */
+/* Footer mode terang */
 [data-theme="light"] .border-zinc-800.bg-\[\#0a0a0a\] {
   background-color: var(--background) !important;
   border-color: #d4d4d8 !important;
 }
 
-/* Section card light mode */
+/* Kartu bagian mode terang */
 [data-theme="light"] .section-card {
   background: rgba(255, 255, 255, 0.7) !important;
   border-color: #d4d4d8 !important;
@@ -592,8 +598,29 @@ motion,
   background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent) !important;
 }
 
-/* Backdrop light mode */
+/* Backdrop mode terang */
 [data-theme="light"] .backdrop-blur-xl,
 [data-theme="light"] .backdrop-blur-sm {
   backdrop-filter: blur(20px);
+}
+
+/* Override tanpa cahaya */
+.no-glow,
+.no-glow * {
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-text-stroke: unset !important;
+}
+
+/* Proteksi warna stroke nama besar */
+[data-theme="light"] .giant-name,
+[data-theme="light"] h1.giant-name {
+  color: #0a0a0a !important;
+  -webkit-text-stroke: 4px #0a0a0a !important;
+}
+
+/* Border bagian mode terang */
+[data-theme="light"] section {
+  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }

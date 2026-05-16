@@ -40,7 +40,7 @@ const playBlupSound = () => {
   }
 };
 
-// ── Mood types and their expressions ────────────────────────────────────────
+// Tipe mood dan ekspresinya
 type Mood = "happy" | "laugh" | "angry" | "sleepy" | "scared" | "cool" | "neutral";
 
 const MOODS: { mood: Mood; icon: string; eyeColor: string; mouthShape: string }[] = [
@@ -91,7 +91,7 @@ interface RobotState {
 
 const CANVAS_H = 460;
 
-// ── Capsule robot character with antenna + LED screen ──────────────────────────
+// Karakter robot kapsul dengan antena + layar LED
 function GeistRobotChar({
   size,
   mood,
@@ -118,12 +118,12 @@ function GeistRobotChar({
 
   return (
     <div style={{ position: "relative", width: size, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}>
-      {/* Label */}
+      {/* Label nama */}
       <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
         {scared ? "😱 RUN!" : label}
       </div>
 
-      {/* Antenna */}
+      {/* Antena */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
         <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
         <motion.div
@@ -133,10 +133,10 @@ function GeistRobotChar({
         />
       </div>
 
-      {/* Icon badge */}
+      {/* Badge ikon */}
       <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>{icon}</div>
 
-      {/* Capsule body */}
+      {/* Tubuh kapsul */}
       <motion.div
         animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : mood === "laugh" ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
         transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
@@ -155,17 +155,17 @@ function GeistRobotChar({
           boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : dragging ? "0 0 20px rgba(255,255,255,0.15)" : "0 4px 12px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Screen overlay */}
+        {/* Overlay layar */}
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
 
-        {/* Pixel dots decoration */}
+        {/* Dekorasi titik piksel */}
         <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
           {["#ef4444", "#22c55e"].map((c, i) => (
             <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
           ))}
         </div>
 
-        {/* Eyes */}
+        {/* Mata */}
         <div style={{ display: "flex", gap: size * 0.2 }}>
           {[0, 1].map((i) => (
             <div key={i} style={{
@@ -180,7 +180,7 @@ function GeistRobotChar({
           ))}
         </div>
 
-        {/* Mouth */}
+        {/* Mulut */}
         {moodData.mouthShape === "smile" && (
           <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
         )}
@@ -198,7 +198,7 @@ function GeistRobotChar({
         )}
       </motion.div>
 
-      {/* Feet */}
+      {/* Kaki */}
       <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
         {[0, 1].map((i) => (
           <motion.div
@@ -218,7 +218,7 @@ function GeistRobotChar({
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
+// Komponen Utama Desa Geist
 export default function GeistVillage() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -236,7 +236,7 @@ export default function GeistVillage() {
   const dragRef = useRef<{ id: number; offsetX: number; offsetY: number } | null>(null);
   const prevDragPosRef = useRef<{ x: number; y: number } | null>(null);
 
-  // Initialize robots
+  // Inisialisasi robot
   const initRobots = useCallback((w: number) => {
     const newRobots: RobotState[] = ROBOT_PERSONALITIES.map((p, i) => {
       const sz = 44 + (i % 3) * 8;
@@ -275,7 +275,7 @@ export default function GeistVillage() {
     setRobotMoods(initMoods);
   }, []);
 
-  // Resize observer
+  // Observasi perubahan ukuran
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -288,7 +288,7 @@ export default function GeistVillage() {
     return () => obs.disconnect();
   }, [initRobots]);
 
-  // Animation loop
+  // Loop animasi
   useEffect(() => {
     const tick = (now: number) => {
       const dt = Math.min((now - lastFrameRef.current) / 1000, 0.05);
@@ -343,7 +343,7 @@ export default function GeistVillage() {
           return { ...r, scared: isScared, stunTimer };
         }
 
-        // ── Autonomous movement ──
+        // Pergerakan otonom
         const centerDx = (w / 2) - (r.x + r.size / 2);
         const centerDy = (CANVAS_H / 2) - (r.y + r.size / 2);
         repX += centerDx * 0.8;
@@ -445,7 +445,7 @@ export default function GeistVillage() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // Cursor tracking
+  // Pelacakan kursor
   useEffect(() => {
     const onMove = (e: MouseEvent) => { cursorRef.current = { x: e.clientX, y: e.clientY }; };
     const onLeave = () => { cursorRef.current = { x: -999, y: -999 }; };
@@ -454,7 +454,7 @@ export default function GeistVillage() {
     return () => { window.removeEventListener("mousemove", onMove); document.removeEventListener("mouseleave", onLeave); };
   }, []);
 
-  // Mouse drag
+  // Drag mouse
   const handleMouseDown = useCallback((id: number, e: React.MouseEvent) => {
     e.preventDefault();
     const container = containerRef.current;
@@ -491,7 +491,7 @@ export default function GeistVillage() {
     window.addEventListener("mouseup", onUp);
   }, []);
 
-  // Touch drag
+  // Drag sentuh
   const handleTouchStart = useCallback((id: number, e: React.TouchEvent) => {
     e.preventDefault();
     const container = containerRef.current;
@@ -549,7 +549,7 @@ export default function GeistVillage() {
           </div>
         </motion.div>
 
-        {/* Game box */}
+        {/* Kotak game */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -559,11 +559,11 @@ export default function GeistVillage() {
           className="relative overflow-hidden group border border-zinc-800 bg-zinc-950/30 transition-all duration-300 cursor-crosshair"
           style={{ height: CANVAS_H }}
         >
-          {/* Ultra Minimalist Top-Glow Accent */}
+          {/* Aksen cahaya atas minimalis */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent z-0" />
           <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
           <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none z-0" />
-          {/* Grid floor */}
+          {/* Lantai grid */}
           <div style={{
             position: "absolute", inset: 0,
             backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
@@ -571,7 +571,7 @@ export default function GeistVillage() {
             pointerEvents: "none",
           }} />
 
-          {/* Robots */}
+          {/* Daftar Robot */}
           {robots.map((robot) => {
             const moodInfo = robotMoods[robot.id] || { mood: robot.currentMood, blinking: robot.isBlinking, scared: robot.scared };
             return (
@@ -603,7 +603,7 @@ export default function GeistVillage() {
             );
           })}
 
-          {/* Loading state */}
+          {/* Status memuat */}
           {robots.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-zinc-600 text-sm tracking-widest">Loading robots…</div>

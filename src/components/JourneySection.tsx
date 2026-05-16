@@ -15,52 +15,8 @@ const itemVariants = {
   },
 };
 
-// ── Folder open sound ────────────────────────────────────────────────────────
-function playFolderSound() {
-  const ctx = audioStore.getContext();
-  if (!ctx) return;
 
-  try {
-    // Click-thud sound
-    const bufferSize = ctx.sampleRate * 0.4;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.05));
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = "bandpass";
-    filter.frequency.setValueAtTime(400, ctx.currentTime);
-    filter.Q.setValueAtTime(1.5, ctx.currentTime);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    noise.start();
-
-    // Whoosh sweep
-    const osc = ctx.createOscillator();
-    const oscGain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(200, ctx.currentTime + 0.05);
-    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.25);
-    oscGain.gain.setValueAtTime(0, ctx.currentTime + 0.05);
-    oscGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.1);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-    osc.connect(oscGain);
-    oscGain.connect(ctx.destination);
-    osc.start(ctx.currentTime + 0.05);
-    osc.stop(ctx.currentTime + 0.35);
-  } catch {
-    // silent fail
-  }
-}
-
-// ── Folder SVG icon with animated lid ────────────────────────────────────────
+// Ikon folder SVG dengan animasi tutup
 function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
   return (
     <svg
@@ -70,15 +26,15 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
       fill="none"
       style={{ overflow: "visible" }}
     >
-      {/* Folder body */}
+      {/* Badan folder */}
       <rect x="4" y="16" width="40" height="26" rx="3" fill="currentColor" opacity="0.15" />
       <rect x="4" y="16" width="40" height="26" rx="3" stroke="currentColor" strokeWidth="2" />
 
-      {/* Folder tab */}
+      {/* Tab folder */}
       <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" fill="currentColor" opacity="0.25" />
       <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" stroke="currentColor" strokeWidth="2" />
 
-      {/* Animated lid */}
+      {/* Tutup folder beranimasi */}
       <motion.g
         animate={isOpen ? { rotateX: -70, y: -6 } : { rotateX: 0, y: 0 }}
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
@@ -91,17 +47,17 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
   );
 }
 
-// ── Single photo per journey entry ───────────────────────────────────────────
-// Replace src strings with your actual image paths
+// Satu foto per entri perjalanan
+// Ganti dengan path gambar asli
 const GALLERY_DATA: { src: string; caption: string }[] = [
-  { src: "/proyek1.png", caption: "" },// 0:
-  { src: "/proyek1.png", caption: "" },// 1:
-  { src: "/proyek1.png", caption: "" },//2.
-  { src: "/proyek1.png", caption: "" },// 3:
-  { src: "/proyek1.png", caption: "" },//4:
+  { src: "/proyek1.png", caption: "" },
+  { src: "/proyek1.png", caption: "" },
+  { src: "/proyek1.png", caption: "" },
+  { src: "/proyek1.png", caption: "" },
+  { src: "/proyek1.png", caption: "" },
 ];
 
-// ── Animated vertical progress line ─────────────────────────────────────────
+// Garis progres vertikal beranimasi
 function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -135,7 +91,7 @@ function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   );
 }
 
-// ── Folder Modal ─────────────────────────────────────────────────────────────
+// Modal Folder
 function FolderModal({
   index,
   title,
@@ -166,7 +122,7 @@ function FolderModal({
         className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
         style={{ boxShadow: "0 0 70px rgba(0,0,0,0.85), 0 0 24px rgba(255,255,255,0.04)" }}
       >
-        {/* Top glow */}
+        {/* Cahaya atas */}
         <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
         {/* Header */}
@@ -188,7 +144,7 @@ function FolderModal({
           </button>
         </div>
 
-        {/* Single photo — auto-sized */}
+        {/* Foto tunggal */}
         <div className="p-4">
           {photo ? (
             <motion.div
@@ -219,7 +175,17 @@ function FolderModal({
   );
 }
 
-// ── Main Section ─────────────────────────────────────────────────────────────
+function JourneyCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={`ml-6 sm:ml-0 flex-1 section-card p-6 sm:p-8 relative transition-all duration-300 ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Bagian Utama
 export default function JourneySection() {
   const { t } = useLanguage();
   const [openFolder, setOpenFolder] = useState<number | null>(null);
@@ -227,7 +193,7 @@ export default function JourneySection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleOpenFolder = useCallback((index: number) => {
-    playFolderSound();
+    audioStore.playClickSound();
     setOpenFolder(index);
   }, []);
 
@@ -251,7 +217,7 @@ export default function JourneySection() {
           </p>
         </motion.div>
 
-        {/* Timeline */}
+        {/* Garis Waktu */}
         <div className="relative">
           <TimelineProgress sectionRef={sectionRef} />
 
@@ -266,8 +232,8 @@ export default function JourneySection() {
                 transition={{ delay: index * 0.08 }}
                 className="relative flex flex-col sm:flex-row gap-4 sm:gap-8"
               >
-                {/* Year + Badge — sharp terminal style */}
-                <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0">
+                {/* Tahun dan Lencana */}
+                <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0 ml-6 sm:ml-0">
                   <span className="text-lg sm:text-xl font-black text-white">
                     {item.year}
                   </span>
@@ -276,7 +242,7 @@ export default function JourneySection() {
                   </span>
                 </div>
 
-                {/* Timeline dot */}
+                {/* Titik garis waktu */}
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
@@ -293,11 +259,7 @@ export default function JourneySection() {
                   }}
                 />
 
-                {/* Right: Card */}
-                <motion.div
-                  className="ml-6 sm:ml-0 flex-1 section-card p-6 sm:p-8 relative transition-all duration-300"
-                >
-                  {/* Top-glow accent handled by .section-card::before */}
+                <JourneyCard>
                   <div className="relative z-10">
                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
                       {item.role}
@@ -309,7 +271,7 @@ export default function JourneySection() {
                       {item.description}
                     </p>
 
-                    {/* Tech tags — rounded-full pill style */}
+                    {/* Tag teknologi */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {item.tags.map((tag, i) => (
                         <span
@@ -321,7 +283,7 @@ export default function JourneySection() {
                       ))}
                     </div>
 
-                    {/* Animated Folder Button */}
+                    {/* Tombol folder beranimasi */}
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
                       onHoverStart={() => setHoverFolder(index)}
@@ -350,14 +312,14 @@ export default function JourneySection() {
                       </div>
                     </motion.button>
                   </div>
-                </motion.div>
+                </JourneyCard>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Folder Modal */}
+      {/* Modal Folder */}
       <AnimatePresence>
         {openFolder !== null && (
           <FolderModal

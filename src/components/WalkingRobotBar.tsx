@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
-// ── Round robot with expressions ─────────────────────────────────────────────
+// Robot bulat dengan ekspresi
 function RoundRobot({
   direction,
   scared,
@@ -19,7 +19,7 @@ function RoundRobot({
   step: boolean;
 }) {
   const [blinking, setBlinking] = useState(false);
-  const SIZE = 38;
+  const size = 48;
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
@@ -34,100 +34,100 @@ function RoundRobot({
   }, []);
 
   const flipped = direction === -1;
-  const eyeColor = scared ? "#ef4444" : happy ? "#22c55e" : "var(--robot-eye)";
-  const eyeScaleY = blinking ? 0.05 : scared ? 1.6 : happy ? 0.7 : 1;
-  const bodyBorder = scared
-    ? "2px solid rgba(239,68,68,0.5)"
-    : happy
-    ? "2px solid rgba(34,197,94,0.3)"
-    : "2px solid rgba(255,255,255,0.08)";
+  const eyeColor = scared ? "#ef4444" : "var(--robot-eye)";
+  const eyeScaleY = blinking ? 0.05 : scared ? 1.6 : 1;
+  const accentColor = scared ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.08)";
+  const mood = scared ? "scared" : happy ? "happy" : "neutral";
 
   return (
     <motion.div
       animate={flipping ? { rotateX: [0, 360, 0], y: [0, -30, 0] } : {}}
       transition={flipping ? { duration: 0.6, ease: "easeInOut" } : {}}
-      style={{ position: "relative", width: SIZE, transformStyle: "preserve-3d" }}
+      style={{ position: "relative", width: size, transformStyle: "preserve-3d" }}
     >
-      {/* Antenna moved outside body to match GeistVillage logic */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
-        <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
-        <motion.div
-          animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
-          transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
-          style={{ width: 6, height: 6, borderRadius: "50%", background: happy ? "#22c55e" : scared ? "#ef4444" : "var(--robot-eye)", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
-        />
-      </div>
       <div style={{ transform: flipped ? "scaleX(-1)" : "scaleX(1)", transformOrigin: "center" }}>
-        {/* Body */}
+        
+        {/* Label */}
+        <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
+          {scared ? "😱 RUN!" : "ROBOT"}
+        </div>
+
+        {/* Antena */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
+          <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
+          <motion.div
+            animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
+            transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
+            style={{ width: 6, height: 6, borderRadius: "50%", background: happy ? "#22c55e" : scared ? "#ef4444" : "var(--robot-eye)", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
+          />
+        </div>
+
+        {/* Badge ikon */}
+        <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>🤖</div>
+
+        {/* Tubuh kapsul */}
         <motion.div
-          animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : happy ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
+          animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : { y: [0, -1.5, 0] }}
           transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
           style={{
-            width: SIZE,
-            height: SIZE * 0.9,
-            borderRadius: `${SIZE * 0.35}px ${SIZE * 0.35}px ${SIZE * 0.2}px ${SIZE * 0.2}px`,
+            width: size,
+            height: size * 0.9,
             background: "var(--robot-body)",
+            borderRadius: `${size * 0.35}px ${size * 0.35}px ${size * 0.2}px ${size * 0.2}px`,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
             position: "relative",
-            border: bodyBorder,
+            border: `1.5px solid ${accentColor}`,
             overflow: "hidden",
-            boxShadow: scared
-              ? "0 0 15px rgba(239,68,68,0.3)"
-              : happy
-              ? "0 0 12px rgba(34,197,94,0.2)"
-              : "0 4px 12px rgba(0,0,0,0.3)",
+            boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : "0 4px 12px rgba(0,0,0,0.3)",
           }}
         >
-          {/* Screen overlay */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${SIZE * 0.35}px ${SIZE * 0.35}px 0 0` }} />
+          {/* Overlay layar */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
 
-          {/* Pixel dots decoration */}
+          {/* Dekorasi titik piksel */}
           <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
             {["#ef4444", "#22c55e"].map((c, i) => (
               <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
             ))}
           </div>
 
-          {/* Eyes */}
-          <div style={{ display: "flex", gap: SIZE * 0.2 }}>
+          {/* Mata */}
+          <div style={{ display: "flex", gap: size * 0.2 }}>
             {[0, 1].map((i) => (
-              <div
-                key={i}
-                style={{
-                  width: SIZE * 0.15,
-                  height: SIZE * 0.15,
-                  borderRadius: "50%",
-                  background: eyeColor,
-                  transform: `scaleY(${eyeScaleY})`,
-                  transition: "transform 0.08s ease, background 0.2s",
-                }}
-              />
+              <div key={i} style={{
+                width: size * 0.15,
+                height: size * 0.15,
+                borderRadius: "50%",
+                background: eyeColor,
+                transform: `scaleY(${eyeScaleY})`,
+                transition: "transform 0.08s ease",
+              }} />
             ))}
           </div>
 
-          {/* Mouth */}
+          {/* Mulut */}
           {scared ? (
-            <div style={{ width: SIZE * 0.2, height: SIZE * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
+            <div style={{ width: size * 0.2, height: size * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
           ) : happy ? (
-            <div style={{ width: SIZE * 0.3, height: SIZE * 0.12, borderBottom: "2px solid #22c55e", borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
+            <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
           ) : (
-            <div style={{ width: SIZE * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
+            <div style={{ width: size * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
           )}
         </motion.div>
 
-        {/* Feet */}
-        <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: SIZE * 0.16, paddingRight: SIZE * 0.16 }}>
+        {/* Kaki */}
+        <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
           {[0, 1].map((i) => (
             <motion.div
               key={i}
               animate={{ y: step === (i === 0) ? -3 : 0, rotate: step === (i === 0) ? -12 : 12 }}
               transition={{ duration: scared ? 0.06 : 0.18 }}
               style={{
-                width: SIZE * 0.2,
-                height: SIZE * 0.16,
+                width: size * 0.2,
+                height: size * 0.16,
                 background: "var(--robot-body)",
                 borderRadius: "3px 3px 6px 6px",
               }}
@@ -139,7 +139,7 @@ function RoundRobot({
   );
 }
 
-// ── Walking robot logic ─────────────────────────────────────────────────────
+// Logika robot berjalan
 function WalkingRobot({
   startX,
   startDir,
@@ -244,7 +244,7 @@ function WalkingRobot({
       }}
       onClick={handleClick}
     >
-      {/* Speech bubble */}
+      {/* Gelembung bicara */}
       <AnimatePresence>
         {!scared && !flipping && (
           <motion.div
@@ -314,7 +314,7 @@ function WalkingRobot({
   );
 }
 
-// ── Main export ─────────────────────────────────────────────────────────────
+// Ekspor Utama
 export default function WalkingRobotBar() {
   const { t } = useLanguage();
   const cursorXRef = useRef(-999);

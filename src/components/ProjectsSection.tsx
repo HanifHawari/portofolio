@@ -41,49 +41,6 @@ const Github = ({ size = 24, className = "" }: { size?: number; className?: stri
   </svg>
 );
 
-const playClickSound = () => {
-  const ctx = audioStore.getContext();
-  if (!ctx) return;
-
-  try {
-    // Click-thud sound
-    const bufferSize = ctx.sampleRate * 0.4;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.05));
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = "bandpass";
-    filter.frequency.setValueAtTime(400, ctx.currentTime);
-    filter.Q.setValueAtTime(1.5, ctx.currentTime);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    noise.start();
-
-    // Whoosh sweep
-    const osc = ctx.createOscillator();
-    const oscGain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(200, ctx.currentTime + 0.05);
-    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.25);
-    oscGain.gain.setValueAtTime(0, ctx.currentTime + 0.05);
-    oscGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.1);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-    osc.connect(oscGain);
-    oscGain.connect(ctx.destination);
-    osc.start(ctx.currentTime + 0.05);
-    osc.stop(ctx.currentTime + 0.35);
-  } catch (e) {
-    console.log("Audio play failed", e);
-  }
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -106,7 +63,7 @@ export default function ProjectsSection() {
   const { t } = useLanguage();
   const [activeCaseStudy, setActiveCaseStudy] = useState<number | null>(null);
 
-  // Prevent background scrolling when modal is open
+  // Mencegah scroll saat modal terbuka
   useEffect(() => {
     if (activeCaseStudy !== null) {
       document.body.style.overflow = "hidden";
@@ -141,7 +98,7 @@ export default function ProjectsSection() {
           </motion.p>
         </motion.div>
 
-        {/* Project Cards */}
+        {/* Kartu Proyek */}
         <div className="space-y-8">
           {t.projects.items.map((project, index) => (
             <motion.div
@@ -150,30 +107,29 @@ export default function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
-              className="group relative overflow-hidden section-card hover:-translate-y-1 hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
+              className="group relative overflow-hidden bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/50 rounded-3xl hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
             >
-              {/* Top-glow accent via .section-card::before */}
 
               <div className="grid grid-cols-1 lg:grid-cols-2 relative z-10">
-                {/* Left: Content */}
+                {/* Kiri: Konten */}
                 <div className="p-8 sm:p-10 flex flex-col justify-between">
                   <div>
-                    {/* Category Badge — sharp, terminal-style */}
+                    {/* Badge Kategori */}
                     <span className="inline-block px-3 py-1 border border-zinc-700 rounded-none text-[10px] font-bold tracking-[0.2em] text-zinc-400 mb-6">
                       {project.category}
                     </span>
 
-                    {/* Title */}
+                    {/* Judul */}
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mb-4 group-hover:translate-x-1 transition-transform duration-300">
                       {project.title}
                     </h3>
 
-                    {/* Description */}
+                    {/* Deskripsi */}
                     <p className="text-zinc-400 leading-relaxed mb-8 max-w-md">
                       {project.description}
                     </p>
 
-                    {/* Stats */}
+                    {/* Statistik */}
                     <div className="grid grid-cols-3 gap-4 mb-8">
                       {project.stats.map((stat, i) => (
                         <div key={i}>
@@ -187,7 +143,7 @@ export default function ProjectsSection() {
                       ))}
                     </div>
 
-                    {/* Tech Pills — rounded-full */}
+                    {/* Teknologi */}
                     <div className="flex flex-wrap gap-2 mb-8">
                       {project.tech.map((tech, i) => (
                         <span
@@ -200,11 +156,11 @@ export default function ProjectsSection() {
                     </div>
                   </div>
 
-                  {/* Buttons */}
+                  {/* Tombol-tombol */}
                   <div className="flex flex-wrap gap-3">
                     <button
-                      onClick={() => {
-                        playClickSound();
+                    onClick={() => {
+                        audioStore.playClickSound();
                         setActiveCaseStudy(index);
                       }}
                       className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
@@ -235,11 +191,11 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Right: Screenshot Image */}
+                {/* Kanan: Cuplikan Gambar */}
                 <div
                   className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden group/img cursor-pointer"
                   onClick={() => {
-                    playClickSound();
+                    audioStore.playClickSound();
                     setActiveCaseStudy(index);
                   }}
                 >
@@ -249,10 +205,10 @@ export default function ProjectsSection() {
                     alt={project.title}
                     className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                   />
-                  {/* Gradient Overlay for aesthetic */}
+                  {/* Overlay Gradasi */}
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
 
-                  {/* Hover button overlay on Image */}
+                  {/* Overlay Tombol Hover */}
                   <div className="absolute inset-0 z-20 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
                     <a
                       href={(project as unknown as ProjectItem).liveUrl}
@@ -288,7 +244,7 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      {/* Case Study Modal Overlay */}
+      {/* Modal Studi Kasus */}
       <AnimatePresence>
         {activeCaseStudy !== null && (
           <motion.div
@@ -297,8 +253,8 @@ export default function ProjectsSection() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
           >
-            {/* Backdrop */}
-            <motion.div 
+            {/* Latar belakang */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -306,8 +262,8 @@ export default function ProjectsSection() {
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={() => setActiveCaseStudy(null)}
             />
-            
-            {/* Modal Content */}
+
+            {/* Konten Modal */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

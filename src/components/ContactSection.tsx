@@ -31,7 +31,6 @@ function CopyEmailButton({ email }: { email: string }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
     }
   };
 
@@ -43,24 +42,20 @@ function CopyEmailButton({ email }: { email: string }) {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 5,
-        padding: "6px 12px",
+        justifyContent: "center",
+        width: 36,
+        height: 36,
         border: "1px solid var(--border-strong)",
         background: copied ? "rgba(34,197,94,0.1)" : "var(--surface-2)",
         color: copied ? "#22c55e" : "var(--text-muted)",
         borderColor: copied ? "rgba(34,197,94,0.4)" : "var(--border-strong)",
-        borderRadius: 4,
-        fontSize: 11,
-        fontWeight: 600,
-        letterSpacing: "0.08em",
+        borderRadius: 10,
         cursor: "pointer",
         transition: "all 0.2s ease",
-        whiteSpace: "nowrap",
         flexShrink: 0,
       }}
     >
-      {copied ? <Check size={12} /> : <Copy size={12} />}
-      {copied ? "Copied!" : "Copy"}
+      {copied ? <Check size={16} /> : <Copy size={16} />}
     </motion.button>
   );
 }
@@ -80,7 +75,7 @@ export default function ContactSection() {
     setStatus("sending");
 
     try {
-      // Mengirim pesan langsung ke email Anda menggunakan layanan Web3Forms
+      // Mengirim pesan langsung ke email menggunakan layanan Web3Forms
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -88,7 +83,7 @@ export default function ContactSection() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          // TODO: Anda harus mengganti string di bawah dengan Access Key Anda
+          // TODO: mengganti string di bawah dengan Access Key
           access_key: "b6671fcb-16bd-4af7-8c77-4540891c0a94", 
           name: formData.name,
           email: formData.email,
@@ -179,26 +174,26 @@ export default function ContactSection() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16"
         >
-          {/* Left: Direct contact */}
+          {/* Kiri: Kontak Langsung */}
           <motion.div variants={itemVariants} className="space-y-10">
             {/* Email */}
             <div>
               <h3 className="text-sm font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4">
                 {t.contact.directEmail}
               </h3>
-              <div className="flex items-center gap-3">
+              <div className="group flex items-center justify-between p-3 border border-zinc-800 rounded-2xl hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] transition-all duration-300 bg-zinc-950/50">
                 <a
                   href={`mailto:${t.contact.email}`}
-                  className="group flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-all border border-zinc-700 bg-zinc-950/50 px-5 py-3 rounded-[32px] hover:bg-zinc-900 hover:border-zinc-600"
+                  className="flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-colors flex-1"
                 >
                   <Mail size={20} className="text-zinc-500 group-hover:text-white transition-colors" />
-                  {t.contact.email}
+                  <span className="truncate">{t.contact.email}</span>
                 </a>
                 <CopyEmailButton email={t.contact.email} />
               </div>
             </div>
 
-            {/* Social Links */}
+            {/* Tautan Sosial */}
             <div>
               <h3 className="text-sm font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4">
                 {t.contact.socialLinks}
@@ -231,13 +226,12 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
-          {/* Right: Contact Form */}
+          {/* Kanan: Formulir Kontak */}
           <motion.div variants={itemVariants}>
             <div className="section-card p-8 transition-all duration-300">
-              {/* Top-glow accent via .section-card::before */}
               <div className="relative z-10">
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Name */}
+                  {/* Nama */}
               <div>
                 <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                   {t.contact.form.name}
@@ -271,7 +265,7 @@ export default function ContactSection() {
                 />
               </div>
 
-              {/* Subject */}
+              {/* Subjek */}
               <div>
                 <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                   {t.contact.form.subject}
@@ -300,7 +294,7 @@ export default function ContactSection() {
                 </select>
               </div>
 
-              {/* Message */}
+              {/* Pesan */}
               <div>
                 <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                   {t.contact.form.message}
@@ -317,7 +311,7 @@ export default function ContactSection() {
                 />
               </div>
 
-              {/* Submit */}
+              {/* Kirim */}
               <button
                 type="submit"
                 disabled={status === "sending"}
@@ -336,7 +330,7 @@ export default function ContactSection() {
                 )}
               </button>
 
-              {/* Status messages */}
+              {/* Pesan Status */}
               {status === "success" && (
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}

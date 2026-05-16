@@ -20,6 +20,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const initial = saved === "light" || saved === "dark" ? saved : "dark";
     setTheme(initial);
     document.documentElement.setAttribute("data-theme", initial);
+    if (initial === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
     setMounted(true);
   }, []);
 
@@ -28,6 +33,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(next);
     localStorage.setItem("portfolio-theme", next);
     document.documentElement.setAttribute("data-theme", next);
+    if (next === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
 
   if (!mounted) return null;

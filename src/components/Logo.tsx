@@ -17,13 +17,10 @@ export default function Logo({ variant = "monogram", size = 32, className = "" }
       case "monogram":
         return (
           <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* H Verticals */}
-            <path d="M10 10V30" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
-            <path d="M24 10V30" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
-            {/* H/F Shared Middle Bar */}
-            <path d="M10 20H32" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
-            {/* F Top Bar */}
-            <path d="M24 10H34" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+            <path d="M12 10V30" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            <path d="M28 14V30" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            <path d="M12 20H28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="28" cy="8" r="3" fill="#3b82f6" />
           </svg>
         );
       case "geometric":

@@ -23,7 +23,7 @@ const itemVariants = {
   },
 };
 
-// ── 3D Tilt ID Card ──────────────────────────────────────────────────────────
+// Kartu ID dengan efek miring 3D
 function IDCard({ t }: { t: { about: { name: string; discordUser: string; online: string; hireMe: string } } }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -52,7 +52,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       style={{ transformStyle: "preserve-3d", perspective: 800 }}
       className="animate-float w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
     >
-      {/* Full Background Image */}
+      {/* Gambar latar profil */}
       <Image
         src="/profile.jpg"
         alt="Profile"
@@ -63,10 +63,10 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         }}
       />
 
-      {/* Subtle bottom gradient to ensure the pill stands out */}
+      {/* Gradasi bawah agar teks terbaca */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
 
-      {/* Gloss overlay */}
+      {/* Efek kilau saat hover */}
       {hovering && (
         <div style={{
           position: "absolute", inset: 0,
@@ -75,7 +75,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         }} />
       )}
 
-      {/* Floating Dark/Light Pill Overlay at the bottom */}
+      {/* Overlay status di bagian bawah */}
       <div
         className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
         style={{
@@ -123,37 +123,78 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
   );
 }
 
-// ── Compact tech pill ─────────────────────────────────────────────────────────
+// Komponen teknologi ringkas
+const techIconMap: Record<string, { slug: string; type: "devicon" | "simpleicons" }> = {
+  "HTML5": { slug: "html5", type: "devicon" },
+  "CSS3": { slug: "css3", type: "devicon" },
+  "PHP": { slug: "php", type: "devicon" },
+  "Java": { slug: "java", type: "devicon" },
+  "JavaScript": { slug: "javascript", type: "devicon" },
+  "SQL": { slug: "postgresql", type: "devicon" },
+  "Laravel": { slug: "laravel", type: "devicon" },
+  "Next.js": { slug: "nextjs", type: "devicon" },
+  "React": { slug: "react", type: "devicon" },
+  "Capacitor": { slug: "capacitor", type: "simpleicons" },
+  "Tailwind": { slug: "tailwindcss", type: "devicon" },
+  "Bootstrap": { slug: "bootstrap", type: "devicon" },
+  "Vite": { slug: "vite", type: "devicon" },
+  "Git": { slug: "git", type: "devicon" },
+  "Notion": { slug: "notion", type: "simpleicons" },
+  "GitHub": { slug: "github", type: "devicon" },
+  "Figma": { slug: "figma", type: "devicon" },
+  "Postman": { slug: "postman", type: "simpleicons" },
+};
+
 function TechPill({ label }: { label: string }) {
+  const iconData = techIconMap[label];
+  
+  const getIconUrl = () => {
+    if (!iconData) return "";
+    if (iconData.type === "devicon") {
+      return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${iconData.slug}/${iconData.slug}-original.svg`;
+    }
+    // Mengambil URL ikon dari penyedia eksternal
+    const simpleIconHex: Record<string, string> = {
+      "capacitor": "119EFF",
+      "notion": "000000",
+      "postman": "FF6C37"
+    };
+    return `https://cdn.simpleicons.org/${iconData.slug}/${simpleIconHex[iconData.slug] || "white"}`;
+  };
+
   return (
     <span
       style={{
-        display: "inline-flex", alignItems: "center",
-        padding: "3px 10px",
+        display: "inline-flex", alignItems: "center", gap: 8,
+        padding: "6px 14px",
         border: "1px solid var(--border-strong)",
         background: "var(--surface-2)",
         fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
         color: "var(--text-secondary)", borderRadius: 9999, whiteSpace: "nowrap",
-        transition: "border-color 0.2s, color 0.2s", cursor: "default",
+        transition: "all 0.2s ease", cursor: "default",
       }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = "var(--text-muted)"; el.style.color = "var(--foreground)";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = "var(--border-strong)"; el.style.color = "var(--text-secondary)";
-      }}
+      className="hover:border-zinc-600 hover:text-white"
     >
+      {iconData && (
+        <img
+          src={getIconUrl()}
+          alt={label}
+          width={18}
+          height={18}
+          style={{ objectFit: "contain" }}
+        />
+      )}
       {label}
     </span>
   );
 }
 
-// ── Bordered section card ─────────────────────────────────────────────────────
+// Kartu bagian dengan border
 function SectionCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`section-card p-6 sm:p-8 ${className}`}>
+    <div 
+      className={`section-card p-6 sm:p-8 ${className}`}
+    >
       <div className="relative z-10">
         {children}
       </div>
@@ -195,7 +236,7 @@ export default function AboutSection() {
           </h2>
         </motion.div>
 
-        {/* ── Bio + ID Card */}
+        {/* Bio dan Kartu ID */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -227,7 +268,7 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* ── Education + Tech Stack side by side */}
+        {/* Pendidikan dan Teknologi */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -235,7 +276,7 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
         >
-          {/* Education (compact) */}
+          {/* Pendidikan */}
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
               <div className="flex flex-wrap items-center gap-3 mb-3">
@@ -273,12 +314,12 @@ export default function AboutSection() {
             </SectionCard>
           </motion.div>
 
-          {/* Tech Stack */}
+          {/* Daftar Teknologi */}
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
               <div className="flex items-center gap-2 mb-4">
                 <Cpu size={16} className="text-zinc-400" />
-                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight uppercase">
                   {t.about.techStack.title}
                 </h3>
               </div>
@@ -298,7 +339,7 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* ── Work Philosophy + Focus Areas (compact) */}
+        {/* Filosofi Kerja dan Fokus Utama */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -310,7 +351,7 @@ export default function AboutSection() {
             <SectionCard className="h-full">
               <div className="flex items-center gap-2 mb-4">
                 <Terminal size={16} className="text-zinc-400" />
-                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                   {language === "id" ? "FILOSOFI KERJA" : "WORK PHILOSOPHY"}
                 </h3>
               </div>
@@ -332,7 +373,7 @@ export default function AboutSection() {
             <SectionCard className="h-full">
               <div className="flex items-center gap-2 mb-4">
                 <Target size={16} className="text-zinc-400" />
-                <h3 className="text-xs font-black tracking-[0.15em] text-white uppercase">
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                   {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
                 </h3>
               </div>

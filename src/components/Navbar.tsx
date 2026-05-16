@@ -16,7 +16,7 @@ const navLinks = [
   { key: "contact", href: "#contact" },
 ] as const;
 
-// Sun icon (shown in dark mode → click to go light)
+// Ikon matahari (mode terang)
 function SunIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,7 +26,7 @@ function SunIcon() {
   );
 }
 
-// Moon icon (shown in light mode → click to go dark)
+// Ikon bulan (mode gelap)
 function MoonIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -91,7 +91,7 @@ export default function Navbar() {
           </button>
 
 
-          {/* Desktop Nav Links */}
+          {/* Menu Desktop */}
           <div style={{ alignItems: "center", gap: 32 }} className="hidden md:flex">
             {navLinks.map((link) => (
               <button
@@ -117,10 +117,9 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right: Theme toggle + Language + Mobile Menu */}
+          {/* Tema, Bahasa, dan Menu Mobile */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
 
-            {/* Theme toggle — circle button with sun/moon icon, matches reference */}
             <motion.button
               onClick={toggleTheme}
               whileTap={{ scale: 0.9 }}
@@ -155,7 +154,7 @@ export default function Navbar() {
               </AnimatePresence>
             </motion.button>
 
-            {/* Language toggle — pill with sliding active state */}
+
             <div className="hidden md:flex">
               <div className="lang-pill">
                 <button
@@ -173,7 +172,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile hamburger */}
+            {/* Menu hamburger mobile */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden"
@@ -191,7 +190,7 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Drawer */}
+      {/* Drawer mobile */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -243,7 +242,7 @@ export default function Navbar() {
                   </motion.button>
                 ))}
 
-                {/* Mobile Language Toggle */}
+                {/* Ganti bahasa mobile */}
                 <motion.div
                   initial={{ x: 50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}

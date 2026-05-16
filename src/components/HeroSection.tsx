@@ -17,46 +17,14 @@ const BADGES = [
   { id: "b7", text: "</>", type: "icon", w: 50, h: 50 },
 ];
 
-const playDragSound = () => {
-  const ctx = audioStore.getContext();
-  if (!ctx) return;
-  
-  try {
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.type = "sine";
-    osc1.frequency.setValueAtTime(300, ctx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(450, ctx.currentTime + 0.1);
-    gain1.gain.setValueAtTime(0, ctx.currentTime);
-    gain1.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
-    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-    osc1.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + 0.1);
 
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.type = "sine";
-    osc2.frequency.setValueAtTime(400, ctx.currentTime + 0.15);
-    osc2.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.25);
-    gain2.gain.setValueAtTime(0, ctx.currentTime + 0.15);
-    gain2.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.17);
-    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-    osc2.start(ctx.currentTime + 0.15);
-    osc2.stop(ctx.currentTime + 0.25);
-  } catch (e) {
-    console.log("Audio play failed", e);
-  }
-};
+
 
 export default function HeroSection() {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
-  // Typewriter effect
+  // Efek mesin tik
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     if (isTyping) {
@@ -74,7 +42,7 @@ export default function HeroSection() {
     return () => clearTimeout(timeout);
   }, [displayedText, isTyping]);
 
-  // Matter.js Physics integration
+  // Integrasi fisika Matter.js
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -83,7 +51,7 @@ export default function HeroSection() {
   const line2Ref = useRef<HTMLSpanElement>(null);
   const codeLineRef = useRef<HTMLParagraphElement>(null);
 
-  // Custom Dragging State
+  // State drag khusus
   const dragBodyRef = useRef<Matter.Body | null>(null);
   const lastPosRef = useRef({ x: 0, y: 0 });
   const lastTimeRef = useRef(0);
@@ -114,9 +82,9 @@ export default function HeroSection() {
     });
     render.canvas.style.display = 'none';
 
-    // Thick Boundaries to prevent glitching out
-    const floor1W = width * 10; 
-    const floor2W = width * 10; 
+    // Batas tebal agar tidak glitch
+    const floor1W = width * 10;
+    const floor2W = width * 10;
 
     const textFloor1 = Bodies.rectangle(width / 2, height * 0.4, floor1W, 200, { isStatic: true, render: { visible: false } });
     const textFloor2 = Bodies.rectangle(width / 2, height * 0.5, floor2W, 200, { isStatic: true, render: { visible: false } });
@@ -156,6 +124,29 @@ export default function HeroSection() {
       });
     });
 
+    let lastBubbleTime = 0;
+    Events.on(engine, 'collisionStart', (event) => {
+      const now = Date.now();
+      if (now - lastBubbleTime > 50) {
+        let play = false;
+        let maxSpeed = 0;
+        event.pairs.forEach(pair => {
+          if (pair.bodyA.label.startsWith('b') && pair.bodyB.label.startsWith('b')) {
+            play = true;
+            const speedA = pair.bodyA.speed;
+            const speedB = pair.bodyB.speed;
+            maxSpeed = Math.max(maxSpeed, speedA, speedB);
+          }
+        });
+
+        if (play && maxSpeed > 1) {
+          const volume = Math.min(0.15, maxSpeed * 0.012);
+          audioStore.playBubbleSound(volume);
+          lastBubbleTime = now;
+        }
+      }
+    });
+
     const handleResize = () => {
       if (!sceneRef.current || !line1Ref.current || !line2Ref.current || !codeLineRef.current) return;
       const newW = sceneRef.current.clientWidth;
@@ -167,30 +158,29 @@ export default function HeroSection() {
       const rect1 = line1Ref.current.getBoundingClientRect();
       const rect2 = line2Ref.current.getBoundingClientRect();
 
-      // Ensure the floors are perfectly aligned to the top edge of the text lines
+      // Penyelarasan lantai dengan teks
       const y1 = rect1.top - sceneRect.top;
       const y2 = rect2.top - sceneRect.top;
 
-      // Bodies' origin is their center.
-      // textFloors have height=200, so top edge is at center.y - 100. Thus center.y = y + 100.
+      // Kalkulasi posisi lantai
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
 
-      // ceiling bottom edge is at y=70 (below navbar)
+      // Atap di bawah navbar
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: -180 });
 
-      // walls
+      // Dinding
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
       Matter.Body.setPosition(wallRight, { x: newW + 500, y: newH / 2 });
 
       // bottomFloor top edge. Height is 1000.
-      // We want to block badges at the top of the name block to keep them in the "top zone"
+      // Batasi badge di zona atas
       const currentBoundaryY = y1;
       boundaryYRef.current = currentBoundaryY;
       Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: currentBoundaryY + 500 });
     };
 
-    // Small delay to ensure fonts are loaded and layout is complete before measuring
+    // Jeda untuk pemuatan font dan layout
     setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
 
@@ -206,19 +196,20 @@ export default function HeroSection() {
     };
   }, []);
 
-  // Custom Physics Drag Handlers
+  // Handler drag fisika
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
     e.preventDefault();
     if (!engineRef.current || !sceneRef.current) return;
     const body = engineRef.current.world.bodies.find(b => b.label === badgeId);
     if (!body) return;
 
-    playDragSound();
-
     e.currentTarget.setPointerCapture(e.pointerId);
     dragBodyRef.current = body;
 
-    // Set static so it follows mouse exactly without gravity fighting it
+    // Suara feedback instan
+    audioStore.playBubbleSound(0.05);
+
+    // Set statis saat ditarik
     Matter.Body.setStatic(body, true);
 
     const rect = sceneRef.current.getBoundingClientRect();
@@ -236,8 +227,8 @@ export default function HeroSection() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Clamp y during drag to prevent passing the boundary floor
-    const clampedY = Math.min(y, boundaryYRef.current - 20); 
+    // Batasi Y saat drag
+    const clampedY = Math.min(y, boundaryYRef.current - 20);
 
     Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
 
@@ -258,7 +249,7 @@ export default function HeroSection() {
     e.currentTarget.releasePointerCapture(e.pointerId);
 
     Matter.Body.setStatic(dragBodyRef.current, false);
-    // Apply calculated momentum
+    // Terapkan momentum
     Matter.Body.setVelocity(dragBodyRef.current, velRef.current);
 
     dragBodyRef.current = null;
@@ -273,7 +264,7 @@ export default function HeroSection() {
     <section id="home" className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0a0a0a]">
       <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-blue-950/10 to-transparent pointer-events-none" />
 
-      {/* Physics Scene Container - Fully covers section but allows scroll through events-none */}
+      {/* Kontainer Fisika */}
       <div
         ref={sceneRef}
         className="absolute inset-0 z-20 pointer-events-none"
@@ -321,21 +312,21 @@ export default function HeroSection() {
         animate="visible"
         className="flex-1 flex flex-col items-center justify-center px-0 md:px-6 pt-20 relative z-10 pointer-events-none"
       >
-        {/* Giant Name */}
+
+        {/* Nama Besar */}
         <h1
-          className="font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center overflow-hidden max-w-[100vw]"
+          className="giant-name font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center overflow-hidden max-w-[100vw]"
           style={{
             fontWeight: 900,
             letterSpacing: '-0.04em',
             transform: 'scaleY(1.15)',
-            marginTop: '10vh'
           }}
         >
           <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
           <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
-        {/* Code subtitle line with typewriter effect */}
+        {/* Baris kode efek mesin tik */}
         <p ref={codeLineRef} className="px-6 md:px-0 mt-16 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center min-h-[160px] md:min-h-[100px] lg:min-h-[60px]">
           {displayedText}
           <motion.span

@@ -72,10 +72,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/ecommerce",
           image: "/ecommerce.png",
           caseStudyContent: {
-            overview: "This project is a modern e-commerce platform designed to provide a seamless shopping experience. The main objective was to create a highly scalable system that can handle sudden traffic spikes during sales events, while offering an intuitive interface for both customers and administrators.",
-            challenges: "One of the main technical challenges was ensuring real-time inventory synchronization across multiple active shopping carts to prevent overselling. Additionally, optimizing image loading and maintaining a high Lighthouse score for SEO purposes required careful architecture.",
-            solutions: "We implemented a robust Redis caching layer for inventory checks and used PostgreSQL for transactional integrity. For the frontend, Next.js Image optimization and server-side rendering were utilized to achieve lightning-fast load times.",
-            results: "The platform achieved a 40% increase in conversion rates compared to the client's previous solution, handling over 15,000 monthly active users with zero downtime during the Black Friday peak sales period."
+            overview: "Developing a robust e-commerce platform designed for high-performance shopping experiences. The platform features real-time inventory management and secure payment processing.",
+            challenges: "Ensuring zero-downtime during high-traffic sales periods and maintaining data integrity across thousands of simultaneous transactions.",
+            solutions: "Implemented Next.js for server-side rendering to boost SEO and performance, paired with PostgreSQL and Stripe for secure, reliable transactions.",
+            results: "Achieved 99.9% uptime and a 40% increase in conversion rates, successfully serving over 15,000 monthly active users."
           }
         },
         {
@@ -93,10 +93,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/fitness-tracker",
           image: "/fitness.png",
           caseStudyContent: {
-            overview: "The Health & Fitness Tracker is a comprehensive wellness application aimed at helping individuals maintain a healthy lifestyle. The project's goal was to combine workout tracking, meal planning, and social accountability into a single, cohesive experience.",
-            challenges: "Building a fluid cross-platform experience that accurately synchronizes offline data with the cloud once a connection is re-established was a significant hurdle. Integrating machine learning models for pose estimation on mobile devices also posed performance constraints.",
-            solutions: "We leveraged React Native and Capacitor to maintain a single codebase while providing native-like performance. Firebase's offline capabilities were utilized to handle data synchronization seamlessly. For pose estimation, we optimized TensorFlow Lite models to run efficiently on low-end devices.",
-            results: "The app successfully acquired over 8,000 active users within the first three months, maintaining a stellar 4.8-star rating. User retention increased by 25% due to the community features."
+            overview: "A comprehensive health and fitness application built to help users track their wellness journey across multiple platforms with real-time data synchronization.",
+            challenges: "Integrating real-time data sync across devices while maintaining a smooth user experience and high performance on mobile hardware.",
+            solutions: "Utilized React Native and Firebase to create a seamless cross-platform experience with real-time updates and robust offline support.",
+            results: "The app reached over 28,000 active users with a 4.8-star rating, significantly improving user engagement and health tracking accuracy."
           }
         },
         {
@@ -114,10 +114,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/portfolio-cms",
           image: "/cms.png",
           caseStudyContent: {
-            overview: "This project serves as a bespoke Content Management System tailored specifically for developers and creatives. It bypasses the bloat of traditional CMS platforms, focusing purely on speed, aesthetics, and a friction-free writing experience using Markdown.",
-            challenges: "Designing a highly customizable theme system that doesn't compromise on rendering speed was complex. Furthermore, creating a rich-text markdown editor with live preview capabilities that feels native and responsive required extensive optimization.",
-            solutions: "We built the backend using Laravel for its robust routing and security features, paired with a Vue.js frontend for dynamic, reactive interfaces. Tailwind CSS was utilized to create a highly flexible utility-first styling approach, allowing for instant theme switching without additional CSS payloads.",
-            results: "The resulting CMS boasts an impressive average deployment and load time of under 5 seconds. It is currently being used by dozens of creatives to power their personal portfolios with zero maintenance overhead."
+            overview: "A specialized Content Management System designed specifically for creatives, focusing on speed, minimal design, and ease of use with Markdown support.",
+            challenges: "Building a flexible theme engine that remains lightweight and ensuring the platform is fully optimized for search engines and performance.",
+            solutions: "Developed using Laravel and Vue.js to provide a fast, secure, and intuitive admin interface with live previews and customizable templates.",
+            results: "Successfully powered over 35 professional portfolios, maintaining average deployment times of under 5 minutes and high Lighthouse performance scores."
           }
         },
       ],
@@ -294,10 +294,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/ecommerce",
           image: "/ecommerce.png",
           caseStudyContent: {
-            overview: "Proyek ini adalah platform e-commerce modern yang dirancang untuk memberikan pengalaman berbelanja yang mulus. Tujuan utamanya adalah untuk menciptakan sistem yang sangat terukur yang dapat menangani lonjakan lalu lintas yang tiba-tiba selama acara penjualan, sambil menawarkan antarmuka yang intuitif untuk pelanggan dan administrator.",
-            challenges: "Salah satu tantangan teknis utama adalah memastikan sinkronisasi inventaris secara real-time di beberapa keranjang belanja aktif untuk mencegah penjualan berlebih (overselling). Selain itu, mengoptimalkan pemuatan gambar dan mempertahankan skor Lighthouse yang tinggi untuk tujuan SEO memerlukan arsitektur yang cermat.",
-            solutions: "Kami mengimplementasikan lapisan caching Redis yang tangguh untuk pemeriksaan inventaris dan menggunakan PostgreSQL untuk integritas transaksional. Untuk antarmuka pengguna, optimisasi Next.js Image dan server-side rendering digunakan untuk mencapai waktu pemuatan secepat kilat.",
-            results: "Platform ini mencapai peningkatan tingkat konversi sebesar 40% dibandingkan dengan solusi klien sebelumnya, menangani lebih dari 15.000 pengguna aktif bulanan dengan waktu henti (downtime) nol selama periode puncak penjualan."
+            overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi manajemen inventaris real-time dan pemrosesan pembayaran aman.",
+            challenges: "Memastikan zero-downtime selama periode penjualan trafik tinggi dan menjaga integritas data di ribuan transaksi simultan.",
+            solutions: "Mengimplementasikan Next.js untuk server-side rendering guna meningkatkan SEO dan performa, dipasangkan dengan PostgreSQL dan Stripe untuk transaksi yang aman dan andal.",
+            results: "Mencapai uptime 99,9% dan peningkatan 40% dalam tingkat konversi, berhasil melayani lebih dari 15 pengguna aktif bulanan."
           }
         },
         {
@@ -315,10 +315,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/fitness-tracker",
           image: "/fitness.png",
           caseStudyContent: {
-            overview: "Aplikasi Pelacak Kesehatan & Kebugaran adalah aplikasi kebugaran komprehensif yang bertujuan membantu individu mempertahankan gaya hidup sehat. Tujuan proyek ini adalah untuk menggabungkan pelacakan latihan, perencanaan makan, dan akuntabilitas sosial ke dalam satu pengalaman yang kohesif.",
-            challenges: "Membangun pengalaman cross-platform yang lancar dan secara akurat menyinkronkan data offline dengan cloud setelah koneksi tersambung kembali merupakan rintangan yang signifikan. Mengintegrasikan model pembelajaran mesin untuk estimasi pose pada perangkat seluler juga menimbulkan kendala performa.",
-            solutions: "Kami memanfaatkan React Native dan Capacitor untuk mempertahankan satu basis kode sambil memberikan performa layaknya aplikasi native. Kemampuan offline Firebase digunakan untuk menangani sinkronisasi data dengan lancar. Untuk estimasi pose, kami mengoptimalkan model TensorFlow Lite untuk berjalan secara efisien pada perangkat spesifikasi rendah.",
-            results: "Aplikasi ini berhasil mengakuisisi lebih dari 8.000 pengguna aktif dalam tiga bulan pertama, mempertahankan peringkat bintang 4.8 yang luar biasa. Retensi pengguna meningkat 25% karena fitur komunitas yang terintegrasi."
+            overview: "Aplikasi kesehatan dan kebugaran komprehensif yang dibangun untuk membantu pengguna melacak perjalanan kesehatan mereka di berbagai platform dengan sinkronisasi data real-time.",
+            challenges: "Mengintegrasikan sinkronisasi data real-time di berbagai perangkat sambil menjaga pengalaman pengguna yang lancar dan performa tinggi pada perangkat seluler.",
+            solutions: "Memanfaatkan React Native dan Firebase untuk menciptakan pengalaman lintas platform yang mulus dengan pembaruan real-time dan dukungan offline yang kuat.",
+            results: "Aplikasi ini mencapai lebih dari 28 pengguna aktif dengan rating 4.8 bintang, secara signifikan meningkatkan keterlibatan pengguna dan akurasi pelacakan kesehatan."
           }
         },
         {
@@ -336,10 +336,10 @@ export const translations = {
           codeUrl: "https://github.com/HanifHawari/portfolio-cms",
           image: "/cms.png",
           caseStudyContent: {
-            overview: "Proyek ini berfungsi sebagai Sistem Manajemen Konten khusus yang dirancang khusus untuk pengembang dan pembuat konten. Ini menghindari kompleksitas dari platform CMS tradisional, berfokus murni pada kecepatan, estetika, dan pengalaman menulis yang bebas hambatan menggunakan Markdown.",
-            challenges: "Merancang sistem tema yang sangat dapat disesuaikan tanpa mengorbankan kecepatan rendering sangatlah kompleks. Selain itu, membuat editor markdown rich-text dengan kemampuan pratinjau langsung yang terasa asli dan responsif memerlukan optimisasi ekstensif.",
-            solutions: "Kami membangun backend menggunakan Laravel karena fitur perutean dan keamanannya yang kuat, dipasangkan dengan frontend Vue.js untuk antarmuka reaktif dan dinamis. Tailwind CSS dimanfaatkan untuk menciptakan pendekatan penataan gaya utility-first yang sangat fleksibel, memungkinkan peralihan tema instan tanpa membebani CSS.",
-            results: "CMS yang dihasilkan membanggakan rata-rata penerapan dan waktu muat di bawah 5 detik. Saat ini sedang digunakan oleh puluhan kreator untuk memberi daya pada portofolio pribadi mereka dengan nol biaya pemeliharaan."
+            overview: "Sistem Manajemen Konten (CMS) khusus yang dirancang untuk kreator, berfokus pada kecepatan, desain minimalis, dan kemudahan penggunaan dengan dukungan Markdown.",
+            challenges: "Membangun mesin tema yang fleksibel yang tetap ringan dan memastikan platform dioptimalkan sepenuhnya untuk mesin pencari dan performa.",
+            solutions: "Dikembangkan menggunakan Laravel dan Vue.js untuk menyediakan antarmuka admin yang cepat, aman, dan intuitif dengan pratinjau langsung dan templat yang dapat disesuaikan.",
+            results: "Berhasil digunakan di lebih dari 35 portofolio profesional, mempertahankan waktu deploy rata-rata di bawah 5 menit dan skor performa Lighthouse yang tinggi."
           }
         },
       ],
@@ -424,13 +424,13 @@ export const translations = {
       socialLinks: "Tautan Sosial",
       form: {
         name: "Nama",
-        namePlaceholder: "Nama lengkap Anda",
+        namePlaceholder: "Nama lengkap",
         email: "Email",
-        emailPlaceholder: "email@anda.com",
+        emailPlaceholder: "email@.com",
         subject: "Subjek",
         subjects: ["Kolaborasi Proyek", "Kesempatan Kerja", "Pertanyaan Umum"],
         message: "Pesan",
-        messagePlaceholder: "Ceritakan tentang proyek Anda...",
+        messagePlaceholder: "Ceritakan tentang proyek ...",
         send: "KIRIM PESAN",
         sending: "MENGIRIM...",
         success: "Pesan berhasil dikirim!",
