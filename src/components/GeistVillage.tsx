@@ -227,6 +227,7 @@ export default function GeistVillage() {
   const [robotMoods, setRobotMoods] = useState<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
   
   const robotsRef = useRef<RobotState[]>([]);
+  const robotMoodsRef = useRef<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
   const robotRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const stepsRef = useRef<Record<number, boolean>>({});
   const containerSizeRef = useRef({ w: 900, h: CANVAS_H });
@@ -273,6 +274,7 @@ export default function GeistVillage() {
     setRobots([...newRobots]);
     setSteps({ ...initSteps });
     setRobotMoods(initMoods);
+    robotMoodsRef.current = initMoods;
   }, []);
 
   // Observasi perubahan ukuran
@@ -349,14 +351,14 @@ export default function GeistVillage() {
         repX += centerDx * 0.8;
         repY += centerDy * 0.8;
 
-        // Blink logic
+        // Logika kedipan
         blinkTimer -= dt;
         if (blinkTimer <= 0) {
           isBlinking = !isBlinking;
           blinkTimer = isBlinking ? 0.12 : (2.5 + Math.random() * 3);
         }
 
-        // Mood timer
+        // Timer suasana hati
         moodTimer -= dt;
         if (moodTimer <= 0) {
           moodTimer = 4 + Math.random() * 6;
@@ -366,14 +368,14 @@ export default function GeistVillage() {
           currentMood = availMoods[Math.floor(Math.random() * availMoods.length)];
         }
 
-        // Walk direction change
+        // Perubahan arah jalan
         walkTimer -= dt;
         if (walkTimer <= 0) {
           walkTimer = 1.0 + Math.random() * 2.5;
           walkDir = Math.random() * Math.PI * 2;
         }
 
-        // Autonomous wander
+        // Pergerakan otomatis
         const walkSpeed = stunTimer > 0 ? 0 : currentMood === "sleepy" ? 300 : currentMood === "angry" ? 900 : 500;
         let vx = r.vx + (Math.cos(walkDir) * walkSpeed + repX) * dt;
         let vy = r.vy + (Math.sin(walkDir) * walkSpeed + repY) * dt;
@@ -390,7 +392,7 @@ export default function GeistVillage() {
         const maxX = w - r.size;
         const maxY = CANVAS_H - r.size * 1.65;
 
-        // Step toggle
+        // Pengalihan langkah
         const stepThreshold = 5;
         if (speed > stepThreshold) {
           const oldStep = stepsRef.current[r.id];
@@ -417,15 +419,15 @@ export default function GeistVillage() {
 
       robotsRef.current = updated;
 
-      // Update state only for non-frequent changes (moods, steps)
+      // Perbarui state hanya untuk perubahan yang jarang (mood, langkah)
       if (stepsChanged) {
         stepsRef.current = newSteps;
         setSteps({ ...newSteps });
       }
 
-      // Check if any mood changed to trigger a re-render for expressions
+      // Periksa apakah ada perubahan mood untuk memicu render ulang ekspresi
       const anyMoodChange = updated.some((r) => {
-        const prev = robotMoods[r.id];
+        const prev = robotMoodsRef.current[r.id];
         return prev && (prev.mood !== r.currentMood || prev.blinking !== r.isBlinking || prev.scared !== r.scared);
       });
 
@@ -435,6 +437,7 @@ export default function GeistVillage() {
           newMoods[r.id] = { mood: r.currentMood, blinking: r.isBlinking, scared: r.scared };
         });
         setRobotMoods(newMoods);
+        robotMoodsRef.current = newMoods;
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -445,7 +448,7 @@ export default function GeistVillage() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // Pelacakan kursor
+  // Pelacakan kursor mouse
   useEffect(() => {
     const onMove = (e: MouseEvent) => { cursorRef.current = { x: e.clientX, y: e.clientY }; };
     const onLeave = () => { cursorRef.current = { x: -999, y: -999 }; };
@@ -454,7 +457,7 @@ export default function GeistVillage() {
     return () => { window.removeEventListener("mousemove", onMove); document.removeEventListener("mouseleave", onLeave); };
   }, []);
 
-  // Drag mouse
+  // Handler tarik mouse
   const handleMouseDown = useCallback((id: number, e: React.MouseEvent) => {
     e.preventDefault();
     const container = containerRef.current;
@@ -491,7 +494,7 @@ export default function GeistVillage() {
     window.addEventListener("mouseup", onUp);
   }, []);
 
-  // Drag sentuh
+  // Handler tarik sentuh
   const handleTouchStart = useCallback((id: number, e: React.TouchEvent) => {
     e.preventDefault();
     const container = containerRef.current;

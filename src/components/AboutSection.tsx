@@ -176,12 +176,13 @@ function TechPill({ label }: { label: string }) {
       className="hover:border-zinc-600 hover:text-white"
     >
       {iconData && (
-        <img
+        <Image
           src={getIconUrl()}
           alt={label}
           width={18}
           height={18}
           style={{ objectFit: "contain" }}
+          unoptimized={true}
         />
       )}
       {label}

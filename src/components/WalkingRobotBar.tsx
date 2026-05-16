@@ -37,7 +37,6 @@ function RoundRobot({
   const eyeColor = scared ? "#ef4444" : "var(--robot-eye)";
   const eyeScaleY = blinking ? 0.05 : scared ? 1.6 : 1;
   const accentColor = scared ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.08)";
-  const mood = scared ? "scared" : happy ? "happy" : "neutral";
 
   return (
     <motion.div

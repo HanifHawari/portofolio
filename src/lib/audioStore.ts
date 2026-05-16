@@ -72,7 +72,7 @@ class AudioStore {
       oscGain.connect(ctx.destination);
       osc.start(ctx.currentTime + 0.05);
       osc.stop(ctx.currentTime + 0.35);
-    } catch (e) {
+    } catch {
     }
   }
 
@@ -99,7 +99,7 @@ class AudioStore {
 
       osc.start(ctx.currentTime);
       osc.stop(ctx.currentTime + 0.15);
-    } catch (e) {
+    } catch {
       // silent
     }
   }

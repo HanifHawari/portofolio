@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -153,12 +154,14 @@ function FolderModal({
               transition={{ duration: 0.45, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="relative rounded-lg overflow-hidden border border-zinc-800"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={photo.src}
                 alt={photo.caption}
                 className="w-full object-cover"
                 style={{ aspectRatio: "1024/573" }}
+                width={1024}
+                height={573}
+                unoptimized={true}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
                 <p className="text-xs text-zinc-200 font-semibold">{photo.caption}</p>
