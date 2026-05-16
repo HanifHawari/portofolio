@@ -424,7 +424,7 @@ export default function GeistVillage() {
       }
 
       // Check if any mood changed to trigger a re-render for expressions
-      const anyMoodChange = updated.some((r, i) => {
+      const anyMoodChange = updated.some((r) => {
         const prev = robotMoods[r.id];
         return prev && (prev.mood !== r.currentMood || prev.blinking !== r.isBlinking || prev.scared !== r.scared);
       });
