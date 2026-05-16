@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { audioStore } from "@/lib/audioStore";
 
 const itemVariants = {
   hidden: { opacity: 0, x: -24 },
@@ -16,12 +17,10 @@ const itemVariants = {
 
 // ── Folder open sound ────────────────────────────────────────────────────────
 function playFolderSound() {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+  const ctx = audioStore.getContext();
+  if (!ctx) return;
 
+  try {
     // Click-thud sound
     const bufferSize = ctx.sampleRate * 0.4;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -104,23 +103,18 @@ const GALLERY_DATA: { src: string; caption: string }[] = [
 
 // ── Animated vertical progress line ─────────────────────────────────────────
 function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const [progress, setProgress] = useState(0);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start center", "end center"],
+  });
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const p = Math.max(0, Math.min(1, (vh - rect.top) / (rect.height + vh * 0.5)));
-      setProgress(p);
-    };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, [sectionRef]);
+  const opacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
 
   return (
     <>
@@ -129,11 +123,12 @@ function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
         style={{ background: "var(--border-strong)" }}
       />
       <motion.div
-        className="absolute left-[7px] sm:left-[140px] top-0 w-px origin-top"
+        className="absolute left-[7px] sm:left-[140px] top-0 bottom-0 w-px origin-top"
         style={{
           background: "linear-gradient(to bottom, var(--foreground), rgba(255,255,255,0.2))",
-          height: `${progress * 100}%`,
-          boxShadow: progress > 0.02 ? "0 0 8px 1px rgba(255,255,255,0.15)" : "none",
+          scaleY,
+          opacity,
+          boxShadow: "0 0 8px 1px rgba(255,255,255,0.15)",
         }}
       />
     </>

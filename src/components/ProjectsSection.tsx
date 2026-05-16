@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { audioStore } from "@/lib/audioStore";
 
 interface ProjectItem {
   category: string;
@@ -41,12 +42,10 @@ const Github = ({ size = 24, className = "" }: { size?: number; className?: stri
 );
 
 const playClickSound = () => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+  const ctx = audioStore.getContext();
+  if (!ctx) return;
 
+  try {
     // Click-thud sound
     const bufferSize = ctx.sampleRate * 0.4;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);

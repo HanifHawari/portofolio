@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Matter from "matter-js";
+import { audioStore } from "@/lib/audioStore";
 
 const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; // Status: ONLINE | Mode: OPEN_TO_WORK <END_OF_SCRIPT>`;
 
@@ -17,12 +18,10 @@ const BADGES = [
 ];
 
 const playDragSound = () => {
+  const ctx = audioStore.getContext();
+  if (!ctx) return;
+  
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.connect(gain1);
@@ -78,7 +77,7 @@ export default function HeroSection() {
   // Matter.js Physics integration
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
-  const [badgePositions, setBadgePositions] = useState<Record<string, { x: number, y: number, angle: number }>>({});
+  const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const line1Ref = useRef<HTMLSpanElement>(null);
   const line2Ref = useRef<HTMLSpanElement>(null);
@@ -149,11 +148,12 @@ export default function HeroSection() {
     Render.run(render);
 
     Events.on(engine, 'afterUpdate', () => {
-      const newPos: Record<string, { x: number, y: number, angle: number }> = {};
       badgeBodies.forEach(body => {
-        newPos[body.label] = { x: body.position.x, y: body.position.y, angle: body.angle };
+        const el = badgeRefs.current[body.label];
+        if (el) {
+          el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
+        }
       });
-      setBadgePositions(newPos);
     });
 
     const handleResize = () => {
@@ -279,13 +279,11 @@ export default function HeroSection() {
         className="absolute inset-0 z-20 pointer-events-none"
       >
         {BADGES.map(badge => {
-          const pos = badgePositions[badge.id];
-          if (!pos) return null;
-
           return (
             <div
               key={badge.id}
-              className="absolute pointer-events-auto group touch-none"
+              ref={el => { badgeRefs.current[badge.id] = el; }}
+              className="absolute pointer-events-auto group touch-none will-change-transform"
               onPointerDown={(e) => handlePointerDown(e, badge.id)}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
@@ -293,9 +291,9 @@ export default function HeroSection() {
               style={{
                 width: badge.w,
                 height: badge.h,
-                left: pos.x - badge.w / 2,
-                top: pos.y - badge.h / 2,
-                transform: `rotate(${pos.angle}rad)`,
+                left: 0,
+                top: 0,
+                translate: '-50% -50%',
                 cursor: 'grab',
               }}
               onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grabbing'; }}
@@ -325,7 +323,7 @@ export default function HeroSection() {
       >
         {/* Giant Name */}
         <h1
-          className="font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center"
+          className="font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center overflow-hidden max-w-[100vw]"
           style={{
             fontWeight: 900,
             letterSpacing: '-0.04em',
@@ -333,8 +331,8 @@ export default function HeroSection() {
             marginTop: '10vh'
           }}
         >
-          <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap text-[14.5vw] md:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
-          <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14.5vw] md:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
+          <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
+          <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
         {/* Code subtitle line with typewriter effect */}

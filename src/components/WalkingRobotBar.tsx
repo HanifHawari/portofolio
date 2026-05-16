@@ -144,20 +144,20 @@ function WalkingRobot({
   startX,
   startDir,
   speed,
-  cursorX,
+  cursorXRef,
   containerWidth,
   scrollText,
 }: {
   startX: number;
   startDir: 1 | -1;
   speed: number;
-  cursorX: number;
+  cursorXRef: React.MutableRefObject<number>;
   containerWidth: number;
   scrollText: string;
 }) {
+  const elRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(startX);
   const dirRef = useRef<1 | -1>(startDir);
-  const [pos, setPos] = useState(startX);
   const [dir, setDir] = useState<1 | -1>(startDir);
   const [scared, setScared] = useState(false);
   const [flipping, setFlipping] = useState(false);
@@ -173,6 +173,7 @@ function WalkingRobot({
       const dt = Math.min((now - lastFrameRef.current) / 1000, 0.05);
       lastFrameRef.current = now;
 
+      const cursorX = cursorXRef.current;
       const curX = posRef.current + ROBOT_WIDTH / 2;
       const dist = Math.abs(cursorX - curX);
       const isScared = dist < FLEE_DIST && cursorX > 0;
@@ -197,14 +198,22 @@ function WalkingRobot({
       }
 
       posRef.current = newPos;
-      dirRef.current = newDir;
-      setPos(newPos);
-      setDir(newDir);
-      setScared(isScared);
+      if (elRef.current) {
+        elRef.current.style.transform = `translateX(${newPos}px)`;
+      }
+
+      if (dirRef.current !== newDir) {
+        dirRef.current = newDir;
+        setDir(newDir);
+      }
+      
+      if (scared !== isScared) {
+        setScared(isScared);
+      }
 
       rafRef.current = requestAnimationFrame(tick);
     },
-    [cursorX, speed, containerWidth]
+    [cursorXRef, speed, containerWidth, scared]
   );
 
   useEffect(() => {
@@ -222,7 +231,17 @@ function WalkingRobot({
 
   return (
     <div
-      style={{ position: "absolute", bottom: 0, left: pos, zIndex: 20, willChange: "transform", pointerEvents: "auto", cursor: "pointer" }}
+      ref={elRef}
+      style={{ 
+        position: "absolute", 
+        bottom: 0, 
+        left: 0, 
+        transform: `translateX(${posRef.current}px)`,
+        zIndex: 20, 
+        willChange: "transform", 
+        pointerEvents: "auto", 
+        cursor: "pointer" 
+      }}
       onClick={handleClick}
     >
       {/* Speech bubble */}
@@ -298,7 +317,7 @@ function WalkingRobot({
 // ── Main export ─────────────────────────────────────────────────────────────
 export default function WalkingRobotBar() {
   const { t } = useLanguage();
-  const [cursorX, setCursorX] = useState(-999);
+  const cursorXRef = useRef(-999);
   const [containerWidth, setContainerWidth] = useState(1200);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -312,9 +331,9 @@ export default function WalkingRobotBar() {
   }, []);
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setCursorX(e.clientX);
-    const onLeave = () => setCursorX(-999);
-    window.addEventListener("mousemove", onMove);
+    const onMove = (e: MouseEvent) => { cursorXRef.current = e.clientX; };
+    const onLeave = () => { cursorXRef.current = -999; };
+    window.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseleave", onLeave);
     return () => {
       window.removeEventListener("mousemove", onMove);
@@ -344,7 +363,7 @@ export default function WalkingRobotBar() {
           startX={r.startX}
           startDir={r.startDir}
           speed={r.speed}
-          cursorX={cursorX}
+          cursorXRef={cursorXRef}
           containerWidth={containerWidth}
           scrollText={scrollText}
         />

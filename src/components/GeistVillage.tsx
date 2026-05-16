@@ -3,14 +3,13 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
+import { audioStore } from "@/lib/audioStore";
 
 const playBlupSound = () => {
+  const ctx = audioStore.getContext();
+  if (!ctx) return;
+  
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.connect(gain1);
@@ -225,7 +224,10 @@ export default function GeistVillage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [robots, setRobots] = useState<RobotState[]>([]);
   const [steps, setSteps] = useState<Record<number, boolean>>({});
+  const [robotMoods, setRobotMoods] = useState<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
+  
   const robotsRef = useRef<RobotState[]>([]);
+  const robotRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const stepsRef = useRef<Record<number, boolean>>({});
   const containerSizeRef = useRef({ w: 900, h: CANVAS_H });
   const rafRef = useRef<number>(0);
@@ -262,10 +264,15 @@ export default function GeistVillage() {
     });
     robotsRef.current = newRobots;
     const initSteps: Record<number, boolean> = {};
-    newRobots.forEach(r => { initSteps[r.id] = false; });
+    const initMoods: Record<number, { mood: Mood, blinking: boolean, scared: boolean }> = {};
+    newRobots.forEach(r => { 
+      initSteps[r.id] = false; 
+      initMoods[r.id] = { mood: r.currentMood, blinking: false, scared: false };
+    });
     stepsRef.current = initSteps;
     setRobots([...newRobots]);
     setSteps({ ...initSteps });
+    setRobotMoods(initMoods);
   }, []);
 
   // Resize observer
@@ -327,7 +334,14 @@ export default function GeistVillage() {
         }
 
         const isScared = r.dragging || stunTimer > 0;
-        if (r.dragging) return { ...r, scared: isScared, stunTimer };
+        if (r.dragging) {
+          const el = robotRefs.current[r.id];
+          if (el) {
+            el.style.transform = `translate(${r.x}px, ${r.y}px)`;
+            el.style.zIndex = "100";
+          }
+          return { ...r, scared: isScared, stunTimer };
+        }
 
         // ── Autonomous movement ──
         const centerDx = (w / 2) - (r.x + r.size / 2);
@@ -359,14 +373,13 @@ export default function GeistVillage() {
           walkDir = Math.random() * Math.PI * 2;
         }
 
-        // Autonomous wander (stop if stunned)
+        // Autonomous wander
         const walkSpeed = stunTimer > 0 ? 0 : currentMood === "sleepy" ? 300 : currentMood === "angry" ? 900 : 500;
         let vx = r.vx + (Math.cos(walkDir) * walkSpeed + repX) * dt;
         let vy = r.vy + (Math.sin(walkDir) * walkSpeed + repY) * dt;
 
-        const friction = 0.92;
-        vx *= friction;
-        vy *= friction;
+        vx *= 0.92;
+        vy *= 0.92;
 
         const maxSpeed = stunTimer > 0 ? 300 : currentMood === "sleepy" ? 80 : currentMood === "angry" ? 250 : 160;
         const speed = Math.sqrt(vx * vx + vy * vy);
@@ -377,7 +390,7 @@ export default function GeistVillage() {
         const maxX = w - r.size;
         const maxY = CANVAS_H - r.size * 1.65;
 
-        // Step toggle (foot animation)
+        // Step toggle
         const stepThreshold = 5;
         if (speed > stepThreshold) {
           const oldStep = stepsRef.current[r.id];
@@ -387,21 +400,43 @@ export default function GeistVillage() {
           }
         }
 
-        // Bounce off walls instead of just stopping
         if (nx < 0) { nx = 0; vx = Math.abs(vx) * 0.9; walkDir = Math.random() * Math.PI - Math.PI / 2; }
         if (nx > maxX) { nx = maxX; vx = -Math.abs(vx) * 0.9; walkDir = Math.random() * Math.PI + Math.PI / 2; }
         if (ny < 0) { ny = 0; vy = Math.abs(vy) * 0.9; }
         if (ny > maxY) { ny = maxY; vy = -Math.abs(vy) * 0.9; }
 
+        const el = robotRefs.current[r.id];
+        if (el) {
+          el.style.transform = `translate(${nx}px, ${ny}px)`;
+          el.style.zIndex = isScared ? "50" : "10";
+          el.style.filter = isScared ? "drop-shadow(0 0 10px rgba(255,80,80,0.6))" : "drop-shadow(0 2px 6px rgba(0,0,0,0.3))";
+        }
+
         return { ...r, x: nx, y: ny, vx, vy, currentMood, blinkTimer, isBlinking, moodTimer, walkTimer, walkDir, stunTimer, scared: isScared };
       });
 
       robotsRef.current = updated;
+
+      // Update state only for non-frequent changes (moods, steps)
       if (stepsChanged) {
         stepsRef.current = newSteps;
         setSteps({ ...newSteps });
       }
-      setRobots([...updated]);
+
+      // Check if any mood changed to trigger a re-render for expressions
+      const anyMoodChange = updated.some((r, i) => {
+        const prev = robotMoods[r.id];
+        return prev && (prev.mood !== r.currentMood || prev.blinking !== r.isBlinking || prev.scared !== r.scared);
+      });
+
+      if (anyMoodChange) {
+        const newMoods: Record<number, { mood: Mood, blinking: boolean, scared: boolean }> = {};
+        updated.forEach(r => {
+          newMoods[r.id] = { mood: r.currentMood, blinking: r.isBlinking, scared: r.scared };
+        });
+        setRobotMoods(newMoods);
+      }
+
       rafRef.current = requestAnimationFrame(tick);
     };
 
@@ -537,36 +572,36 @@ export default function GeistVillage() {
           }} />
 
           {/* Robots */}
-          {robots.map((robot) => (
-            <motion.div
-              key={robot.id}
-              animate={robot.scared && !robot.dragging ? { rotate: [-3, 3, -3, 0] } : { rotate: 0 }}
-              transition={{ duration: 0.25 }}
-              style={{
-                position: "absolute",
-                left: robot.x,
-                top: robot.y,
-                zIndex: robot.dragging ? 100 : robot.scared ? 50 : 10,
-                filter: robot.scared
-                  ? "drop-shadow(0 0 10px rgba(255,80,80,0.6))"
-                  : "drop-shadow(0 2px 6px rgba(0,0,0,0.3))",
-                transition: "filter 0.2s ease",
-              }}
-              onMouseDown={(e) => handleMouseDown(robot.id, e)}
-              onTouchStart={(e) => handleTouchStart(robot.id, e)}
-            >
-              <GeistRobotChar
-                size={robot.size}
-                mood={robot.currentMood}
-                scared={robot.scared}
-                dragging={robot.dragging}
-                isBlinking={robot.isBlinking}
-                icon={robot.icon}
-                label={robot.label}
-                step={steps[robot.id] ?? false}
-              />
-            </motion.div>
-          ))}
+          {robots.map((robot) => {
+            const moodInfo = robotMoods[robot.id] || { mood: robot.currentMood, blinking: robot.isBlinking, scared: robot.scared };
+            return (
+              <div
+                key={robot.id}
+                ref={el => { robotRefs.current[robot.id] = el; }}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  zIndex: moodInfo.scared ? 50 : 10,
+                  willChange: "transform, filter",
+                  transition: "filter 0.2s ease",
+                }}
+                onMouseDown={(e) => handleMouseDown(robot.id, e)}
+                onTouchStart={(e) => handleTouchStart(robot.id, e)}
+              >
+                <GeistRobotChar
+                  size={robot.size}
+                  mood={moodInfo.mood}
+                  scared={moodInfo.scared}
+                  dragging={robot.dragging}
+                  isBlinking={moodInfo.blinking}
+                  icon={robot.icon}
+                  label={robot.label}
+                  step={steps[robot.id] ?? false}
+                />
+              </div>
+            );
+          })}
 
           {/* Loading state */}
           {robots.length === 0 && (
