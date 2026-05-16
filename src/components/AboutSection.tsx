@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
@@ -147,7 +147,7 @@ const techIconMap: Record<string, { slug: string; type: "devicon" | "simpleicons
 
 function TechPill({ label }: { label: string }) {
   const iconData = techIconMap[label];
-  
+
   const getIconUrl = () => {
     if (!iconData) return "";
     if (iconData.type === "devicon") {
@@ -193,7 +193,7 @@ function TechPill({ label }: { label: string }) {
 // Kartu bagian dengan border
 function SectionCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div 
+    <div
       className={`section-card p-6 sm:p-8 ${className}`}
     >
       <div className="relative z-10">
@@ -203,6 +203,67 @@ function SectionCard({ children, className = "" }: { children: React.ReactNode; 
   );
 }
 
+
+function StatusBar() {
+  const { t, language } = useLanguage();
+  const [dateStr, setDateStr] = useState("");
+
+  useEffect(() => {
+    const now = new Date();
+    const day = now.getDate();
+    const months = language === 'id' 
+      ? ["JAN", "PEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOP", "DES"]
+      : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    setDateStr(`${day} ${month} ${year}`);
+  }, [language]);
+
+  return (
+    <div className="w-full border-t border-b border-zinc-800 bg-zinc-950/20 backdrop-blur-sm overflow-hidden">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-zinc-800 border-x border-zinc-800">
+        {/* Open to Work */}
+        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+          </span>
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors group-hover/item:text-green-400">
+            {t.hero.openToWork}
+          </span>
+        </div>
+
+        {/* Location */}
+        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-colors group-hover/item:text-white">
+            {t.hero.basedIn}
+          </span>
+        </div>
+
+        {/* Today's Date */}
+        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors">
+            {t.hero.today} <span className="text-zinc-500 font-medium ml-1 transition-colors group-hover/item:text-white">{dateStr}</span>
+          </span>
+        </div>
+
+        {/* Scroll Down */}
+        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center justify-between gap-3 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap transition-colors group-hover/item:text-white">
+            {t.hero.scrollDown}
+          </span>
+          <motion.span
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="text-zinc-500 text-xs transition-colors group-hover/item:text-white"
+          >
+            ↓
+          </motion.span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AboutSection() {
   const { t, language } = useLanguage();
@@ -222,8 +283,9 @@ export default function AboutSection() {
   const focusAreas = ["Frontend Development", "UI/UX Design", "React & Next.js", "Mobile-first", "Performance"];
 
   return (
-    <section id="about" className="py-24 sm:py-32 bg-[#0a0a0a]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="about" className="bg-[#0a0a0a]">
+      <StatusBar />
+      <div className="max-w-7xl mx-auto px-6 py-24 sm:py-32">
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

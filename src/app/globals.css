@@ -624,3 +624,16 @@ motion,
   border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
+
+/* StatusBar Hover Inversion in Light Mode */
+[data-theme="light"] .status-bar-item:hover {
+  background-color: #0a0a0a !important;
+}
+
+[data-theme="light"] .status-bar-item:hover span {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .status-bar-item:hover .text-zinc-500 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
