@@ -270,28 +270,35 @@ export default function ContactSection() {
                 <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                   {t.contact.form.subject}
                 </label>
-                <select
-                  required
-                  value={formData.subject}
-                  onChange={(e) =>
-                    setFormData({ ...formData, subject: e.target.value })
-                  }
-                  className="input-terminal cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2371717a' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 4px center",
-                  }}
-                >
-                  <option value="" disabled className="bg-zinc-900">
-                    Select a subject
-                  </option>
-                  {t.contact.form.subjects.map((subject, i) => (
-                    <option key={i} value={subject} className="bg-zinc-900">
-                      {subject}
+                <div className="relative">
+                  <select
+                    required
+                    value={formData.subject}
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
+                    className="input-terminal cursor-pointer w-full appearance-none pr-8"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                    }}
+                  >
+                    <option value="" disabled className="bg-zinc-900">
+                      Select a subject
                     </option>
-                  ))}
-                </select>
+                    {t.contact.form.subjects.map((subject, i) => (
+                      <option key={i} value={subject} className="bg-zinc-900">
+                        {subject}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Custom chevron icon */}
+                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
               </div>
 
               {/* Pesan */}

@@ -262,7 +262,7 @@ export default function ProjectsSection() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-              onClick={() => setActiveCaseStudy(null)}
+              onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
             />
 
             {/* Konten Modal */}
@@ -271,44 +271,91 @@ export default function ProjectsSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-3xl bg-zinc-950 border border-zinc-700 rounded-[32px] p-8 sm:p-12 max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
+              className="relative w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
             >
+              {/* Tombol close pojok kanan atas */}
               <button
-                onClick={() => setActiveCaseStudy(null)}
-                className="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors"
+                onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
+                className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-all duration-300"
               >
-                <X size={24} />
+                <X size={18} />
               </button>
 
-              <h3 className="text-2xl sm:text-4xl font-black text-white mb-2">
-                {t.projects.items[activeCaseStudy].title}
-              </h3>
-              <p className="text-zinc-500 mb-8 font-bold tracking-[0.2em] uppercase text-xs">
-                {t.projects.items[activeCaseStudy].category} - Case Study
-              </p>
-
-              <div className="space-y-6 text-zinc-400 leading-relaxed text-sm sm:text-base">
-                <p>
-                  <strong className="text-white">Overview:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.overview}
-                </p>
-                <p>
-                  <strong className="text-white">Challenges:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.challenges}
-                </p>
-                <p>
-                  <strong className="text-white">Solutions:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.solutions}
-                </p>
-                <p>
-                  <strong className="text-white">Results:</strong> {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.results}
-                </p>
+              {/* Gambar header proyek */}
+              <div className="relative w-full h-52 sm:h-64 bg-zinc-200 dark:bg-zinc-900 overflow-hidden">
+                <Image
+                  src={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).image}
+                  alt={t.projects.items[activeCaseStudy].title}
+                  fill
+                  className="object-cover opacity-80"
+                  unoptimized={true}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
+                <div className="absolute bottom-5 left-6 right-16">
+                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-600 dark:text-zinc-300 mb-1">
+                    {t.projects.items[activeCaseStudy].category} — Case Study
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl font-black text-black dark:text-white leading-tight">
+                    {t.projects.items[activeCaseStudy].title}
+                  </h3>
+                </div>
               </div>
 
-              <div className="mt-12 pt-8 border-t border-zinc-800 flex justify-end">
-                <button
-                  onClick={() => setActiveCaseStudy(null)}
-                  className="px-6 py-2 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
-                >
-                  TUTUP
-                </button>
+              {/* Isi konten */}
+              <div className="p-6 sm:p-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                  <div className="space-y-1 border-l-2 border-red-500/60 pl-4">
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 dark:text-red-400">The Problem</p>
+                    <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                      {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.challenges}
+                    </p>
+                  </div>
+                  <div className="space-y-1 border-l-2 border-green-500/60 pl-4">
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-green-600 dark:text-green-400">The Solution</p>
+                    <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                      {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.solutions}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">Overview</p>
+                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.overview}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">Results</p>
+                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {(t.projects.items[activeCaseStudy] as unknown as ProjectItem).caseStudyContent.results}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tombol bawah modal */}
+                <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row gap-3">
+                  <a
+                    href={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
+                  >
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                    {(t.projects as any).liveDemo}
+                    <ArrowUpRight size={15} />
+                  </a>
+                  <a
+                    href={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).codeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 text-white border border-zinc-700 rounded-full text-sm font-bold tracking-wider hover:bg-zinc-700 transition-colors"
+                  >
+                    <Github size={15} />
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                    {(t.projects as any).sourceCode}
+                  </a>
+                </div>
               </div>
             </motion.div>
           </motion.div>

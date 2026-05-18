@@ -124,43 +124,46 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
 }
 
 // Komponen teknologi ringkas
-const techIconMap: Record<string, { slug: string; type: "devicon" | "simpleicons" }> = {
-  "HTML5": { slug: "html5", type: "devicon" },
-  "CSS3": { slug: "css3", type: "devicon" },
-  "PHP": { slug: "php", type: "devicon" },
-  "Java": { slug: "java", type: "devicon" },
-  "JavaScript": { slug: "javascript", type: "devicon" },
-  "SQL": { slug: "postgresql", type: "devicon" },
-  "Laravel": { slug: "laravel", type: "devicon" },
-  "Next.js": { slug: "nextjs", type: "devicon" },
-  "React": { slug: "react", type: "devicon" },
-  "Capacitor": { slug: "capacitor", type: "simpleicons" },
-  "Tailwind": { slug: "tailwindcss", type: "devicon" },
-  "Bootstrap": { slug: "bootstrap", type: "devicon" },
-  "Vite": { slug: "vite", type: "devicon" },
-  "Git": { slug: "git", type: "devicon" },
-  "Notion": { slug: "notion", type: "simpleicons" },
-  "GitHub": { slug: "github", type: "devicon" },
-  "Figma": { slug: "figma", type: "devicon" },
-  "Postman": { slug: "postman", type: "simpleicons" },
+const techIconMap: Record<string, { slug: string; colored?: boolean; simpleSlug?: string; color?: string }> = {
+  "HTML5": { slug: "html5" },
+  "CSS3": { slug: "css3" },
+  "PHP": { slug: "php" },
+  "Java": { slug: "java" },
+  "JavaScript": { slug: "javascript" },
+  "TypeScript": { slug: "typescript" },
+  "Python": { slug: "python" },
+  "SQL": { slug: "postgresql" },
+  "Laravel": { slug: "laravel", simpleSlug: "laravel", color: "FF2D20" },
+  "Next.js": { slug: "nextjs", simpleSlug: "nextdotjs", color: "000000" },
+  "React": { slug: "react" },
+  "Capacitor": { simpleSlug: "capacitor", color: "119EFF", slug: "" },
+  "Tailwind": { slug: "tailwindcss" },
+  "Bootstrap": { slug: "bootstrap" },
+  "Vite": { slug: "vite" },
+  "Git": { slug: "git" },
+  "Notion": { simpleSlug: "notion", color: "000000", slug: "" },
+  "GitHub": { simpleSlug: "github", color: "181717", slug: "" },
+  "Figma": { simpleSlug: "figma", color: "F24E1E", slug: "" },
+  "Postman": { simpleSlug: "postman", color: "FF6C37", slug: "" },
 };
 
 function TechPill({ label }: { label: string }) {
   const iconData = techIconMap[label];
 
-  const getIconUrl = () => {
+  const getIconUrl = (): string => {
     if (!iconData) return "";
-    if (iconData.type === "devicon") {
+    // Prioritaskan Simple Icons untuk ikon yang lebih konsisten
+    if (iconData.simpleSlug) {
+      return `https://cdn.simpleicons.org/${iconData.simpleSlug}/${iconData.color ?? "white"}`;
+    }
+    // Gunakan Devicon sebagai fallback
+    if (iconData.slug) {
       return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${iconData.slug}/${iconData.slug}-original.svg`;
     }
-    // Mengambil URL ikon dari penyedia eksternal
-    const simpleIconHex: Record<string, string> = {
-      "capacitor": "119EFF",
-      "notion": "000000",
-      "postman": "FF6C37"
-    };
-    return `https://cdn.simpleicons.org/${iconData.slug}/${simpleIconHex[iconData.slug] || "white"}`;
+    return "";
   };
+
+  const iconUrl = getIconUrl();
 
   return (
     <span
@@ -173,15 +176,16 @@ function TechPill({ label }: { label: string }) {
         color: "var(--text-secondary)", borderRadius: 9999, whiteSpace: "nowrap",
         transition: "all 0.2s ease", cursor: "default",
       }}
-      className="hover:border-zinc-600 hover:text-white"
+      className="group hover:border-zinc-600 hover:text-white"
     >
-      {iconData && (
+      {iconUrl && (
         <Image
-          src={getIconUrl()}
+          src={iconUrl}
           alt={label}
-          width={18}
-          height={18}
-          style={{ objectFit: "contain" }}
+          width={16}
+          height={16}
+          style={{ objectFit: "contain", flexShrink: 0, filter: "grayscale(100%) contrast(200%)" }}
+          className="opacity-70 group-hover:opacity-100 transition-opacity"
           unoptimized={true}
         />
       )}
@@ -211,7 +215,7 @@ function StatusBar() {
   useEffect(() => {
     const now = new Date();
     const day = now.getDate();
-    const months = language === 'id' 
+    const months = language === 'id'
       ? ["JAN", "PEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOP", "DES"]
       : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const month = months[now.getMonth()];

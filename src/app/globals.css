@@ -259,6 +259,27 @@ body {
   box-shadow: var(--border-3d-shadow-hover) !important;
 }
 
+/* Mobile: bayangan 3D diterapkan permanen, animasi hover dinonaktifkan */
+@media (max-width: 767px) {
+  .section-card {
+    transform: translate(-4px, -4px);
+    border: var(--card-border-hover, 2px solid var(--foreground)) !important;
+    box-shadow: var(--border-3d-shadow-hover) !important;
+    transition: none;
+  }
+
+  .section-card:hover {
+    transform: translate(-4px, -4px);
+    border: var(--card-border-hover, 2px solid var(--foreground)) !important;
+    box-shadow: var(--border-3d-shadow-hover) !important;
+  }
+
+  /* Sembunyikan robot berjalan di mobile */
+  .desktop-only-robot {
+    display: none !important;
+  }
+}
+
 
 /* Lencana gaya terminal */
 .badge-sharp {

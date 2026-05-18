@@ -346,7 +346,7 @@ export default function WalkingRobotBar() {
   ];
 
   return (
-    <div style={{
+    <div className="desktop-only-robot" style={{
       position: "fixed",
       bottom: 0,
       left: 0,

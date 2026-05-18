@@ -1,4 +1,4 @@
-export const translations = {
+﻿export const translations = {
   en: {
     nav: {
       home: "HOME",
@@ -10,9 +10,8 @@ export const translations = {
     hero: {
       badges: ["FRONTEND ENGINEER", "FREELANCER"],
       tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
-      codeLine: 'const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "HANIF_HAWARI", Origin: "Indonesia", Role: "Creative_Engineer" }',
       openToWork: "OPEN TO WORK",
-      basedIn: "BASED IN Yogyakarta, ID",
+      basedIn: "BASED IN INDONESIA, ID",
       today: "TODAY:",
       scrollDown: "SCROLL DOWN",
     },
@@ -31,7 +30,7 @@ export const translations = {
         title: "INFORMATICS (GPA 3.3)",
         university: "UNIVERSITAS AMIKOM YOGYAKARTA",
         description: "Built a strong foundation in software engineering, algorithms, and database architecture. Focused on practical web & mobile development skills.",
-        tags: ["ALGORITHM", "DATABASE ARCHITECTURE", "WEB DEVELOPMENT"],
+        tags: ["ALGORITHM", "DATABASE", "WEB DEVELOPMENT"],
         year: "2026",
         badge: "ACADEMIC",
       },
@@ -145,7 +144,7 @@ export const translations = {
           role: "FREELANCE DEVELOPER",
           company: "Self-Employed",
           description: "Took on freelance projects building custom websites and web applications for small businesses and startups. Focused on delivering high-quality, responsive designs.",
-          tags: ["React", "Node.js", "MongoDB", "Figma"],
+          tags: ["React", "Node.js","Figma"],
           archiveLabel: "PROJECT ARCHIVE",
           archiveTap: "Tap to Open",
         },
@@ -216,7 +215,7 @@ export const translations = {
       },
     },
     footer: {
-      copyright: `© ${new Date().getFullYear()} Muhammad Hanif Hawari. All Rights Reserved`,
+      copyright: `©${new Date().getFullYear()} Muhammad Hanif Hawari. All Rights Reserved`,
       location: "Indonesia",
       remote: "Available for Remote Work",
     },
@@ -232,9 +231,8 @@ export const translations = {
     hero: {
       badges: ["FRONTEND ENGINEER", "FREELANCER"],
       tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
-      codeLine: 'const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "HANIF_HAWARI", Origin: "Indonesia", Role: "Creative_Engineer" }',
       openToWork: "TERBUKA UNTUK BEKERJA",
-      basedIn: "BERBASIS DI Yogyakarta, ID",
+      basedIn: "BERBASIS DI INDONESIA, ID",
       today: "HARI INI:",
       scrollDown: "GULIR KEBAWAH",
     },
@@ -253,7 +251,7 @@ export const translations = {
         title: "INFORMATIKA (IPK 3.3)",
         university: "UNIVERSITAS AMIKOM YOGYAKARTA",
         description: "Membangun fondasi yang kuat dalam rekayasa perangkat lunak, algoritma, dan arsitektur database. Fokus pada pengembangan web & mobile yang praktis.",
-        tags: ["ALGORITMA", "ARSITEKTUR DATABASE", "PENGEMBANGAN WEB"],
+        tags: ["ALGORITMA", "DATABASE", "PENGEMBANGAN WEB"],
         year: "2026",
         badge: "AKADEMIK",
       },
@@ -367,7 +365,7 @@ export const translations = {
           role: "FREELANCE DEVELOPER",
           company: "Wiraswasta",
           description: "Mengerjakan proyek freelance membangun situs web dan aplikasi web kustom untuk bisnis kecil dan startup. Fokus pada pengiriman desain responsif berkualitas tinggi.",
-          tags: ["React", "Node.js", "MongoDB", "Figma"],
+          tags: ["React", "Node.js","Figma"],
           archiveLabel: "ARSIP PROYEK",
           archiveTap: "Ketuk untuk Buka",
         },
@@ -438,7 +436,7 @@ export const translations = {
       },
     },
     footer: {
-      copyright: `© ${new Date().getFullYear()} Muhammad Hanif Hawari. Hak Cipta Dilindungi`,
+      copyright: `©${new Date().getFullYear()} Muhammad Hanif Hawari. Hak Cipta Dilindungi`,
       location: "Indonesia",
       remote: "Tersedia untuk Kerja Remote",
     },

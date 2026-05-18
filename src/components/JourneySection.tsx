@@ -17,7 +17,7 @@ const itemVariants = {
 };
 
 
-// Ikon folder SVG dengan animasi tutup
+// Ikon folder SVG dengan animasi tutup dan foto keluar
 function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
   return (
     <svg
@@ -44,6 +44,26 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
         <rect x="4" y="13" width="40" height="6" rx="2" fill="currentColor" opacity="0.3" />
         <rect x="4" y="13" width="40" height="6" rx="2" stroke="currentColor" strokeWidth="2" />
       </motion.g>
+
+      {/* Foto keluar saat hover */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {[-16, -5, 6].map((rotate, i) => (
+              <motion.rect
+                key={i}
+                x="11" y="10" width="26" height="20" rx="2"
+                fill="currentColor"
+                opacity={0.85 - i * 0.22}
+                initial={{ y: 0, rotate: 0, opacity: 0 }}
+                animate={{ y: -(14 + i * 6), rotate, opacity: 0.85 - i * 0.22 }}
+                exit={{ y: 0, rotate: 0, opacity: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.055, ease: [0.34, 1.56, 0.64, 1] }}
+              />
+            ))}
+          </>
+        )}
+      </AnimatePresence>
     </svg>
   );
 }
@@ -140,7 +160,7 @@ function FolderModal({
             <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">Project Archive</p>
             <h3 className="text-white font-bold text-sm leading-tight">{title}</h3>
           </div>
-          <button onClick={onClose} className="ml-auto text-zinc-600 hover:text-white transition-colors">
+          <button onClick={() => { audioStore.playClickSound(); onClose(); }} className="ml-auto text-zinc-600 hover:text-white transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -301,7 +321,7 @@ export default function JourneySection() {
                             : { y: 0, rotate: 0 }
                         }
                         transition={{ duration: 0.5, ease: "easeInOut" }}
-                        className="text-zinc-400 group-hover/folder:text-white transition-colors duration-200"
+                        className="text-foreground transition-colors duration-200"
                       >
                         <FolderIcon isOpen={hoverFolder === index} size={38} />
                       </motion.div>

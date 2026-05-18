@@ -141,7 +141,7 @@ export default function HeroSection() {
 
         if (play && maxSpeed > 1) {
           const volume = Math.min(0.15, maxSpeed * 0.012);
-          audioStore.playBubbleSound(volume);
+          audioStore.playHitSound(volume);
           lastBubbleTime = now;
         }
       }
@@ -207,7 +207,7 @@ export default function HeroSection() {
     dragBodyRef.current = body;
 
     // Suara feedback instan
-    audioStore.playBubbleSound(0.05);
+    audioStore.playHitSound(0.05);
 
     // Set statis saat ditarik
     Matter.Body.setStatic(body, true);
@@ -327,7 +327,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Baris kode efek mesin tik */}
-        <p ref={codeLineRef} className="px-6 md:px-0 mt-16 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center min-h-[160px] md:min-h-[100px] lg:min-h-[60px]">
+        <p ref={codeLineRef} className="px-6 md:px-0 mt-6 sm:mt-16 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center min-h-[80px] sm:min-h-[100px] lg:min-h-[60px]">
           {displayedText}
           <motion.span
             animate={{ opacity: [0, 1, 0] }}

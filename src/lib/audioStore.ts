@@ -103,6 +103,36 @@ class AudioStore {
       // silent
     }
   }
+
+  public playHitSound(volume = 0.1) {
+    if (typeof window === "undefined") return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    try {
+      // Efek Wood Tock / Soft UI Tick
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = "sine";
+      const baseFreq = 500 + Math.random() * 300; // Frekuensi balok kayu ringan
+      osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, ctx.currentTime + 0.05);
+
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      // Attack sangat cepat (bunyi 'takk')
+      gain.gain.linearRampToValueAtTime(volume * 0.8, ctx.currentTime + 0.002); 
+      // Decay juga sangat cepat agar bunyinya renyah dan putus
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08); 
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.1);
+    } catch {
+      // silent
+    }
+  }
 }
 
 export const audioStore = AudioStore.getInstance();
