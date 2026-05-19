@@ -239,7 +239,7 @@
     about: {
       title: "TENTANG SAYA",
       greeting: "",
-      hi: "Hai, Saya",
+      hi: "Hai, Saya ",
       name: "Muhammad Hanif Hawari",
       bio1: "Saya adalah Mahasiswa Informatika yang sedang berkuliah di Universitas Amikom Yogyakarta. Saya memiliki skill dalam membuat website yang modern, interaktif, dan berpusat pada pengguna. Perjalanan saya dalam pengembangan web dimulai dari rasa ingin tahu dan telah berkembang menjadi sebuah passion.",
       bio2: "Saya mengkhususkan diri dalam membangun aplikasi web modern menggunakan React, Next.js, dan teknologi web terbaru. Saya percaya pada penulisan kode yang bersih dan mudah dipelihara serta membuat desain yang tidak hanya terlihat bagus tetapi juga memberikan pengalaman pengguna yang mulus.",

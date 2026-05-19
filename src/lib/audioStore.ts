@@ -24,7 +24,6 @@ class AudioStore {
       }
     }
     
-    // Resume konteks audio
     if (this.ctx?.state === "suspended") {
       this.ctx.resume();
     }
@@ -38,7 +37,6 @@ class AudioStore {
     if (!ctx) return;
 
     try {
-      // Suara klik
       const bufferSize = ctx.sampleRate * 0.4;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -59,7 +57,6 @@ class AudioStore {
       gain.connect(ctx.destination);
       noise.start();
 
-      // Efek sapuan
       const osc = ctx.createOscillator();
       const oscGain = ctx.createGain();
       osc.type = "sine";
@@ -86,13 +83,13 @@ class AudioStore {
       const gain = ctx.createGain();
       
       osc.type = "sine";
-      const freq = 200 + Math.random() * 150; // Frekuensi lebih dalam
+      const freq = 200 + Math.random() * 150;
       osc.frequency.setValueAtTime(freq, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(freq * 0.8, ctx.currentTime + 0.1); 
 
       gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(volume * 0.5, ctx.currentTime + 0.005); // Serangan lebih cepat
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15); // Peluruhan lebih halus
+      gain.gain.linearRampToValueAtTime(volume * 0.5, ctx.currentTime + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
@@ -100,7 +97,6 @@ class AudioStore {
       osc.start(ctx.currentTime);
       osc.stop(ctx.currentTime + 0.15);
     } catch {
-      // silent
     }
   }
 
@@ -110,27 +106,32 @@ class AudioStore {
     if (!ctx) return;
 
     try {
-      // Efek Wood Tock / Soft UI Tick
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
+      const panner = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
       
       osc.type = "sine";
-      const baseFreq = 500 + Math.random() * 300; // Frekuensi balok kayu ringan
+      const baseFreq = 700 + Math.random() * 300; 
       osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, ctx.currentTime + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.9, ctx.currentTime + 0.4);
 
       gain.gain.setValueAtTime(0, ctx.currentTime);
-      // Attack sangat cepat (bunyi 'takk')
-      gain.gain.linearRampToValueAtTime(volume * 0.8, ctx.currentTime + 0.002); 
-      // Decay juga sangat cepat agar bunyinya renyah dan putus
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08); 
+      gain.gain.linearRampToValueAtTime(volume * 0.6, ctx.currentTime + 0.015); 
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4); 
 
       osc.connect(gain);
-      gain.connect(ctx.destination);
+      
+      if (panner) {
+        panner.pan.setValueAtTime((Math.random() * 1.4) - 0.7, ctx.currentTime);
+        gain.connect(panner);
+        panner.connect(ctx.destination);
+      } else {
+        gain.connect(ctx.destination);
+      }
+
       osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
+      osc.stop(ctx.currentTime + 0.45);
     } catch {
-      // silent
     }
   }
 }

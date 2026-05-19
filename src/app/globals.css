@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-/* Mode Gelap (Default) */
 :root,
 [data-theme="dark"] {
   --background: #0a0a0a;
@@ -41,7 +38,6 @@
   --tech-icon-filter: brightness(0) invert(1);
 }
 
-/* Mode Terang */
 [data-theme="light"] {
   --background: #f0f0f0;
   --foreground: #0a0a0a;
@@ -63,7 +59,6 @@
   --status-bar-border: rgba(0, 0, 0, 0.08);
   --bubble-bg: rgba(10, 10, 10, 0.9);
   --bubble-color: #fff;
-  /* Inversi skala zinc */
   --zinc-50: #18181b;
   --zinc-100: #27272a;
   --zinc-200: #3f3f46;
@@ -77,7 +72,6 @@
   --zinc-950: #fafafa;
   --tech-icon-filter: brightness(0);
 }
-
 
 * {
   margin: 0;
@@ -100,7 +94,6 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Scrollbar Kustom */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -118,15 +111,12 @@ body {
   background: var(--scrollbar-thumb-hover);
 }
 
-/* Animasi denyut Open to Work */
 @keyframes pulse-dot {
-
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
-
   50% {
     opacity: 0.5;
     transform: scale(1.5);
@@ -137,14 +127,11 @@ body {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
-/* Animasi mengapung */
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
   }
-
   50% {
     transform: translateY(-10px);
   }
@@ -154,14 +141,11 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Panah memantul */
 @keyframes bounce-arrow {
-
   0%,
   100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(6px);
   }
@@ -171,13 +155,80 @@ body {
   animation: bounce-arrow 1.5s ease-in-out infinite;
 }
 
-/* Seleksi */
+@keyframes slide-right-continuous {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-slide-right {
+  animation: slide-right-continuous 1.5s ease-in-out infinite;
+}
+
+@keyframes slide-diagonal-continuous {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(3px, -3px);
+  }
+}
+
+.animate-slide-diagonal {
+  animation: slide-diagonal-continuous 1.5s ease-in-out infinite;
+}
+
+@keyframes wiggle-continuous {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg) scale(1.1);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle-continuous 2s ease-in-out infinite;
+}
+
+@keyframes pulse-icon-continuous {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.animate-pulse-icon {
+  animation: pulse-icon-continuous 1.5s ease-in-out infinite;
+}
+
+@keyframes tech-wave {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-6px); }
+  20% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.tech-wave-anim {
+  animation: tech-wave 4s ease-in-out infinite;
+  animation-delay: calc(var(--wave-index) * 0.1s);
+  will-change: transform;
+}
+
 ::selection {
   background: rgba(128, 128, 128, 0.2);
   color: var(--foreground);
 }
 
-/* Garis bawah tautan */
 .nav-link {
   position: relative;
 }
@@ -197,34 +248,25 @@ body {
   width: 100%;
 }
 
-/* Kartu efek kaca */
 .glass {
   background: var(--card-bg);
   border: 1px solid var(--border);
   backdrop-filter: blur(12px);
 }
 
-/* Efek cahaya tombol */
 .btn-glow:hover {
   box-shadow: 0 0 20px rgba(128, 128, 128, 0.15);
 }
 
-/* Sistem Desain Border Terpadu */
-
-/* Stroke Teks Nama Besar */
-/* Mode gelap: stroke putih */
 .giant-name {
   -webkit-text-stroke: 4px white;
 }
 
-/* Mode terang: stroke hitam */
 [data-theme="light"] .giant-name {
   -webkit-text-stroke: 4px #0a0a0a;
   color: #0a0a0a;
 }
 
-/* Sistem Border Bayangan 3D */
-/* Mode gelap: bayangan abu-abu */
 [data-theme="dark"] {
   --border-3d-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   --border-3d-shadow-hover: 12px 12px 0px rgba(128, 128, 128, 0.2);
@@ -233,7 +275,6 @@ body {
   --card-bg-solid: #0d0d0d;
 }
 
-/* Mode terang: bayangan hitam tebal */
 [data-theme="light"] {
   --border-3d-shadow: 0px 0px 0px #000000;
   --border-3d-shadow-hover: 12px 12px 0px #000000;
@@ -242,46 +283,23 @@ body {
   --card-bg-solid: #ffffff;
 }
 
-/* Animasi bayangan 3D kartu bagian */
 .section-card {
   position: relative;
   overflow: hidden;
   border-radius: 32px;
   background: var(--card-bg-solid);
-  border: var(--card-border, 1px solid var(--border-strong));
-  box-shadow: var(--border-3d-shadow) !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.section-card:hover {
-  transform: translate(-6px, -6px);
-  border: var(--card-border-hover, 2px solid var(--foreground));
+  transform: translate(-4px, -4px);
+  border: var(--card-border-hover, 2px solid var(--foreground)) !important;
   box-shadow: var(--border-3d-shadow-hover) !important;
+  transition: none;
 }
 
-/* Mobile: bayangan 3D diterapkan permanen, animasi hover dinonaktifkan */
 @media (max-width: 767px) {
-  .section-card {
-    transform: translate(-4px, -4px);
-    border: var(--card-border-hover, 2px solid var(--foreground)) !important;
-    box-shadow: var(--border-3d-shadow-hover) !important;
-    transition: none;
-  }
-
-  .section-card:hover {
-    transform: translate(-4px, -4px);
-    border: var(--card-border-hover, 2px solid var(--foreground)) !important;
-    box-shadow: var(--border-3d-shadow-hover) !important;
-  }
-
-  /* Sembunyikan robot berjalan di mobile */
   .desktop-only-robot {
     display: none !important;
   }
 }
 
-
-/* Lencana gaya terminal */
 .badge-sharp {
   display: inline-flex;
   align-items: center;
@@ -302,7 +320,6 @@ body {
   color: var(--foreground);
 }
 
-/* Lencana kapsul */
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -318,7 +335,6 @@ body {
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-/* Input gaya terminal */
 .input-terminal {
   width: 100%;
   padding: 12px 4px;
@@ -336,7 +352,6 @@ body {
   border-bottom-color: var(--foreground);
 }
 
-/* Gaya fokus input */
 input:focus,
 textarea:focus,
 select:focus {
@@ -344,19 +359,16 @@ select:focus {
   border-color: var(--foreground) !important;
 }
 
-/* Kontainer canvas Matter.js */
 .matter-canvas canvas {
   display: block;
 }
 
-/* Transisi tema elemen */
 *,
 *::before,
 *::after {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* Kecuali untuk animasi */
 .no-theme-transition,
 .no-theme-transition *,
 motion,
@@ -364,9 +376,8 @@ motion,
   transition: none !important;
 }
 
-/* Pola grid latar belakang */
 [data-theme="light"] body {
-  background-image: 
+  background-image:
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
@@ -376,26 +387,20 @@ motion,
   background-image: none;
 }
 
-/* Animasi getar robot */
 @keyframes robot-shake {
-
   0%,
   100% {
     transform: translateX(0);
   }
-
   20% {
     transform: translateX(-3px) rotate(-3deg);
   }
-
   40% {
     transform: translateX(3px) rotate(3deg);
   }
-
   60% {
     transform: translateX(-2px) rotate(-2deg);
   }
-
   80% {
     transform: translateX(2px) rotate(2deg);
   }
@@ -405,7 +410,6 @@ motion,
   animation: robot-shake 0.4s ease-in-out;
 }
 
-/* Tombol ganti tema */
 .theme-toggle-btn {
   display: flex;
   align-items: center;
@@ -425,7 +429,6 @@ motion,
   border-color: var(--text-subtle);
 }
 
-/* Pilihan bahasa kapsul */
 .lang-pill {
   display: flex;
   align-items: center;
@@ -461,8 +464,6 @@ motion,
 .lang-pill-btn.inactive:hover {
   color: var(--foreground);
 }
-
-/* Override bagian mode terang */
 
 [data-theme="light"] .bg-\[\#0a0a0a\],
 [data-theme="light"] section.bg-\[\#0a0a0a\],
@@ -530,12 +531,10 @@ motion,
   --tw-gradient-from: #e4e4e7 !important;
 }
 
-/* Overlay gradasi hero mode terang */
 [data-theme="light"] .from-blue-950\/10 {
   --tw-gradient-from: rgba(23, 37, 84, 0.05) !important;
 }
 
-/* State hover mode terang */
 [data-theme="light"] .hover\:bg-white\/5:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
@@ -552,7 +551,6 @@ motion,
   color: #0a0a0a !important;
 }
 
-/* Kartu bagian About */
 [data-theme="light"] .border-zinc-800.bg-zinc-950 {
   background-color: #ffffff !important;
   border-color: #d4d4d8 !important;
@@ -562,7 +560,6 @@ motion,
   border-color: #ffffff !important;
 }
 
-/* Tombol unduh */
 [data-theme="light"] .hover\:bg-white:hover {
   background-color: #0a0a0a !important;
 }
@@ -571,7 +568,6 @@ motion,
   color: #ffffff !important;
 }
 
-/* Tombol rekrut kartu */
 [data-theme="light"] .bg-white.text-black {
   background-color: #0a0a0a !important;
   color: #ffffff !important;
@@ -581,7 +577,6 @@ motion,
   background-color: #27272a !important;
 }
 
-/* Scrollbar mode terang */
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
@@ -594,14 +589,11 @@ motion,
   background: #71717a;
 }
 
-
-/* Footer mode terang */
 [data-theme="light"] .border-zinc-800.bg-\[\#0a0a0a\] {
   background-color: var(--background) !important;
   border-color: #d4d4d8 !important;
 }
 
-/* Kartu bagian mode terang */
 [data-theme="light"] .section-card {
   background: rgba(255, 255, 255, 0.7) !important;
   border-color: #d4d4d8 !important;
@@ -619,13 +611,11 @@ motion,
   background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent) !important;
 }
 
-/* Backdrop mode terang */
 [data-theme="light"] .backdrop-blur-xl,
 [data-theme="light"] .backdrop-blur-sm {
   backdrop-filter: blur(20px);
 }
 
-/* Override tanpa cahaya */
 .no-glow,
 .no-glow * {
   border: none !important;
@@ -633,20 +623,22 @@ motion,
   -webkit-text-stroke: unset !important;
 }
 
-/* Proteksi warna stroke nama besar */
 [data-theme="light"] .giant-name,
 [data-theme="light"] h1.giant-name {
   color: #0a0a0a !important;
   -webkit-text-stroke: 4px #0a0a0a !important;
 }
 
-/* Border bagian mode terang */
 [data-theme="light"] section {
   border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
-/* StatusBar Hover Inversion in Light Mode */
+[data-theme="dark"] section {
+  border-top: 1px solid transparent !important;
+  border-bottom: 1px solid transparent !important;
+}
+
 [data-theme="light"] .status-bar-item:hover {
   background-color: #0a0a0a !important;
 }

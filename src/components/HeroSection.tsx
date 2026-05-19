@@ -3,13 +3,12 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Matter from "matter-js";
-import { audioStore } from "@/lib/audioStore";
 
-const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; // Status: ONLINE | Mode: OPEN_TO_WORK <END_OF_SCRIPT>`;
+const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; return "ONLINE"; <END_OF_SCRIPT>`;
 
 const BADGES = [
   { id: "b1", text: "FRONTEND ENGINEER", type: "pill", w: 185, h: 46 },
-  { id: "b2", text: "FREELANCER", type: "pill", w: 120, h: 46 },
+  { id: "b2", text: "LINUX", type: "pill", w: 80, h: 46 },
   { id: "b3", text: "INFORMATICS", type: "pill", w: 130, h: 46 },
   { id: "b4", text: "UI/UX", type: "pill", w: 80, h: 46 },
   { id: "b5", text: "GRAPHIC DESIGN", type: "pill", w: 155, h: 46 },
@@ -17,14 +16,10 @@ const BADGES = [
   { id: "b7", text: "</>", type: "icon", w: 50, h: 50 },
 ];
 
-
-
-
 export default function HeroSection() {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
-  // Efek mesin tik
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     if (isTyping) {
@@ -42,7 +37,6 @@ export default function HeroSection() {
     return () => clearTimeout(timeout);
   }, [displayedText, isTyping]);
 
-  // Integrasi fisika Matter.js
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -51,7 +45,6 @@ export default function HeroSection() {
   const line2Ref = useRef<HTMLSpanElement>(null);
   const codeLineRef = useRef<HTMLParagraphElement>(null);
 
-  // State drag khusus
   const dragBodyRef = useRef<Matter.Body | null>(null);
   const lastPosRef = useRef({ x: 0, y: 0 });
   const lastTimeRef = useRef(0);
@@ -82,7 +75,6 @@ export default function HeroSection() {
     });
     render.canvas.style.display = 'none';
 
-    // Batas tebal agar tidak glitch
     const floor1W = width * 10;
     const floor2W = width * 10;
 
@@ -140,8 +132,6 @@ export default function HeroSection() {
         });
 
         if (play && maxSpeed > 1) {
-          const volume = Math.min(0.15, maxSpeed * 0.012);
-          audioStore.playHitSound(volume);
           lastBubbleTime = now;
         }
       }
@@ -158,29 +148,20 @@ export default function HeroSection() {
       const rect1 = line1Ref.current.getBoundingClientRect();
       const rect2 = line2Ref.current.getBoundingClientRect();
 
-      // Penyelarasan lantai dengan teks
       const y1 = rect1.top - sceneRect.top;
       const y2 = rect2.top - sceneRect.top;
 
-      // Kalkulasi posisi lantai
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
-
-      // Atap di bawah navbar
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: -180 });
-
-      // Dinding
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
       Matter.Body.setPosition(wallRight, { x: newW + 500, y: newH / 2 });
 
-      // bottomFloor top edge. Height is 1000.
-      // Batasi badge di zona atas
       const currentBoundaryY = y1;
       boundaryYRef.current = currentBoundaryY;
       Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: currentBoundaryY + 500 });
     };
 
-    // Jeda untuk pemuatan font dan layout
     setTimeout(handleResize, 100);
     window.addEventListener('resize', handleResize);
 
@@ -196,7 +177,6 @@ export default function HeroSection() {
     };
   }, []);
 
-  // Handler drag fisika
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
     e.preventDefault();
     if (!engineRef.current || !sceneRef.current) return;
@@ -206,10 +186,6 @@ export default function HeroSection() {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragBodyRef.current = body;
 
-    // Suara feedback instan
-    audioStore.playHitSound(0.05);
-
-    // Set statis saat ditarik
     Matter.Body.setStatic(body, true);
 
     const rect = sceneRef.current.getBoundingClientRect();
@@ -227,7 +203,6 @@ export default function HeroSection() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Batasi Y saat drag
     const clampedY = Math.min(y, boundaryYRef.current - 20);
 
     Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
@@ -249,7 +224,6 @@ export default function HeroSection() {
     e.currentTarget.releasePointerCapture(e.pointerId);
 
     Matter.Body.setStatic(dragBodyRef.current, false);
-    // Terapkan momentum
     Matter.Body.setVelocity(dragBodyRef.current, velRef.current);
 
     dragBodyRef.current = null;
@@ -264,7 +238,6 @@ export default function HeroSection() {
     <section id="home" className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0a0a0a]">
       <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-blue-950/10 to-transparent pointer-events-none" />
 
-      {/* Kontainer Fisika */}
       <div
         ref={sceneRef}
         className="absolute inset-0 z-20 pointer-events-none"
@@ -313,7 +286,6 @@ export default function HeroSection() {
         className="flex-1 flex flex-col items-center justify-center px-0 md:px-6 pt-20 relative z-10 pointer-events-none"
       >
 
-        {/* Nama Besar */}
         <h1
           className="giant-name font-black text-white text-center uppercase leading-[0.8] w-full flex flex-col items-center overflow-hidden max-w-[100vw]"
           style={{
@@ -326,15 +298,16 @@ export default function HeroSection() {
           <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
-        {/* Baris kode efek mesin tik */}
-        <p ref={codeLineRef} className="px-6 md:px-0 mt-6 sm:mt-16 text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide max-w-4xl text-center min-h-[80px] sm:min-h-[100px] lg:min-h-[60px]">
-          {displayedText}
-          <motion.span
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{ repeat: Infinity, duration: 0.8 }}
-            className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
-          />
-        </p>
+        <div className="w-full max-w-4xl px-6 md:px-0 mt-6 sm:mt-16 h-[180px] sm:h-[120px] lg:h-[80px] flex justify-center">
+          <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center">
+            {displayedText}
+            <motion.span
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
+            />
+          </p>
+        </div>
       </motion.div>
     </section>
   );

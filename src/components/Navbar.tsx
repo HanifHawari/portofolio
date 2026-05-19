@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useTheme } from "@/lib/ThemeContext";
+import { audioStore } from "@/lib/audioStore";
 import Logo from "./Logo";
-
 
 const navLinks = [
   { key: "home", href: "#home" },
@@ -16,7 +16,6 @@ const navLinks = [
   { key: "contact", href: "#contact" },
 ] as const;
 
-// Ikon matahari (mode terang)
 function SunIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,7 +25,6 @@ function SunIcon() {
   );
 }
 
-// Ikon bulan (mode gelap)
 function MoonIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -48,6 +46,7 @@ export default function Navbar() {
   }, []);
 
   const handleNavClick = (href: string) => {
+    audioStore.playClickSound();
     setMobileOpen(false);
     const el = document.querySelector(href);
     if (el) {
@@ -82,7 +81,6 @@ export default function Navbar() {
         }}
       >
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          {/* Logo */}
           <button
             onClick={() => handleNavClick("#home")}
             style={{ background: "none", border: "none", cursor: "pointer", color: "var(--foreground)", display: "flex", alignItems: "center" }}
@@ -90,8 +88,6 @@ export default function Navbar() {
             <Logo variant="monogram" />
           </button>
 
-
-          {/* Menu Desktop */}
           <div style={{ alignItems: "center", gap: 32 }} className="hidden md:flex">
             {navLinks.map((link) => (
               <button
@@ -117,11 +113,9 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Tema, Bahasa, dan Menu Mobile */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-
             <motion.button
-              onClick={toggleTheme}
+              onClick={() => { audioStore.playClickSound(); toggleTheme(); }}
               whileTap={{ scale: 0.9 }}
               className="theme-toggle-btn"
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
@@ -154,17 +148,16 @@ export default function Navbar() {
               </AnimatePresence>
             </motion.button>
 
-
             <div className="hidden md:flex">
               <div className="lang-pill">
                 <button
-                  onClick={() => setLanguage("en")}
+                  onClick={() => { audioStore.playClickSound(); setLanguage("en"); }}
                   className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
                 >
                   US
                 </button>
                 <button
-                  onClick={() => setLanguage("id")}
+                  onClick={() => { audioStore.playClickSound(); setLanguage("id"); }}
                   className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
                 >
                   ID
@@ -172,9 +165,11 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Menu hamburger mobile */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => {
+                audioStore.playClickSound();
+                setMobileOpen(!mobileOpen);
+              }}
               className="md:hidden"
               style={{
                 background: "none",
@@ -190,7 +185,6 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Drawer mobile */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -242,7 +236,6 @@ export default function Navbar() {
                   </motion.button>
                 ))}
 
-                {/* Ganti bahasa mobile */}
                 <motion.div
                   initial={{ x: 50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -251,14 +244,14 @@ export default function Navbar() {
                 >
                   <div className="lang-pill" style={{ display: "inline-flex" }}>
                     <button
-                      onClick={() => setLanguage("en")}
+                      onClick={() => { audioStore.playClickSound(); setLanguage("en"); }}
                       className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
                       style={{ fontSize: 14, padding: "8px 20px" }}
                     >
                       US
                     </button>
                     <button
-                      onClick={() => setLanguage("id")}
+                      onClick={() => { audioStore.playClickSound(); setLanguage("id"); }}
                       className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
                       style={{ fontSize: 14, padding: "8px 20px" }}
                     >

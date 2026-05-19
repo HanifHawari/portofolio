@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
-// Robot bulat dengan ekspresi
 function RoundRobot({
   direction,
   scared,
@@ -45,13 +44,10 @@ function RoundRobot({
       style={{ position: "relative", width: size, transformStyle: "preserve-3d" }}
     >
       <div style={{ transform: flipped ? "scaleX(-1)" : "scaleX(1)", transformOrigin: "center" }}>
-        
-        {/* Label */}
         <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
           {scared ? "😱 RUN!" : "ROBOT"}
         </div>
 
-        {/* Antena */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
           <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
           <motion.div
@@ -61,10 +57,8 @@ function RoundRobot({
           />
         </div>
 
-        {/* Badge ikon */}
         <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>🤖</div>
 
-        {/* Tubuh kapsul */}
         <motion.div
           animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : { y: [0, -1.5, 0] }}
           transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
@@ -83,17 +77,14 @@ function RoundRobot({
             boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : "0 4px 12px rgba(0,0,0,0.3)",
           }}
         >
-          {/* Overlay layar */}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
 
-          {/* Dekorasi titik piksel */}
           <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
             {["#ef4444", "#22c55e"].map((c, i) => (
               <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
             ))}
           </div>
 
-          {/* Mata */}
           <div style={{ display: "flex", gap: size * 0.2 }}>
             {[0, 1].map((i) => (
               <div key={i} style={{
@@ -107,7 +98,6 @@ function RoundRobot({
             ))}
           </div>
 
-          {/* Mulut */}
           {scared ? (
             <div style={{ width: size * 0.2, height: size * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
           ) : happy ? (
@@ -117,7 +107,6 @@ function RoundRobot({
           )}
         </motion.div>
 
-        {/* Kaki */}
         <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
           {[0, 1].map((i) => (
             <motion.div
@@ -138,7 +127,6 @@ function RoundRobot({
   );
 }
 
-// Logika robot berjalan
 function WalkingRobot({
   startX,
   startDir,
@@ -243,7 +231,6 @@ function WalkingRobot({
       }}
       onClick={handleClick}
     >
-      {/* Gelembung bicara */}
       <AnimatePresence>
         {!scared && !flipping && (
           <motion.div
@@ -313,7 +300,6 @@ function WalkingRobot({
   );
 }
 
-// Ekspor Utama
 export default function WalkingRobotBar() {
   const { t } = useLanguage();
   const cursorXRef = useRef(-999);

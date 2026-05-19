@@ -16,8 +16,6 @@ const itemVariants = {
   },
 };
 
-
-// Ikon folder SVG dengan animasi tutup dan foto keluar
 function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
   return (
     <svg
@@ -27,15 +25,12 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
       fill="none"
       style={{ overflow: "visible" }}
     >
-      {/* Badan folder */}
       <rect x="4" y="16" width="40" height="26" rx="3" fill="currentColor" opacity="0.15" />
       <rect x="4" y="16" width="40" height="26" rx="3" stroke="currentColor" strokeWidth="2" />
 
-      {/* Tab folder */}
       <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" fill="currentColor" opacity="0.25" />
       <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" stroke="currentColor" strokeWidth="2" />
 
-      {/* Tutup folder beranimasi */}
       <motion.g
         animate={isOpen ? { rotateX: -70, y: -6 } : { rotateX: 0, y: 0 }}
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
@@ -45,7 +40,6 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
         <rect x="4" y="13" width="40" height="6" rx="2" stroke="currentColor" strokeWidth="2" />
       </motion.g>
 
-      {/* Foto keluar saat hover */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -68,8 +62,6 @@ function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
   );
 }
 
-// Satu foto per entri perjalanan
-// Ganti dengan path gambar asli
 const GALLERY_DATA: { src: string; caption: string }[] = [
   { src: "/proyek1.png", caption: "" },
   { src: "/proyek1.png", caption: "" },
@@ -78,7 +70,6 @@ const GALLERY_DATA: { src: string; caption: string }[] = [
   { src: "/proyek1.png", caption: "" },
 ];
 
-// Garis progres vertikal beranimasi
 function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -112,7 +103,6 @@ function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   );
 }
 
-// Modal Folder
 function FolderModal({
   index,
   title,
@@ -143,10 +133,8 @@ function FolderModal({
         className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
         style={{ boxShadow: "0 0 70px rgba(0,0,0,0.85), 0 0 24px rgba(255,255,255,0.04)" }}
       >
-        {/* Cahaya atas */}
         <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
-        {/* Header */}
         <div className="flex items-center gap-3 px-5 py-3 border-b border-zinc-800">
           <motion.div
             initial={{ scale: 0.5, opacity: 0, rotate: -12 }}
@@ -165,7 +153,6 @@ function FolderModal({
           </button>
         </div>
 
-        {/* Foto tunggal */}
         <div className="p-4">
           {photo ? (
             <motion.div
@@ -208,7 +195,6 @@ function JourneyCard({ children, className = "" }: { children: React.ReactNode; 
   );
 }
 
-// Bagian Utama
 export default function JourneySection() {
   const { t } = useLanguage();
   const [openFolder, setOpenFolder] = useState<number | null>(null);
@@ -240,7 +226,6 @@ export default function JourneySection() {
           </p>
         </motion.div>
 
-        {/* Garis Waktu */}
         <div className="relative">
           <TimelineProgress sectionRef={sectionRef} />
 
@@ -255,7 +240,6 @@ export default function JourneySection() {
                 transition={{ delay: index * 0.08 }}
                 className="relative flex flex-col sm:flex-row gap-4 sm:gap-8"
               >
-                {/* Tahun dan Lencana */}
                 <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0 ml-6 sm:ml-0">
                   <span className="text-lg sm:text-xl font-black text-white">
                     {item.year}
@@ -265,7 +249,6 @@ export default function JourneySection() {
                   </span>
                 </div>
 
-                {/* Titik garis waktu */}
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
@@ -294,7 +277,6 @@ export default function JourneySection() {
                       {item.description}
                     </p>
 
-                    {/* Tag teknologi */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {item.tags.map((tag, i) => (
                         <span
@@ -306,7 +288,6 @@ export default function JourneySection() {
                       ))}
                     </div>
 
-                    {/* Tombol folder beranimasi */}
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
                       onHoverStart={() => setHoverFolder(index)}
@@ -314,17 +295,9 @@ export default function JourneySection() {
                       whileTap={{ scale: 0.93 }}
                       className="flex items-center gap-3 group/folder border border-zinc-800 rounded-xl px-4 py-3 hover:border-zinc-600 hover:bg-white/5 transition-all duration-200"
                     >
-                      <motion.div
-                        animate={
-                          hoverFolder === index
-                            ? { y: [0, -4, 0], rotate: [0, -5, 5, 0] }
-                            : { y: 0, rotate: 0 }
-                        }
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                        className="text-foreground transition-colors duration-200"
-                      >
+                      <div className="text-foreground transition-colors duration-200 animate-wiggle">
                         <FolderIcon isOpen={hoverFolder === index} size={38} />
-                      </motion.div>
+                      </div>
                       <div className="text-left">
                         <p className="text-xs font-bold tracking-[0.2em] text-zinc-500 group-hover/folder:text-zinc-300 uppercase transition-colors">
                           Project Archive
@@ -342,7 +315,6 @@ export default function JourneySection() {
         </div>
       </div>
 
-      {/* Modal Folder */}
       <AnimatePresence>
         {openFolder !== null && (
           <FolderModal

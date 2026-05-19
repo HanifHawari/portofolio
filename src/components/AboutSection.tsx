@@ -23,7 +23,6 @@ const itemVariants = {
   },
 };
 
-// Kartu ID dengan efek miring 3D
 function IDCard({ t }: { t: { about: { name: string; discordUser: string; online: string; hireMe: string } } }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -52,7 +51,6 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       style={{ transformStyle: "preserve-3d", perspective: 800 }}
       className="animate-float w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
     >
-      {/* Gambar latar profil */}
       <Image
         src="/profile.jpg"
         alt="Profile"
@@ -63,10 +61,8 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         }}
       />
 
-      {/* Gradasi bawah agar teks terbaca */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
 
-      {/* Efek kilau saat hover */}
       {hovering && (
         <div style={{
           position: "absolute", inset: 0,
@@ -75,7 +71,6 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         }} />
       )}
 
-      {/* Overlay status di bagian bawah */}
       <div
         className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
         style={{
@@ -105,7 +100,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
           style={{
             backgroundColor: "var(--foreground)",
             color: "var(--background)",
-            border: "1px solid var(--background)" // White border in light mode (since background is white)
+            border: "1px solid var(--background)"
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = "var(--text-muted)";
@@ -123,50 +118,10 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
   );
 }
 
-// Komponen teknologi ringkas
-const techIconMap: Record<string, { slug: string; colored?: boolean; simpleSlug?: string; color?: string }> = {
-  "HTML5": { slug: "html5" },
-  "CSS3": { slug: "css3" },
-  "PHP": { slug: "php" },
-  "Java": { slug: "java" },
-  "JavaScript": { slug: "javascript" },
-  "TypeScript": { slug: "typescript" },
-  "Python": { slug: "python" },
-  "SQL": { slug: "postgresql" },
-  "Laravel": { slug: "laravel", simpleSlug: "laravel", color: "FF2D20" },
-  "Next.js": { slug: "nextjs", simpleSlug: "nextdotjs", color: "000000" },
-  "React": { slug: "react" },
-  "Capacitor": { simpleSlug: "capacitor", color: "119EFF", slug: "" },
-  "Tailwind": { slug: "tailwindcss" },
-  "Bootstrap": { slug: "bootstrap" },
-  "Vite": { slug: "vite" },
-  "Git": { slug: "git" },
-  "Notion": { simpleSlug: "notion", color: "000000", slug: "" },
-  "GitHub": { simpleSlug: "github", color: "181717", slug: "" },
-  "Figma": { simpleSlug: "figma", color: "F24E1E", slug: "" },
-  "Postman": { simpleSlug: "postman", color: "FF6C37", slug: "" },
-};
-
-function TechPill({ label }: { label: string }) {
-  const iconData = techIconMap[label];
-
-  const getIconUrl = (): string => {
-    if (!iconData) return "";
-    // Prioritaskan Simple Icons untuk ikon yang lebih konsisten
-    if (iconData.simpleSlug) {
-      return `https://cdn.simpleicons.org/${iconData.simpleSlug}/${iconData.color ?? "white"}`;
-    }
-    // Gunakan Devicon sebagai fallback
-    if (iconData.slug) {
-      return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${iconData.slug}/${iconData.slug}-original.svg`;
-    }
-    return "";
-  };
-
-  const iconUrl = getIconUrl();
-
+function TechPill({ label, index = 0 }: { label: string; index?: number }) {
   return (
     <span
+      className="group hover:border-zinc-600 hover:text-white tech-wave-anim"
       style={{
         display: "inline-flex", alignItems: "center", gap: 8,
         padding: "6px 14px",
@@ -174,27 +129,15 @@ function TechPill({ label }: { label: string }) {
         background: "var(--surface-2)",
         fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
         color: "var(--text-secondary)", borderRadius: 9999, whiteSpace: "nowrap",
-        transition: "all 0.2s ease", cursor: "default",
-      }}
-      className="group hover:border-zinc-600 hover:text-white"
+        transition: "border-color 0.2s ease, color 0.2s ease", cursor: "default",
+        "--wave-index": index,
+      } as React.CSSProperties}
     >
-      {iconUrl && (
-        <Image
-          src={iconUrl}
-          alt={label}
-          width={16}
-          height={16}
-          style={{ objectFit: "contain", flexShrink: 0, filter: "grayscale(100%) contrast(200%)" }}
-          className="opacity-70 group-hover:opacity-100 transition-opacity"
-          unoptimized={true}
-        />
-      )}
       {label}
     </span>
   );
 }
 
-// Kartu bagian dengan border
 function SectionCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div
@@ -206,7 +149,6 @@ function SectionCard({ children, className = "" }: { children: React.ReactNode; 
     </div>
   );
 }
-
 
 function StatusBar() {
   const { t, language } = useLanguage();
@@ -226,7 +168,6 @@ function StatusBar() {
   return (
     <div className="w-full border-t border-b border-zinc-800 bg-zinc-950/20 backdrop-blur-sm overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-zinc-800 border-x border-zinc-800">
-        {/* Open to Work */}
         <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
           <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -237,21 +178,18 @@ function StatusBar() {
           </span>
         </div>
 
-        {/* Location */}
         <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-colors group-hover/item:text-white">
             {t.hero.basedIn}
           </span>
         </div>
 
-        {/* Today's Date */}
         <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors">
             {t.hero.today} <span className="text-zinc-500 font-medium ml-1 transition-colors group-hover/item:text-white">{dateStr}</span>
           </span>
         </div>
 
-        {/* Scroll Down */}
         <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center justify-between gap-3 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap transition-colors group-hover/item:text-white">
             {t.hero.scrollDown}
@@ -303,7 +241,6 @@ export default function AboutSection() {
           </h2>
         </motion.div>
 
-        {/* Bio dan Kartu ID */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -314,16 +251,24 @@ export default function AboutSection() {
           <motion.div variants={itemVariants}>
             <SectionCard>
               <div className="space-y-5">
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                  {t.about.hi}{" "}<span className="text-white">{t.about.name}</span>
+                <h2 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-2">
+                  <motion.span
+                    animate={{ opacity: [0.3, 1, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    👋
+                  </motion.span>
+                  <span>
+                    {t.about.hi}{""}<span className="text-white">{t.about.name}</span>
+                  </span>
                 </h2>
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio1}</p>
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio2}</p>
                 <a
                   href="/cv.pdf" download
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-white text-sm font-semibold tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-white text-sm font-semibold tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
                 >
-                  <Download size={15} />
+                  <Download size={15} className="animate-bounce" />
                   {t.about.downloadResume}
                 </a>
               </div>
@@ -335,7 +280,6 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* Pendidikan dan Teknologi */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -343,7 +287,6 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
         >
-          {/* Pendidikan */}
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
               <div className="flex flex-wrap items-center gap-3 mb-3">
@@ -381,7 +324,6 @@ export default function AboutSection() {
             </SectionCard>
           </motion.div>
 
-          {/* Daftar Teknologi */}
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
               <div className="flex items-center gap-2 mb-4">
@@ -391,22 +333,27 @@ export default function AboutSection() {
                 </h3>
               </div>
               <div className="space-y-4">
-                {[t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
-                  <div key={ci}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 6 }}>
-                      {cat.title}
-                    </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                      {cat.items.map((item, i) => <TechPill key={i} label={item} />)}
+                {(() => {
+                  let globalIndex = 0;
+                  return [t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
+                    <div key={ci}>
+                      <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 6 }}>
+                        {cat.title}
+                      </p>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                        {cat.items.map((item, i) => {
+                          const currentIndex = globalIndex++;
+                          return <TechPill key={i} label={item} index={currentIndex} />;
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ));
+                })()}
               </div>
             </SectionCard>
           </motion.div>
         </motion.div>
 
-        {/* Filosofi Kerja dan Fokus Utama */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -425,7 +372,13 @@ export default function AboutSection() {
               <div className="space-y-3">
                 {philosophyItems.map((item, i) => (
                   <div key={i} className="flex gap-3 pl-3 border-l-2 border-zinc-800 hover:border-zinc-600 transition-colors">
-                    <span className="font-mono text-zinc-300" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
+                    <motion.span 
+                      animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+                      className="font-mono text-zinc-300" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}
+                    >
+                      {item.icon}
+                    </motion.span>
                     <div>
                       <p className="text-white font-semibold text-sm">{item.title}</p>
                       <p className="text-zinc-500 text-xs leading-relaxed">{item.desc}</p>

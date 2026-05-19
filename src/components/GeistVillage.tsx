@@ -40,7 +40,6 @@ const playBlupSound = () => {
   }
 };
 
-// Tipe mood dan ekspresinya
 type Mood = "happy" | "laugh" | "angry" | "sleepy" | "scared" | "cool" | "neutral";
 
 const MOODS: { mood: Mood; icon: string; eyeColor: string; mouthShape: string }[] = [
@@ -91,7 +90,6 @@ interface RobotState {
 
 const CANVAS_H = 460;
 
-// Karakter robot kapsul dengan antena + layar LED
 function GeistRobotChar({
   size,
   mood,
@@ -118,12 +116,10 @@ function GeistRobotChar({
 
   return (
     <div style={{ position: "relative", width: size, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}>
-      {/* Label nama */}
       <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
         {scared ? "😱 RUN!" : label}
       </div>
 
-      {/* Antena */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
         <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
         <motion.div
@@ -133,10 +129,8 @@ function GeistRobotChar({
         />
       </div>
 
-      {/* Badge ikon */}
       <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>{icon}</div>
 
-      {/* Tubuh kapsul */}
       <motion.div
         animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : mood === "laugh" ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
         transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
@@ -155,17 +149,14 @@ function GeistRobotChar({
           boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : dragging ? "0 0 20px rgba(255,255,255,0.15)" : "0 4px 12px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Overlay layar */}
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
 
-        {/* Dekorasi titik piksel */}
         <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
           {["#ef4444", "#22c55e"].map((c, i) => (
             <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
           ))}
         </div>
 
-        {/* Mata */}
         <div style={{ display: "flex", gap: size * 0.2 }}>
           {[0, 1].map((i) => (
             <div key={i} style={{
@@ -180,7 +171,6 @@ function GeistRobotChar({
           ))}
         </div>
 
-        {/* Mulut */}
         {moodData.mouthShape === "smile" && (
           <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
         )}
@@ -198,7 +188,6 @@ function GeistRobotChar({
         )}
       </motion.div>
 
-      {/* Kaki */}
       <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
         {[0, 1].map((i) => (
           <motion.div
@@ -218,7 +207,6 @@ function GeistRobotChar({
   );
 }
 
-// Komponen Utama Desa Geist
 export default function GeistVillage() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -237,7 +225,6 @@ export default function GeistVillage() {
   const dragRef = useRef<{ id: number; offsetX: number; offsetY: number } | null>(null);
   const prevDragPosRef = useRef<{ x: number; y: number } | null>(null);
 
-  // Inisialisasi robot
   const initRobots = useCallback((w: number) => {
     const newRobots: RobotState[] = ROBOT_PERSONALITIES.map((p, i) => {
       const sz = 44 + (i % 3) * 8;
@@ -277,7 +264,6 @@ export default function GeistVillage() {
     robotMoodsRef.current = initMoods;
   }, []);
 
-  // Observasi perubahan ukuran
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -290,7 +276,6 @@ export default function GeistVillage() {
     return () => obs.disconnect();
   }, [initRobots]);
 
-  // Loop animasi
   useEffect(() => {
     const tick = (now: number) => {
       const dt = Math.min((now - lastFrameRef.current) / 1000, 0.05);
@@ -345,20 +330,17 @@ export default function GeistVillage() {
           return { ...r, scared: isScared, stunTimer };
         }
 
-        // Pergerakan otonom
         const centerDx = (w / 2) - (r.x + r.size / 2);
         const centerDy = (CANVAS_H / 2) - (r.y + r.size / 2);
         repX += centerDx * 0.8;
         repY += centerDy * 0.8;
 
-        // Logika kedipan
         blinkTimer -= dt;
         if (blinkTimer <= 0) {
           isBlinking = !isBlinking;
           blinkTimer = isBlinking ? 0.12 : (2.5 + Math.random() * 3);
         }
 
-        // Timer suasana hati
         moodTimer -= dt;
         if (moodTimer <= 0) {
           moodTimer = 4 + Math.random() * 6;
@@ -368,14 +350,12 @@ export default function GeistVillage() {
           currentMood = availMoods[Math.floor(Math.random() * availMoods.length)];
         }
 
-        // Perubahan arah jalan
         walkTimer -= dt;
         if (walkTimer <= 0) {
           walkTimer = 1.0 + Math.random() * 2.5;
           walkDir = Math.random() * Math.PI * 2;
         }
 
-        // Pergerakan otomatis
         const walkSpeed = stunTimer > 0 ? 0 : currentMood === "sleepy" ? 300 : currentMood === "angry" ? 900 : 500;
         let vx = r.vx + (Math.cos(walkDir) * walkSpeed + repX) * dt;
         let vy = r.vy + (Math.sin(walkDir) * walkSpeed + repY) * dt;
@@ -392,7 +372,6 @@ export default function GeistVillage() {
         const maxX = w - r.size;
         const maxY = CANVAS_H - r.size * 1.65;
 
-        // Pengalihan langkah
         const stepThreshold = 5;
         if (speed > stepThreshold) {
           const oldStep = stepsRef.current[r.id];
@@ -419,13 +398,11 @@ export default function GeistVillage() {
 
       robotsRef.current = updated;
 
-      // Perbarui state hanya untuk perubahan yang jarang (mood, langkah)
       if (stepsChanged) {
         stepsRef.current = newSteps;
         setSteps({ ...newSteps });
       }
 
-      // Periksa apakah ada perubahan mood untuk memicu render ulang ekspresi
       const anyMoodChange = updated.some((r) => {
         const prev = robotMoodsRef.current[r.id];
         return prev && (prev.mood !== r.currentMood || prev.blinking !== r.isBlinking || prev.scared !== r.scared);
@@ -448,7 +425,6 @@ export default function GeistVillage() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // Pelacakan kursor mouse
   useEffect(() => {
     const onMove = (e: MouseEvent) => { cursorRef.current = { x: e.clientX, y: e.clientY }; };
     const onLeave = () => { cursorRef.current = { x: -999, y: -999 }; };
@@ -457,7 +433,6 @@ export default function GeistVillage() {
     return () => { window.removeEventListener("mousemove", onMove); document.removeEventListener("mouseleave", onLeave); };
   }, []);
 
-  // Handler tarik mouse
   const handleMouseDown = useCallback((id: number, e: React.MouseEvent) => {
     e.preventDefault();
     const container = containerRef.current;
@@ -494,7 +469,6 @@ export default function GeistVillage() {
     window.addEventListener("mouseup", onUp);
   }, []);
 
-  // Handler tarik sentuh
   const handleTouchStart = useCallback((id: number, e: React.TouchEvent) => {
     e.preventDefault();
     const container = containerRef.current;
@@ -552,7 +526,6 @@ export default function GeistVillage() {
           </div>
         </motion.div>
 
-        {/* Kotak game */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -562,11 +535,9 @@ export default function GeistVillage() {
           className="relative overflow-hidden group border border-zinc-800 bg-zinc-950/30 transition-all duration-300 cursor-crosshair"
           style={{ height: CANVAS_H }}
         >
-          {/* Aksen cahaya atas minimalis */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-500/30 to-transparent z-0" />
           <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
           <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none z-0" />
-          {/* Lantai grid */}
           <div style={{
             position: "absolute", inset: 0,
             backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
@@ -574,7 +545,6 @@ export default function GeistVillage() {
             pointerEvents: "none",
           }} />
 
-          {/* Daftar Robot */}
           {robots.map((robot) => {
             const moodInfo = robotMoods[robot.id] || { mood: robot.currentMood, blinking: robot.isBlinking, scared: robot.scared };
             return (
@@ -606,7 +576,6 @@ export default function GeistVillage() {
             );
           })}
 
-          {/* Status memuat */}
           {robots.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-zinc-600 text-sm tracking-widest">Loading robots…</div>

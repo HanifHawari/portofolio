@@ -42,7 +42,6 @@ const Github = ({ size = 24, className = "" }: { size?: number; className?: stri
   </svg>
 );
 
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -64,7 +63,6 @@ export default function ProjectsSection() {
   const { t } = useLanguage();
   const [activeCaseStudy, setActiveCaseStudy] = useState<number | null>(null);
 
-  // Mencegah scroll saat modal terbuka
   useEffect(() => {
     if (activeCaseStudy !== null) {
       document.body.style.overflow = "hidden";
@@ -99,7 +97,6 @@ export default function ProjectsSection() {
           </motion.p>
         </motion.div>
 
-        {/* Kartu Proyek */}
         <div className="space-y-8">
           {t.projects.items.map((project, index) => (
             <motion.div
@@ -110,27 +107,21 @@ export default function ProjectsSection() {
               transition={{ duration: 0.7, delay: index * 0.1 }}
               className="group relative overflow-hidden bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/50 rounded-3xl hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
             >
-
               <div className="grid grid-cols-1 lg:grid-cols-2 relative z-10">
-                {/* Kiri: Konten */}
                 <div className="p-8 sm:p-10 flex flex-col justify-between">
                   <div>
-                    {/* Badge Kategori */}
                     <span className="inline-block px-3 py-1 border border-zinc-700 rounded-none text-[10px] font-bold tracking-[0.2em] text-zinc-400 mb-6">
                       {project.category}
                     </span>
 
-                    {/* Judul */}
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mb-4 group-hover:translate-x-1 transition-transform duration-300">
                       {project.title}
                     </h3>
 
-                    {/* Deskripsi */}
                     <p className="text-zinc-400 leading-relaxed mb-8 max-w-md">
                       {project.description}
                     </p>
 
-                    {/* Statistik */}
                     <div className="grid grid-cols-3 gap-4 mb-8">
                       {project.stats.map((stat, i) => (
                         <div key={i}>
@@ -144,7 +135,6 @@ export default function ProjectsSection() {
                       ))}
                     </div>
 
-                    {/* Teknologi */}
                     <div className="flex flex-wrap gap-2 mb-8">
                       {project.tech.map((tech, i) => (
                         <span
@@ -157,42 +147,40 @@ export default function ProjectsSection() {
                     </div>
                   </div>
 
-                  {/* Tombol-tombol */}
                   <div className="flex flex-wrap gap-3">
                     <button
-                    onClick={() => {
+                      onClick={() => {
                         audioStore.playClickSound();
                         setActiveCaseStudy(index);
                       }}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
+                      className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
                     >
-                      <BookOpen size={14} />
+                      <BookOpen size={14} className="animate-pulse-icon" />
                       {(project as unknown as ProjectItem).caseStudy}
                     </button>
                     <a
                       href={(project as unknown as ProjectItem).liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
+                      className="group inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
                     >
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(t.projects as any).liveDemo}
-                      <ArrowUpRight size={14} />
+                      <ArrowUpRight size={14} className="animate-slide-diagonal" />
                     </a>
                     <a
                       href={(project as unknown as ProjectItem).codeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
+                      className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
                     >
-                      <Github size={14} />
+                      <Github size={14} className="animate-wiggle" />
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(t.projects as any).sourceCode}
                     </a>
                   </div>
                 </div>
 
-                {/* Kanan: Cuplikan Gambar */}
                 <div
                   className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden group/img cursor-pointer"
                   onClick={() => {
@@ -207,11 +195,9 @@ export default function ProjectsSection() {
                     className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                     unoptimized={true}
                   />
-                  {/* Overlay Gradasi */}
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
 
-                  {/* Overlay Tombol Hover */}
-                  <div className="absolute inset-0 z-20 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 bg-black/40 backdrop-blur-sm transition-all duration-300">
+                  <div className="absolute inset-0 z-20 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 group-hover/img:opacity-100 bg-black/40 md:backdrop-blur-sm transition-all duration-300">
                     <a
                       href={(project as unknown as ProjectItem).liveUrl}
                       target="_blank"
@@ -219,8 +205,8 @@ export default function ProjectsSection() {
                       onClick={(e) => e.stopPropagation()}
                       className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 delay-75"
                     >
-                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-200 transition-colors">
-                        <ArrowUpRight size={16} />
+                      <span className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-200 transition-colors">
+                        <ArrowUpRight size={16} className="animate-slide-diagonal" />
                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {(t.projects as any).liveDemo}
                       </span>
@@ -232,8 +218,8 @@ export default function ProjectsSection() {
                       onClick={(e) => e.stopPropagation()}
                       className="transform translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300 delay-150"
                     >
-                      <span className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-800 transition-colors border border-zinc-700">
-                        <Github size={16} />
+                      <span className="group inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white text-sm font-bold tracking-wider rounded-full shadow-2xl hover:bg-zinc-800 transition-colors border border-zinc-700">
+                        <Github size={16} className="animate-wiggle" />
                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         {(t.projects as any).sourceCode}
                       </span>
@@ -246,7 +232,6 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      {/* Modal Studi Kasus */}
       <AnimatePresence>
         {activeCaseStudy !== null && (
           <motion.div
@@ -255,17 +240,15 @@ export default function ProjectsSection() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
           >
-            {/* Latar belakang */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/80 md:backdrop-blur-sm"
               onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
             />
 
-            {/* Konten Modal */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -273,15 +256,13 @@ export default function ProjectsSection() {
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="relative w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
             >
-              {/* Tombol close pojok kanan atas */}
               <button
                 onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
-                className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-all duration-300"
+                className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 md:backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-all duration-300"
               >
                 <X size={18} />
               </button>
 
-              {/* Gambar header proyek */}
               <div className="relative w-full h-52 sm:h-64 bg-zinc-200 dark:bg-zinc-900 overflow-hidden">
                 <Image
                   src={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).image}
@@ -301,7 +282,6 @@ export default function ProjectsSection() {
                 </div>
               </div>
 
-              {/* Isi konten */}
               <div className="p-6 sm:p-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
                   <div className="space-y-1 border-l-2 border-red-500/60 pl-4">
@@ -333,25 +313,24 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Tombol bawah modal */}
                 <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row gap-3">
                   <a
                     href={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
+                    className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
                   >
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(t.projects as any).liveDemo}
-                    <ArrowUpRight size={15} />
+                    <ArrowUpRight size={15} className="animate-slide-diagonal" />
                   </a>
                   <a
                     href={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).codeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 text-white border border-zinc-700 rounded-full text-sm font-bold tracking-wider hover:bg-zinc-700 transition-colors"
+                    className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 text-white border border-zinc-700 rounded-full text-sm font-bold tracking-wider hover:bg-zinc-700 transition-colors"
                   >
-                    <Github size={15} />
+                    <Github size={15} className="animate-wiggle" />
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(t.projects as any).sourceCode}
                   </a>
