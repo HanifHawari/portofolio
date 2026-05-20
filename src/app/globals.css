@@ -270,15 +270,15 @@ body {
 [data-theme="dark"] {
   --border-3d-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   --border-3d-shadow-hover: 12px 12px 0px rgba(128, 128, 128, 0.2);
-  --card-border: 1px solid #1a1a1a;
-  --card-border-hover: 1px solid #333333;
+  --card-border: 2px solid #1a1a1a;
+  --card-border-hover: 2px solid #333333;
   --card-bg-solid: #0d0d0d;
 }
 
 [data-theme="light"] {
   --border-3d-shadow: 0px 0px 0px #000000;
   --border-3d-shadow-hover: 12px 12px 0px #000000;
-  --card-border: 1px solid #c4c4c8;
+  --card-border: 2px solid #c4c4c8;
   --card-border-hover: 2px solid #000000;
   --card-bg-solid: #ffffff;
 }
