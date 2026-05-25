@@ -1,4 +1,4 @@
-﻿import { translations } from "./translations.1";
+import { translations } from "./translations";
 
 export type Language = "en" | "id";
 
