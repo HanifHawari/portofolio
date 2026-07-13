@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage } from "@/lib/KonteksBahasa";
 
 function RoundRobot({
   direction,

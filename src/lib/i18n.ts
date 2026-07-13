@@ -1,4 +1,4 @@
-import { translations } from "./translations";
+import { translations } from "./terjemahan";
 
 export type Language = "en" | "id";
 

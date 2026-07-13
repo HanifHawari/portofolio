@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Language, TranslationKey } from "./i18n";
-import { translations } from "./translations";
+import { translations } from "./terjemahan";
 
 interface LanguageContextType {
   language: Language;

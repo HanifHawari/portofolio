@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage } from "@/lib/KonteksBahasa";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -178,14 +178,14 @@ function StatusBar() {
           </span>
         </div>
 
-        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
-          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-colors group-hover/item:text-white">
+        <div className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.1em] sm:tracking-[0.2em] text-zinc-500 uppercase overflow-hidden text-ellipsis transition-colors group-hover/item:text-white" style={{ maxWidth: '100%' }}>
             {t.hero.basedIn}
           </span>
         </div>
 
-        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
-          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors">
+        <div className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+          <span className="text-[9px] sm:text-[10px] font-black tracking-[0.1em] sm:tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors">
             {t.hero.today} <span className="text-zinc-500 font-medium ml-1 transition-colors group-hover/item:text-white">{dateStr}</span>
           </span>
         </div>

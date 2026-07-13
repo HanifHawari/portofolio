@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { useLanguage } from "@/lib/LanguageContext";
-import { audioStore } from "@/lib/audioStore";
+import { useLanguage } from "@/lib/KonteksBahasa";
+import { audioStore } from "@/lib/penyimpananAudio";
 
 const playBlupSound = () => {
   const ctx = audioStore.getContext();

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Send, Loader2, Copy, Check } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage } from "@/lib/KonteksBahasa";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -171,7 +171,7 @@ export default function ContactSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16"
         >
           <motion.div variants={itemVariants} className="space-y-10">
             <div>

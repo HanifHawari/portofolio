@@ -3,15 +3,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
-import { useTheme } from "@/lib/ThemeContext";
-import { audioStore } from "@/lib/audioStore";
-import Logo from "./Logo";
+import { useLanguage } from "@/lib/KonteksBahasa";
+import { useTheme } from "@/lib/KonteksTema";
+import { audioStore } from "@/lib/penyimpananAudio";
+import Logo from "@/components/umum/Logo";
 
 const navLinks = [
   { key: "home", href: "#home" },
   { key: "about", href: "#about" },
   { key: "projects", href: "#projects" },
+  { key: "achievements", href: "#achievements" },
   { key: "journey", href: "#journey" },
   { key: "contact", href: "#contact" },
 ] as const;
@@ -44,6 +45,12 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   const handleNavClick = (href: string) => {
     audioStore.playClickSound();

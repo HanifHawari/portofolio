@@ -4,8 +4,8 @@ import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
-import { audioStore } from "@/lib/audioStore";
+import { useLanguage } from "@/lib/KonteksBahasa";
+import { audioStore } from "@/lib/penyimpananAudio";
 
 const itemVariants = {
   hidden: { opacity: 0, x: -24 },
@@ -87,11 +87,11 @@ function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElem
   return (
     <>
       <div
-        className="absolute left-[7px] sm:left-[140px] top-0 bottom-0 w-px"
+        className="absolute left-[15px] sm:left-[140px] top-0 bottom-0 w-px"
         style={{ background: "var(--border-strong)" }}
       />
       <motion.div
-        className="absolute left-[7px] sm:left-[140px] top-0 bottom-0 w-px origin-top"
+        className="absolute left-[15px] sm:left-[140px] top-0 bottom-0 w-px origin-top"
         style={{
           background: "linear-gradient(to bottom, var(--foreground), rgba(255,255,255,0.2))",
           scaleY,
@@ -188,7 +188,7 @@ function FolderModal({
 function JourneyCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <motion.div
-      className={`ml-6 sm:ml-0 flex-1 section-card p-6 sm:p-8 relative transition-all duration-300 ${className}`}
+      className={`ml-8 sm:ml-0 flex-1 section-card p-6 sm:p-8 relative transition-all duration-300 ${className}`}
     >
       {children}
     </motion.div>
@@ -240,7 +240,7 @@ export default function JourneySection() {
                 transition={{ delay: index * 0.08 }}
                 className="relative flex flex-col sm:flex-row gap-4 sm:gap-8"
               >
-                <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0 ml-6 sm:ml-0">
+                <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:w-[130px] shrink-0 ml-8 sm:ml-0">
                   <span className="text-lg sm:text-xl font-black text-white">
                     {item.year}
                   </span>
@@ -254,7 +254,7 @@ export default function JourneySection() {
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 15, delay: index * 0.08 + 0.3 }}
-                  className="absolute left-[3px] sm:left-[136px] top-1.5 z-10"
+                  className="absolute left-[11px] sm:left-[136px] top-1.5 z-10"
                   style={{
                     width: 9,
                     height: 9,

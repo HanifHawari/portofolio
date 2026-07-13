@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Wifi } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage } from "@/lib/KonteksBahasa";
 
 export default function Footer() {
   const { t } = useLanguage();

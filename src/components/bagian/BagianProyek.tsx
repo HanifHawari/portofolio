@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
-import { audioStore } from "@/lib/audioStore";
+import { useLanguage } from "@/lib/KonteksBahasa";
+import { audioStore } from "@/lib/penyimpananAudio";
 
 interface ProjectItem {
   category: string;
@@ -147,13 +147,13 @@ export default function ProjectsSection() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
                     <button
                       onClick={() => {
                         audioStore.playClickSound();
                         setActiveCaseStudy(index);
                       }}
-                      className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
+                      className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 border border-zinc-700 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
                     >
                       <BookOpen size={14} className="animate-pulse-icon" />
                       {(project as unknown as ProjectItem).caseStudy}
@@ -162,7 +162,7 @@ export default function ProjectsSection() {
                       href={(project as unknown as ProjectItem).liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
+                      className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-white text-black rounded-full text-xs sm:text-sm font-semibold tracking-wider hover:bg-zinc-200 transition-colors"
                     >
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {(t.projects as any).liveDemo}
@@ -172,7 +172,7 @@ export default function ProjectsSection() {
                       href={(project as unknown as ProjectItem).codeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 rounded-full text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
+                      className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 border border-zinc-700 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wider hover:bg-zinc-800 hover:border-zinc-600 transition-colors"
                     >
                       <Github size={14} className="animate-wiggle" />
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

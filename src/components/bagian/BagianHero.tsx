@@ -298,7 +298,7 @@ export default function HeroSection() {
           <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
-        <div className="w-full max-w-4xl px-6 md:px-0 mt-6 sm:mt-16 h-[180px] sm:h-[120px] lg:h-[80px] flex justify-center">
+        <div className="w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] flex justify-center">
           <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center">
             {displayedText}
             <motion.span

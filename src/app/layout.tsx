@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import { LanguageProvider } from "@/lib/LanguageContext";
-import { ThemeProvider } from "@/lib/ThemeContext";
+import { LanguageProvider } from "@/lib/KonteksBahasa";
+import { ThemeProvider } from "@/lib/KonteksTema";
 
 import { Space_Grotesk } from "next/font/google";
 
