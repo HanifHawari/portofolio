@@ -113,7 +113,7 @@ export default function GeistVillage() {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [robots, setRobots] = useState<RobotState[]>([]);
-  const [steps, setSteps] = useState<Record<number, boolean>>({});
+  const [, setSteps] = useState<Record<number, boolean>>({});
   const [robotMoods, setRobotMoods] = useState<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
 
   const robotsRef = useRef<RobotState[]>([]);

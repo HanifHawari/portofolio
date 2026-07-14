@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Send, Loader2, Copy, Check } from "lucide-react";
+import { Send, Loader2, Copy, Check } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
 
 const containerVariants = {
