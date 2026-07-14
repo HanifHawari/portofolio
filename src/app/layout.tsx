@@ -14,6 +14,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.portfoliohanief.web.id"), // Domain website 
   title: "Muhammad Hanif Hawari | Web Developer",
   description:
     "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
@@ -29,8 +30,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
-      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer",
+      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies.",
+    url: "https://www.portfoliohanief.web.id",
     type: "website",
+    images: [
+      {
+        url: "/profile.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Muhammad Hanif Hawari",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Muhammad Hanif Hawari | Web Developer",
+    description:
+      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies.",
+    images: ["/profile.jpg"],
   },
 };
 
