@@ -3,42 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/KonteksBahasa";
-import { audioStore } from "@/lib/penyimpananAudio";
 
-const playBlupSound = () => {
-  const ctx = audioStore.getContext();
-  if (!ctx) return;
-  
-  try {
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.type = "sine";
-    osc1.frequency.setValueAtTime(300, ctx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(450, ctx.currentTime + 0.1);
-    gain1.gain.setValueAtTime(0, ctx.currentTime);
-    gain1.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
-    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-    osc1.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + 0.1);
-
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.type = "sine";
-    osc2.frequency.setValueAtTime(400, ctx.currentTime + 0.15);
-    osc2.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.25);
-    gain2.gain.setValueAtTime(0, ctx.currentTime + 0.15);
-    gain2.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.17);
-    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-    osc2.start(ctx.currentTime + 0.15);
-    osc2.stop(ctx.currentTime + 0.25);
-  } catch (e) {
-    console.log("Audio play failed", e);
-  }
-};
 
 type Mood = "happy" | "laugh" | "angry" | "sleepy" | "scared" | "cool" | "neutral";
 
@@ -440,7 +405,6 @@ export default function GeistVillage() {
     const rect = container.getBoundingClientRect();
     const r = robotsRef.current.find(rb => rb.id === id);
     if (!r) return;
-    playBlupSound();
     dragRef.current = { id, offsetX: e.clientX - rect.left - r.x, offsetY: e.clientY - rect.top - r.y };
     robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: true, scared: true } : rb);
 
@@ -477,7 +441,6 @@ export default function GeistVillage() {
     const rect = container.getBoundingClientRect();
     const r = robotsRef.current.find(rb => rb.id === id);
     if (!r) return;
-    playBlupSound();
     dragRef.current = { id, offsetX: touch.clientX - rect.left - r.x, offsetY: touch.clientY - rect.top - r.y };
     robotsRef.current = robotsRef.current.map(rb => rb.id === id ? { ...rb, dragging: true, scared: true } : rb);
 

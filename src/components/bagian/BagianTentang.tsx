@@ -252,12 +252,8 @@ export default function AboutSection() {
             <SectionCard>
               <div className="space-y-5">
                 <h2 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-2">
-                  <motion.span
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    👋
-                  </motion.span>
+                  {/* 🖼️ GIF — taruh file di: public/icons/wave.gif */}
+                  <img src="/icons/wave.gif" alt="wave" width={36} height={36} style={{ display: "inline-block", verticalAlign: "middle" }} />
                   <span>
                     {t.about.hi}{""}<span className="text-white">{t.about.name}</span>
                   </span>
@@ -299,13 +295,8 @@ export default function AboutSection() {
               </div>
               <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1 flex items-center gap-2">
                 {t.about.education.title}
-                <motion.span
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-xl"
-                >
-                  🎓
-                </motion.span>
+                  {/* 🖼️ GIF — taruh file di: public/icons/graduate.gif */}
+                  <img src="/icons/graduate.gif" alt="graduate" width={28} height={28} style={{ display: "inline-block", verticalAlign: "middle" }} />
               </h3>
               <div className="flex items-center gap-2 text-zinc-500 text-sm mb-3">
                 <MapPin size={14} />
@@ -371,14 +362,21 @@ export default function AboutSection() {
               </div>
               <div className="space-y-3">
                 {philosophyItems.map((item, i) => (
-                  <div key={i} className="flex gap-3 pl-3 border-l-2 border-zinc-800 hover:border-zinc-600 transition-colors">
-                    <motion.span 
-                      animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
-                      className="font-mono text-zinc-300" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1, flexShrink: 0, marginTop: 2 }}
-                    >
-                      {item.icon}
-                    </motion.span>
+                  <div key={i} className="flex gap-3">
+                    {/* 🖼️ GIF ICON — taruh file GIF kamu di: public/icons/philosophy-{i+1}.gif
+                        Contoh: public/icons/philosophy-1.gif, philosophy-2.gif, philosophy-3.gif */}
+                    <img
+                      src={`/icons/philosophy-${i + 1}.gif`}
+                      alt={item.title}
+                      width={44}
+                      height={44}
+                      style={{
+                        flexShrink: 0,
+                        marginTop: 2,
+                        objectFit: "contain",
+                        // Ganti ukuran di sini jika GIF kamu lebih besar/kecil
+                      }}
+                    />
                     <div>
                       <p className="text-white font-semibold text-sm">{item.title}</p>
                       <p className="text-zinc-500 text-xs leading-relaxed">{item.desc}</p>
@@ -405,13 +403,17 @@ export default function AboutSection() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
+                    className="tech-wave-anim"
                     style={{
                       display: "inline-flex", padding: "5px 16px",
                       border: "1px solid var(--border-strong)",
                       fontSize: 12, fontWeight: 500,
                       color: "var(--text-secondary)", letterSpacing: "0.05em",
                       borderRadius: 9999,
-                    }}
+                      cursor: "default",
+                      transition: "border-color 0.2s ease, color 0.2s ease",
+                      "--wave-index": i,
+                    } as React.CSSProperties}
                   >
                     {area}
                   </motion.span>

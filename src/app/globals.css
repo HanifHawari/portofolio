@@ -302,12 +302,13 @@ body {
   transition: none;
 }
 
-/* On mobile, disable the 3D offset transform to prevent horizontal overflow */
+/* On mobile, keep border and 3D shadow same as desktop but remove translate offset to prevent overflow */
 @media (max-width: 767px) {
   .section-card {
     transform: none !important;
-    box-shadow: none !important;
     border-radius: 20px;
+    border: var(--card-border-hover, 2px solid var(--foreground)) !important;
+    box-shadow: var(--border-3d-shadow-hover) !important;
   }
 }
 
@@ -446,6 +447,13 @@ motion,
 .theme-toggle-btn:hover {
   background: var(--surface);
   border-color: var(--text-subtle);
+}
+
+/* Hide theme toggle button on mobile */
+@media (max-width: 767px) {
+  .theme-toggle-btn {
+    display: none !important;
+  }
 }
 
 .lang-pill {

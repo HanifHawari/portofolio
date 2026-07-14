@@ -89,8 +89,8 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://fitness-demo.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/fitness-tracker",
+                    liveUrl: "https://fitmindai-v3wqlnnw.b4a.run",
+                    codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
                         overview: "A comprehensive health and fitness application built to help users track their wellness journey across multiple platforms with real-time data synchronization.",
@@ -316,7 +316,7 @@ export const translations = {
                     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Google Gemini API"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://aura-store-ecommerce.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/Aura-Store.git",
+                    codeUrl: "https://github.com/HanifHawari/Aura-Store.",
                     image: "/ecommerce.png",
                     caseStudyContent: {
                         overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi manajemen inventaris real-time dan pemrosesan pembayaran aman.",
@@ -336,8 +336,8 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://fitness-demo.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/fitness-tracker",
+                    liveUrl: "https://fitmindai-v3wqlnnw.b4a.run",
+                    codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
                         overview: "Aplikasi kesehatan dan kebugaran komprehensif yang dibangun untuk membantu pengguna melacak perjalanan kesehatan mereka di berbagai platform dengan sinkronisasi data real-time.",

@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
 import { useTheme } from "@/lib/KonteksTema";
-import { audioStore } from "@/lib/penyimpananAudio";
 import Logo from "@/components/umum/Logo";
 
 const navLinks = [
@@ -53,7 +52,6 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   const handleNavClick = (href: string) => {
-    audioStore.playClickSound();
     setMobileOpen(false);
     const el = document.querySelector(href);
     if (el) {
@@ -122,7 +120,7 @@ export default function Navbar() {
 
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <motion.button
-              onClick={() => { audioStore.playClickSound(); toggleTheme(); }}
+              onClick={() => { toggleTheme(); }}
               whileTap={{ scale: 0.9 }}
               className="theme-toggle-btn"
               title={isDark ? "Switch to light mode" : "Switch to dark mode"}
@@ -158,13 +156,13 @@ export default function Navbar() {
             <div className="hidden md:flex">
               <div className="lang-pill">
                 <button
-                  onClick={() => { audioStore.playClickSound(); setLanguage("en"); }}
+                  onClick={() => { setLanguage("en"); }}
                   className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
                 >
                   US
                 </button>
                 <button
-                  onClick={() => { audioStore.playClickSound(); setLanguage("id"); }}
+                  onClick={() => { setLanguage("id"); }}
                   className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
                 >
                   ID
@@ -174,7 +172,6 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                audioStore.playClickSound();
                 setMobileOpen(!mobileOpen);
               }}
               className="md:hidden"
@@ -251,14 +248,14 @@ export default function Navbar() {
                 >
                   <div className="lang-pill" style={{ display: "inline-flex" }}>
                     <button
-                      onClick={() => { audioStore.playClickSound(); setLanguage("en"); }}
+                      onClick={() => { setLanguage("en"); }}
                       className={`lang-pill-btn ${language === "en" ? "active" : "inactive"}`}
                       style={{ fontSize: 14, padding: "8px 20px" }}
                     >
                       US
                     </button>
                     <button
-                      onClick={() => { audioStore.playClickSound(); setLanguage("id"); }}
+                      onClick={() => { setLanguage("id"); }}
                       className={`lang-pill-btn ${language === "id" ? "active" : "inactive"}`}
                       style={{ fontSize: 14, padding: "8px 20px" }}
                     >

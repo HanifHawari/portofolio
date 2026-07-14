@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
-import { audioStore } from "@/lib/penyimpananAudio";
 
 interface ProjectItem {
   category: string;
@@ -150,7 +149,6 @@ export default function ProjectsSection() {
                   <div className="flex flex-wrap gap-2 sm:gap-3">
                     <button
                       onClick={() => {
-                        audioStore.playClickSound();
                         setActiveCaseStudy(index);
                       }}
                       className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 border border-zinc-700 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wider hover:bg-white/10 hover:border-zinc-500 transition-all duration-300"
@@ -184,7 +182,6 @@ export default function ProjectsSection() {
                 <div
                   className="relative h-64 lg:h-auto bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-800 overflow-hidden group/img cursor-pointer"
                   onClick={() => {
-                    audioStore.playClickSound();
                     setActiveCaseStudy(index);
                   }}
                 >
@@ -246,7 +243,7 @@ export default function ProjectsSection() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="absolute inset-0 bg-black/80 md:backdrop-blur-sm"
-              onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
+              onClick={() => { setActiveCaseStudy(null); }}
             />
 
             <motion.div
@@ -257,7 +254,7 @@ export default function ProjectsSection() {
               className="relative w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
             >
               <button
-                onClick={() => { audioStore.playClickSound(); setActiveCaseStudy(null); }}
+                onClick={() => { setActiveCaseStudy(null); }}
                 className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 md:backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-all duration-300"
               >
                 <X size={18} />

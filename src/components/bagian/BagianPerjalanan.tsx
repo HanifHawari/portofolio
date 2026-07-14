@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
-import { audioStore } from "@/lib/penyimpananAudio";
 
 const itemVariants = {
   hidden: { opacity: 0, x: -24 },
@@ -148,7 +147,7 @@ function FolderModal({
             <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">Project Archive</p>
             <h3 className="text-white font-bold text-sm leading-tight">{title}</h3>
           </div>
-          <button onClick={() => { audioStore.playClickSound(); onClose(); }} className="ml-auto text-zinc-600 hover:text-white transition-colors">
+          <button onClick={() => { onClose(); }} className="ml-auto text-zinc-600 hover:text-white transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -202,7 +201,6 @@ export default function JourneySection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleOpenFolder = useCallback((index: number) => {
-    audioStore.playClickSound();
     setOpenFolder(index);
   }, []);
 

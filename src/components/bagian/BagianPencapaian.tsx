@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
-import { audioStore } from "@/lib/penyimpananAudio";
 
 interface GalleryImage {
   src: string;
@@ -131,7 +130,7 @@ function PhotoModal({
             <h3 className="text-white font-bold text-sm leading-tight">{item.title}</h3>
           </div>
           <button
-            onClick={() => { audioStore.playClickSound(); onClose(); }}
+            onClick={() => { onClose(); }}
             className="ml-auto text-zinc-600 hover:text-white transition-colors"
           >
             <X size={20} />
@@ -173,7 +172,7 @@ function PhotoModal({
               {photos.map((p, i) => (
                 <button
                   key={i}
-                  onClick={() => { audioStore.playClickSound(); setCurrentIndex(i); }}
+                  onClick={() => { setCurrentIndex(i); }}
                   className={`relative flex-shrink-0 w-16 h-10 rounded-md overflow-hidden border-2 transition-all duration-200 ${
                     i === currentIndex ? "border-white" : "border-zinc-700 opacity-50 hover:opacity-80"
                   }`}
@@ -202,7 +201,6 @@ export default function AchievementsSection() {
   }, [activeDetail]);
 
   const handleOpen = useCallback((i: number) => {
-    audioStore.playClickSound();
     setActiveDetail(i);
   }, []);
 
