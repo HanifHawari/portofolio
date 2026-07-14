@@ -89,7 +89,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://fitmindai-v3wqlnnw.b4a.run",
+                    liveUrl: "https://fitmind-ai.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -316,7 +316,7 @@ export const translations = {
                     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Google Gemini API"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://aura-store-ecommerce.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/Aura-Store.",
+                    codeUrl: "https://github.com/HanifHawari/Aura-Store",
                     image: "/ecommerce.png",
                     caseStudyContent: {
                         overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi manajemen inventaris real-time dan pemrosesan pembayaran aman.",
@@ -336,7 +336,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://fitmindai-v3wqlnnw.b4a.run",
+                    liveUrl: "https://fitmind-ai.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
