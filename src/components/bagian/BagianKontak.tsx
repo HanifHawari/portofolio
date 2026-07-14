@@ -169,7 +169,15 @@ export default function ContactSection() {
                   href={`mailto:${t.contact.email}`}
                   className="flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-colors flex-1"
                 >
-                  <Mail size={20} className="text-zinc-500 group-hover:text-white transition-colors" />
+                  {/* 🖼️ GIF icon — public/icons/mail.gif */}
+                  <img 
+                    src="/icons/mail.gif" 
+                    alt="Mail" 
+                    width={28} 
+                    height={28} 
+                    style={{ objectFit: "contain" }}
+                    className="group-hover:scale-110 transition-transform duration-300"
+                  />
                   <span className="truncate">{t.contact.email}</span>
                 </a>
                 <CopyEmailButton email={t.contact.email} />

@@ -7,29 +7,19 @@ import { useLanguage } from "@/lib/KonteksBahasa";
 
 type Mood = "happy" | "laugh" | "angry" | "sleepy" | "scared" | "cool" | "neutral";
 
-const MOODS: { mood: Mood; icon: string; eyeColor: string; mouthShape: string }[] = [
-  { mood: "happy", icon: "😊", eyeColor: "var(--robot-eye)", mouthShape: "smile" },
-  { mood: "laugh", icon: "😄", eyeColor: "var(--robot-eye)", mouthShape: "laugh" },
-  { mood: "angry", icon: "😡", eyeColor: "#ef4444", mouthShape: "frown" },
-  { mood: "sleepy", icon: "😴", eyeColor: "var(--robot-eye)", mouthShape: "neutral" },
-  { mood: "cool", icon: "😎", eyeColor: "#3b82f6", mouthShape: "smile" },
-  { mood: "neutral", icon: "🤖", eyeColor: "var(--robot-eye)", mouthShape: "neutral" },
-  { mood: "scared", icon: "😱", eyeColor: "#ef4444", mouthShape: "open" },
-];
-
 const ROBOT_PERSONALITIES = [
-  { icon: "👑", label: "KING",   mood: "happy"   as Mood },
-  { icon: "😇", label: "ANGEL",  mood: "happy"   as Mood },
-  { icon: "😡", label: "ANGRY",  mood: "angry"   as Mood },
-  { icon: "😎", label: "COOL",   mood: "cool"    as Mood },
-  { icon: "🤓", label: "NERD",   mood: "neutral" as Mood },
-  { icon: "💤", label: "SLEEPY", mood: "sleepy"  as Mood },
-  { icon: "🎯", label: "AIM",    mood: "neutral" as Mood },
-  { icon: "</>", label: "CODER", mood: "happy"   as Mood },
-  { icon: "🚀", label: "ASTRO",  mood: "cool"    as Mood },
-  { icon: "🤡", label: "JOKER",  mood: "laugh"   as Mood },
-  { icon: "👽", label: "ALIEN",  mood: "neutral" as Mood },
-  { icon: "👻", label: "GHOST",  mood: "sleepy"  as Mood },
+  { icon: "👑", label: "KING", mood: "happy" as Mood },
+  { icon: "😇", label: "ANGEL", mood: "happy" as Mood },
+  { icon: "😡", label: "ANGRY", mood: "angry" as Mood },
+  { icon: "😎", label: "COOL", mood: "cool" as Mood },
+  { icon: "🤓", label: "NERD", mood: "neutral" as Mood },
+  { icon: "💤", label: "SLEEPY", mood: "sleepy" as Mood },
+  { icon: "🎯", label: "AIM", mood: "neutral" as Mood },
+  { icon: "</>", label: "CODER", mood: "happy" as Mood },
+  { icon: "🚀", label: "ASTRO", mood: "cool" as Mood },
+  { icon: "🤡", label: "JOKER", mood: "laugh" as Mood },
+  { icon: "👽", label: "ALIEN", mood: "neutral" as Mood },
+  { icon: "👻", label: "GHOST", mood: "sleepy" as Mood },
 ];
 
 interface RobotState {
@@ -60,114 +50,61 @@ function GeistRobotChar({
   mood,
   scared,
   dragging,
-  isBlinking,
   icon,
   label,
-  step,
 }: {
   size: number;
   mood: Mood;
   scared: boolean;
   dragging: boolean;
-  isBlinking: boolean;
   icon: string;
   label: string;
-  step: boolean;
 }) {
-  const moodData = MOODS.find(m => m.mood === mood) || MOODS[0];
-  const eyeScaleY = isBlinking ? 0.05 : (scared ? 1.8 : 1);
-  const eyeColor = scared ? "#ef4444" : moodData.eyeColor;
-  const accentColor = scared ? "rgba(239,68,68,0.5)" : mood === "angry" ? "rgba(239,68,68,0.3)" : mood === "cool" ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.08)";
 
   return (
-    <div style={{ position: "relative", width: size, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none" }}>
+    <div style={{ position: "relative", width: size, cursor: dragging ? "grabbing" : "grab", userSelect: "none", touchAction: "none", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      {/* Label nama robot */}
       <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
         {scared ? "😱 RUN!" : label}
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
-        <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
-        <motion.div
-          animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
-          transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
-          style={{ width: 6, height: 6, borderRadius: "50%", background: scared ? "#ef4444" : mood === "cool" ? "#3b82f6" : "#22c55e", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
-        />
-      </div>
+      {/* Emoji icon di atas kepala */}
+      <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 2 }}>{icon}</div>
 
-      <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>{icon}</div>
-
-      <motion.div
-        animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : mood === "laugh" ? { y: [0, -3, 0] } : { y: [0, -1.5, 0] }}
-        transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+      {/* GIF Robot dengan animasi gerak dari framer-motion */}
+      <motion.img
+        src="/icons/robot.gif"
+        alt={label}
+        width={size}
+        height={size}
+        draggable={false}
+        animate={
+          scared
+            ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] }
+            : mood === "laugh"
+              ? { y: [0, -3, 0] }
+              : { y: [0, -1.5, 0] }
+        }
+        transition={
+          scared
+            ? { duration: 0.2, repeat: Infinity }
+            : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }
+        }
         style={{
-          width: size,
-          height: size * 0.9,
-          background: "var(--robot-body)",
-          borderRadius: `${size * 0.35}px ${size * 0.35}px ${size * 0.2}px ${size * 0.2}px`,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          border: `1.5px solid ${accentColor}`,
-          overflow: "hidden",
-          boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : dragging ? "0 0 20px rgba(255,255,255,0.15)" : "0 4px 12px rgba(0,0,0,0.3)",
+          objectFit: "contain",
+          filter: scared
+            ? "drop-shadow(0 0 8px rgba(239,68,68,0.8)) hue-rotate(300deg) saturate(200%)"
+            : dragging
+              ? "drop-shadow(0 0 10px rgba(255,255,255,0.4))"
+              : mood === "angry"
+                ? "drop-shadow(0 0 6px rgba(239,68,68,0.4)) hue-rotate(300deg)"
+                : mood === "cool"
+                  ? "drop-shadow(0 0 6px rgba(59,130,246,0.5))"
+                  : "drop-shadow(0 0 4px rgba(255,255,255,0.15))",
+          transform: `scaleX(${scared ? (Math.random() > 0.5 ? 1 : -1) : 1
+            })`,
         }}
-      >
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
-
-        <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
-          {["#ef4444", "#22c55e"].map((c, i) => (
-            <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
-          ))}
-        </div>
-
-        <div style={{ display: "flex", gap: size * 0.2 }}>
-          {[0, 1].map((i) => (
-            <div key={i} style={{
-              width: size * 0.15,
-              height: size * 0.15,
-              borderRadius: mood === "cool" ? 2 : "50%",
-              background: eyeColor,
-              transform: `scaleY(${eyeScaleY})`,
-              transition: "transform 0.08s ease",
-              opacity: mood === "sleepy" ? 0.4 : 1,
-            }} />
-          ))}
-        </div>
-
-        {moodData.mouthShape === "smile" && (
-          <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
-        )}
-        {moodData.mouthShape === "laugh" && (
-          <div style={{ width: size * 0.35, height: size * 0.15, borderBottom: `2.5px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 3, opacity: 0.8, background: "rgba(255,255,255,0.04)" }} />
-        )}
-        {moodData.mouthShape === "frown" && (
-          <div style={{ width: size * 0.28, height: size * 0.1, borderTop: `2px solid #ef4444`, borderRadius: "50px 50px 0 0", marginTop: 5, opacity: 0.8 }} />
-        )}
-        {moodData.mouthShape === "neutral" && (
-          <div style={{ width: size * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
-        )}
-        {moodData.mouthShape === "open" && (
-          <div style={{ width: size * 0.2, height: size * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
-        )}
-      </motion.div>
-
-      <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
-        {[0, 1].map((i) => (
-          <motion.div
-            key={i}
-            animate={{ y: step === (i === 0) ? -3 : 0, rotate: step === (i === 0) ? -12 : 12 }}
-            transition={{ duration: scared ? 0.06 : 0.18 }}
-            style={{
-              width: size * 0.2,
-              height: size * 0.16,
-              background: "var(--robot-body)",
-              borderRadius: "3px 3px 6px 6px",
-            }}
-          />
-        ))}
-      </div>
+      />
     </div>
   );
 }
@@ -178,7 +115,7 @@ export default function GeistVillage() {
   const [robots, setRobots] = useState<RobotState[]>([]);
   const [steps, setSteps] = useState<Record<number, boolean>>({});
   const [robotMoods, setRobotMoods] = useState<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
-  
+
   const robotsRef = useRef<RobotState[]>([]);
   const robotMoodsRef = useRef<Record<number, { mood: Mood, blinking: boolean, scared: boolean }>>({});
   const robotRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -192,12 +129,12 @@ export default function GeistVillage() {
 
   const initRobots = useCallback((w: number) => {
     const newRobots: RobotState[] = ROBOT_PERSONALITIES.map((p, i) => {
-      const sz = 44 + (i % 3) * 8;
+      const sz = 80;
       const cols = 6;
       return {
         id: i,
         x: 40 + (i % cols) * ((w - 80) / cols) + Math.random() * 30,
-        y: 30 + Math.floor(i / cols) * 160 + Math.random() * 40,
+        y: 30 + Math.floor(i / cols) * 220 + Math.random() * 40,
         vx: (Math.random() - 0.5) * 50,
         vy: (Math.random() - 0.5) * 30,
         scared: false,
@@ -218,8 +155,8 @@ export default function GeistVillage() {
     robotsRef.current = newRobots;
     const initSteps: Record<number, boolean> = {};
     const initMoods: Record<number, { mood: Mood, blinking: boolean, scared: boolean }> = {};
-    newRobots.forEach(r => { 
-      initSteps[r.id] = false; 
+    newRobots.forEach(r => {
+      initSteps[r.id] = false;
       initMoods[r.id] = { mood: r.currentMood, blinking: false, scared: false };
     });
     stepsRef.current = initSteps;
@@ -530,10 +467,8 @@ export default function GeistVillage() {
                   mood={moodInfo.mood}
                   scared={moodInfo.scared}
                   dragging={robot.dragging}
-                  isBlinking={moodInfo.blinking}
                   icon={robot.icon}
                   label={robot.label}
-                  step={steps[robot.id] ?? false}
                 />
               </div>
             );

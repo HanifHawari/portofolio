@@ -220,7 +220,7 @@ export const translations = {
             ],
         },
         contact: {
-            title: "Let's Start A Project",
+            title: "Let's Collaborate",
             subtitle: "Have a project in mind? Let's work together to create something amazing.",
             directEmail: "Direct Email",
             email: "muhanwar.ipuh@gmail.com",
@@ -467,7 +467,7 @@ export const translations = {
             ],
         },
         contact: {
-            title: "Mari Mulai Proyek",
+            title: "Ayo Kerja Sama",
             subtitle: "Punya proyek dalam pikiran? Mari bekerja sama untuk membuat sesuatu yang luar biasa.",
             directEmail: "Email Langsung",
             email: "muhanwar.ipuh@gmail.com",

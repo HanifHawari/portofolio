@@ -294,7 +294,7 @@ export default function HeroSection() {
             transform: 'scaleY(1.15)',
           }}
         >
-          <span ref={line1Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
+          <span ref={line1Ref} className="mb-2 sm:mb-0 inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
           <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 

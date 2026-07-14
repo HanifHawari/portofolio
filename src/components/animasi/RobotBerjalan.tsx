@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/KonteksBahasa";
 
 function RoundRobot({
@@ -9,7 +9,6 @@ function RoundRobot({
   scared,
   happy,
   flipping,
-  step,
 }: {
   direction: 1 | -1;
   scared: boolean;
@@ -17,112 +16,49 @@ function RoundRobot({
   flipping: boolean;
   step: boolean;
 }) {
-  const [blinking, setBlinking] = useState(false);
-  const size = 48;
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    const scheduleBlink = () => {
-      timeout = setTimeout(() => {
-        setBlinking(true);
-        setTimeout(() => { setBlinking(false); scheduleBlink(); }, 120);
-      }, 2500 + Math.random() * 3000);
-    };
-    scheduleBlink();
-    return () => clearTimeout(timeout);
-  }, []);
-
+  const size = 80;
   const flipped = direction === -1;
-  const eyeColor = scared ? "#ef4444" : "var(--robot-eye)";
-  const eyeScaleY = blinking ? 0.05 : scared ? 1.6 : 1;
-  const accentColor = scared ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.08)";
 
   return (
     <motion.div
       animate={flipping ? { rotateX: [0, 360, 0], y: [0, -30, 0] } : {}}
       transition={flipping ? { duration: 0.6, ease: "easeInOut" } : {}}
-      style={{ position: "relative", width: size, transformStyle: "preserve-3d" }}
+      style={{ position: "relative", width: size, display: "flex", flexDirection: "column", alignItems: "center", transformStyle: "preserve-3d" }}
     >
-      <div style={{ transform: flipped ? "scaleX(-1)" : "scaleX(1)", transformOrigin: "center" }}>
-        <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
-          {scared ? "😱 RUN!" : "ROBOT"}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: -2 }}>
-          <div style={{ width: 2, height: 10, background: "var(--robot-eye)", opacity: 0.4 }} />
-          <motion.div
-            animate={scared ? { scale: [1, 1.5, 1] } : { scale: [1, 1.15, 1] }}
-            transition={{ duration: scared ? 0.3 : 1.5, repeat: Infinity }}
-            style={{ width: 6, height: 6, borderRadius: "50%", background: happy ? "#22c55e" : scared ? "#ef4444" : "var(--robot-eye)", marginTop: -1, boxShadow: `0 0 6px ${scared ? "rgba(239,68,68,0.6)" : "rgba(34,197,94,0.4)"}` }}
-          />
-        </div>
-
-        <div style={{ textAlign: "center", fontSize: size * 0.28, lineHeight: 1, marginBottom: 0 }}>🤖</div>
-
-        <motion.div
-          animate={scared ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] } : { y: [0, -1.5, 0] }}
-          transition={scared ? { duration: 0.2, repeat: Infinity } : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            width: size,
-            height: size * 0.9,
-            background: "var(--robot-body)",
-            borderRadius: `${size * 0.35}px ${size * 0.35}px ${size * 0.2}px ${size * 0.2}px`,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            border: `1.5px solid ${accentColor}`,
-            overflow: "hidden",
-            boxShadow: scared ? "0 0 15px rgba(239,68,68,0.3)" : "0 4px 12px rgba(0,0,0,0.3)",
-          }}
-        >
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "rgba(255,255,255,0.03)", borderRadius: `${size * 0.35}px ${size * 0.35}px 0 0` }} />
-
-          <div style={{ position: "absolute", top: 5, right: 5, display: "flex", gap: 2 }}>
-            {["#ef4444", "#22c55e"].map((c, i) => (
-              <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c, opacity: 0.7 }} />
-            ))}
-          </div>
-
-          <div style={{ display: "flex", gap: size * 0.2 }}>
-            {[0, 1].map((i) => (
-              <div key={i} style={{
-                width: size * 0.15,
-                height: size * 0.15,
-                borderRadius: "50%",
-                background: eyeColor,
-                transform: `scaleY(${eyeScaleY})`,
-                transition: "transform 0.08s ease",
-              }} />
-            ))}
-          </div>
-
-          {scared ? (
-            <div style={{ width: size * 0.2, height: size * 0.14, borderRadius: "50%", background: "#ef4444", marginTop: 4, opacity: 0.8 }} />
-          ) : happy ? (
-            <div style={{ width: size * 0.3, height: size * 0.12, borderBottom: `2px solid var(--robot-eye)`, borderRadius: "0 0 50px 50px", marginTop: 4, opacity: 0.7 }} />
-          ) : (
-            <div style={{ width: size * 0.25, height: 2, background: "var(--robot-eye)", borderRadius: 2, marginTop: 4, opacity: 0.5 }} />
-          )}
-        </motion.div>
-
-        <div style={{ display: "flex", justifyContent: "space-around", paddingTop: 1, paddingLeft: size * 0.16, paddingRight: size * 0.16 }}>
-          {[0, 1].map((i) => (
-            <motion.div
-              key={i}
-              animate={{ y: step === (i === 0) ? -3 : 0, rotate: step === (i === 0) ? -12 : 12 }}
-              transition={{ duration: scared ? 0.06 : 0.18 }}
-              style={{
-                width: size * 0.2,
-                height: size * 0.16,
-                background: "var(--robot-body)",
-                borderRadius: "3px 3px 6px 6px",
-              }}
-            />
-          ))}
-        </div>
+      {/* Label kecil di atas */}
+      <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
+        {scared ? "😱 RUN!" : "ROBOT"}
       </div>
+
+      {/* GIF Robot */}
+      <motion.img
+        src="/icons/robot.gif"
+        alt="Robot"
+        width={size}
+        height={size}
+        draggable={false}
+        animate={
+          scared
+            ? { y: [0, -5, 0], rotate: [-3, 3, -3, 0] }
+            : happy
+              ? { y: [0, -2, 0] }
+              : { y: [0, -1, 0] }
+        }
+        transition={
+          scared
+            ? { duration: 0.2, repeat: Infinity }
+            : { duration: 0.9, repeat: Infinity, ease: "easeInOut" }
+        }
+        style={{
+          objectFit: "contain",
+          transform: `scaleX(${flipped ? -1 : 1})`,
+          filter: scared
+            ? "drop-shadow(0 0 8px rgba(239,68,68,0.8)) hue-rotate(300deg) saturate(200%)"
+            : happy
+              ? "drop-shadow(0 0 6px rgba(34,197,94,0.4))"
+              : "drop-shadow(0 0 4px rgba(255,255,255,0.15))",
+        }}
+      />
     </motion.div>
   );
 }
@@ -151,7 +87,7 @@ function WalkingRobot({
   const [step, setStep] = useState(false);
   const lastFrameRef = useRef<number>(0);
   const rafRef = useRef<number>(0);
-  const ROBOT_WIDTH = 38;
+  const ROBOT_WIDTH = 80;
   const FLEE_DIST = 160;
   const stepTimerRef = useRef(0);
 
@@ -193,7 +129,7 @@ function WalkingRobot({
         dirRef.current = newDir;
         setDir(newDir);
       }
-      
+
       if (scared !== isScared) {
         setScared(isScared);
       }
@@ -219,15 +155,15 @@ function WalkingRobot({
   return (
     <div
       ref={elRef}
-      style={{ 
-        position: "absolute", 
-        bottom: 0, 
-        left: 0, 
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
         transform: `translateX(${posRef.current}px)`,
-        zIndex: 20, 
-        willChange: "transform", 
-        pointerEvents: "auto", 
-        cursor: "pointer" 
+        zIndex: 20,
+        willChange: "transform",
+        pointerEvents: "auto",
+        cursor: "pointer"
       }}
       onClick={handleClick}
     >
@@ -327,7 +263,7 @@ export default function WalkingRobotBar() {
   }, []);
 
   const robots = [
-    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1  as const, speed: 70 },
+    { id: 1, startX: Math.round(containerWidth * 0.10), startDir: 1 as const, speed: 70 },
     { id: 2, startX: Math.round(containerWidth * 0.70), startDir: -1 as const, speed: 55 },
   ];
 

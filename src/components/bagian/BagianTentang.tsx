@@ -4,6 +4,33 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
+import { 
+  SiHtml5, SiCss, SiPhp, SiJavascript, SiLaravel, SiNextdotjs, 
+  SiReact, SiCapacitor, SiTailwindcss, SiBootstrap, SiVite, 
+  SiGit, SiNotion, SiGithub, SiFigma, SiPostman
+} from "react-icons/si";
+import { FaJava, FaDatabase } from "react-icons/fa";
+
+const techIcons: Record<string, { icon: any, color: string }> = {
+  "HTML5": { icon: SiHtml5, color: "#E34F26" },
+  "CSS3": { icon: SiCss, color: "#1572B6" },
+  "PHP": { icon: SiPhp, color: "#777BB4" },
+  "Java": { icon: FaJava, color: "#5382a1" },
+  "JavaScript": { icon: SiJavascript, color: "#F7DF1E" },
+  "SQL": { icon: FaDatabase, color: "#4479A1" },
+  "Laravel": { icon: SiLaravel, color: "#FF2D20" },
+  "Next.js": { icon: SiNextdotjs, color: "#ffffff" },
+  "React": { icon: SiReact, color: "#61DAFB" },
+  "Capacitor": { icon: SiCapacitor, color: "#119EFF" },
+  "Tailwind": { icon: SiTailwindcss, color: "#06B6D4" },
+  "Bootstrap": { icon: SiBootstrap, color: "#7952B3" },
+  "Vite": { icon: SiVite, color: "#646CFF" },
+  "Git": { icon: SiGit, color: "#F05032" },
+  "Notion": { icon: SiNotion, color: "#ffffff" },
+  "GitHub": { icon: SiGithub, color: "#ffffff" },
+  "Figma": { icon: SiFigma, color: "#F24E1E" },
+  "Postman": { icon: SiPostman, color: "#FF6C37" },
+};
 import { useLanguage } from "@/lib/KonteksBahasa";
 
 const containerVariants = {
@@ -119,6 +146,9 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
 }
 
 function TechPill({ label, index = 0 }: { label: string; index?: number }) {
+  const iconData = techIcons[label];
+  const Icon = iconData?.icon;
+
   return (
     <span
       className="group hover:border-zinc-600 hover:text-white tech-wave-anim"
@@ -133,6 +163,11 @@ function TechPill({ label, index = 0 }: { label: string; index?: number }) {
         "--wave-index": index,
       } as React.CSSProperties}
     >
+      {Icon && (
+        <span style={{ display: "inline-flex", alignItems: "center", color: iconData.color }}>
+          <Icon size={14} />
+        </span>
+      )}
       {label}
     </span>
   );
@@ -307,9 +342,13 @@ export default function AboutSection() {
               </p>
               <div className="flex flex-wrap gap-2">
                 {t.about.education.tags.map((tag, i) => (
-                  <span key={i} className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300">
+                  <motion.span 
+                    key={i} 
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all cursor-default bg-zinc-900/50"
+                  >
                     {tag}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </SectionCard>
@@ -370,11 +409,11 @@ export default function AboutSection() {
                       alt={item.title}
                       width={44}
                       height={44}
+                      className={i > 0 ? "dark:invert dark:hue-rotate-180" : ""}
                       style={{
                         flexShrink: 0,
                         marginTop: 2,
                         objectFit: "contain",
-                        // Ganti ukuran di sini jika GIF kamu lebih besar/kecil
                       }}
                     />
                     <div>
@@ -390,7 +429,12 @@ export default function AboutSection() {
           <motion.div variants={itemVariants}>
             <SectionCard className="h-full">
               <div className="flex items-center gap-2 mb-4">
-                <Target size={16} className="text-zinc-400" />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                >
+                  <Target size={18} className="text-zinc-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                </motion.div>
                 <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                   {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
                 </h3>
@@ -403,15 +447,16 @@ export default function AboutSection() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
-                    className="tech-wave-anim"
+                    className="tech-wave-anim hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:border-zinc-400 hover:text-white"
                     style={{
-                      display: "inline-flex", padding: "5px 16px",
+                      display: "inline-flex", padding: "6px 16px",
                       border: "1px solid var(--border-strong)",
-                      fontSize: 12, fontWeight: 500,
+                      fontSize: 12, fontWeight: 600,
+                      background: "var(--surface-2)",
                       color: "var(--text-secondary)", letterSpacing: "0.05em",
                       borderRadius: 9999,
                       cursor: "default",
-                      transition: "border-color 0.2s ease, color 0.2s ease",
+                      transition: "all 0.3s ease",
                       "--wave-index": i,
                     } as React.CSSProperties}
                   >

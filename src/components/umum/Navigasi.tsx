@@ -93,6 +93,35 @@ export default function Navbar() {
             <Logo variant="monogram" />
           </button>
 
+          {/* 🤖 Easter Egg Robot Khusus Mobile */}
+          <div className="flex-1 h-full md:hidden relative pointer-events-none flex items-center justify-center mx-2">
+            <motion.div
+              animate={{ x: [-80, 80, 80, -80, -80] }}
+              transition={{ duration: 12, times: [0, 0.3, 0.5, 0.8, 1], repeat: Infinity, ease: "linear" }}
+              className="relative flex items-center justify-center"
+            >
+              {/* Balon Kata - Dipindah ke bawah agar tidak terpotong tepi atas layar */}
+              <motion.div
+                animate={{ opacity: [0, 0, 1, 1, 0, 0] }}
+                transition={{ duration: 12, times: [0, 0.3, 0.32, 0.48, 0.5, 1], repeat: Infinity, ease: "linear" }}
+                className="absolute -bottom-7 whitespace-nowrap bg-zinc-800 text-white text-[10px] px-2 py-0.5 rounded shadow-lg border border-zinc-700 font-medium z-10"
+              >
+                Hallo! 👋
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-zinc-800 border-t border-l border-zinc-700 rotate-45"></div>
+              </motion.div>
+
+              <motion.img
+                src="/icons/robot.gif"
+                alt="Robot"
+                width={40}
+                height={40}
+                style={{ objectFit: "contain", filter: "drop-shadow(0 0 4px rgba(255,255,255,0.2))" }}
+                animate={{ scaleX: [1, 1, -1, -1, 1] }}
+                transition={{ duration: 12, times: [0, 0.49, 0.51, 0.99, 1], repeat: Infinity, ease: "linear" }}
+              />
+            </motion.div>
+          </div>
+
           <div style={{ alignItems: "center", gap: 32 }} className="hidden md:flex">
             {navLinks.map((link) => (
               <button
