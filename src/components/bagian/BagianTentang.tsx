@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, ElementType } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
@@ -11,7 +12,7 @@ import {
 } from "react-icons/si";
 import { FaJava, FaDatabase } from "react-icons/fa";
 
-const techIcons: Record<string, { icon: any, color: string }> = {
+const techIcons: Record<string, { icon: ElementType, color: string }> = {
   "HTML5": { icon: SiHtml5, color: "#E34F26" },
   "CSS3": { icon: SiCss, color: "#1572B6" },
   "PHP": { icon: SiPhp, color: "#777BB4" },
