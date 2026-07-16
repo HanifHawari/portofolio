@@ -25,10 +25,7 @@ function RoundRobot({
       transition={flipping ? { duration: 0.6, ease: "easeInOut" } : {}}
       style={{ position: "relative", width: size, display: "flex", flexDirection: "column", alignItems: "center", transformStyle: "preserve-3d" }}
     >
-      {/* Label kecil di atas */}
-      <div style={{ textAlign: "center", fontSize: 7, fontWeight: 800, letterSpacing: "0.15em", color: scared ? "#ef4444" : "var(--text-muted)", marginBottom: 2, fontFamily: "monospace", opacity: 0.7 }}>
-        {scared ? "😱 RUN!" : "ROBOT"}
-      </div>
+      {/* Label dihapus berdasarkan permintaan user */}
 
       {/* GIF Robot */}
       <motion.img
@@ -69,14 +66,16 @@ function WalkingRobot({
   speed,
   cursorXRef,
   containerWidth,
-  scrollText,
+  messages,
+  robotIndex,
 }: {
   startX: number;
   startDir: 1 | -1;
   speed: number;
   cursorXRef: React.MutableRefObject<number>;
   containerWidth: number;
-  scrollText: string;
+  messages: string[];
+  robotIndex: number;
 }) {
   const elRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(startX);
@@ -85,6 +84,7 @@ function WalkingRobot({
   const [scared, setScared] = useState(false);
   const [flipping, setFlipping] = useState(false);
   const [step, setStep] = useState(false);
+  const [msgIndex, setMsgIndex] = useState(robotIndex % messages.length);
   const lastFrameRef = useRef<number>(0);
   const rafRef = useRef<number>(0);
   const ROBOT_WIDTH = 80;
@@ -99,7 +99,8 @@ function WalkingRobot({
       const cursorX = cursorXRef.current;
       const curX = posRef.current + ROBOT_WIDTH / 2;
       const dist = Math.abs(cursorX - curX);
-      const isScared = dist < FLEE_DIST && cursorX > 0;
+      const isMobile = typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+      const isScared = !isMobile && dist < FLEE_DIST && cursorX > 0;
 
       let newDir = dirRef.current;
       if (isScared) {
@@ -145,6 +146,13 @@ function WalkingRobot({
     return () => cancelAnimationFrame(rafRef.current);
   }, [tick]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMsgIndex((prev) => (prev + 1) % messages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [messages.length]);
+
   const handleClick = () => {
     if (!flipping) {
       setFlipping(true);
@@ -174,25 +182,11 @@ function WalkingRobot({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.6 }}
             transition={{ duration: 0.25 }}
-            style={{
-              position: "absolute",
-              top: -26,
-              left: "50%",
-              transform: "translateX(-50%)",
-              fontSize: 10,
-              background: "var(--bubble-bg)",
-              color: "var(--bubble-color)",
-              borderRadius: 6,
-              padding: "2px 8px",
-              whiteSpace: "nowrap",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-              pointerEvents: "none",
-              zIndex: 10,
-            }}
+            className="absolute -top-7 left-1/2 whitespace-nowrap bg-zinc-800 text-white text-[10px] px-2 py-0.5 rounded shadow-lg border border-zinc-700 font-medium z-10 pointer-events-none"
+            style={{ fontFamily: "monospace", transform: "translateX(-50%)" }}
           >
-            {flipping ? "🤸" : `↓ ${scrollText}`}
+            {flipping ? "🤸" : messages[msgIndex]}
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-zinc-800 border-b border-r border-zinc-700 rotate-45"></div>
           </motion.div>
         )}
         {scared && (
@@ -202,25 +196,11 @@ function WalkingRobot({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.6 }}
             transition={{ duration: 0.15 }}
-            style={{
-              position: "absolute",
-              top: -26,
-              left: "50%",
-              transform: "translateX(-50%)",
-              fontSize: 10,
-              background: "var(--bubble-bg)",
-              color: "#ef4444",
-              borderRadius: 6,
-              padding: "2px 8px",
-              whiteSpace: "nowrap",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-              pointerEvents: "none",
-              zIndex: 10,
-            }}
+            className="absolute -top-7 left-1/2 whitespace-nowrap bg-zinc-800 text-[#ef4444] text-[10px] px-2 py-0.5 rounded shadow-lg border border-zinc-700 font-medium z-10 pointer-events-none"
+            style={{ fontFamily: "monospace", transform: "translateX(-50%)" }}
           >
             😱 HELP!
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-zinc-800 border-b border-r border-zinc-700 rotate-45"></div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -237,12 +217,13 @@ function WalkingRobot({
 }
 
 export default function WalkingRobotBar() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
   const cursorXRef = useRef(-999);
   const [containerWidth, setContainerWidth] = useState(1200);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const scrollText = (t.hero as any).scrollDown ?? "SCROLL DOWN";
+  const messagesEn = ["Hello! 👋", "Welcome! 😊", "Let's explore! 🚀", "Nice to meet you! 🤝", "Scroll down! 👇"];
+  const messagesId = ["Halo! 👋", "Selamat datang! 😊", "Mari jelajahi! 🚀", "Senang bertemu! 🤝", "Gulir ke bawah! 👇"];
+  const messages = language === "id" ? messagesId : messagesEn;
 
   useEffect(() => {
     setContainerWidth(window.innerWidth);
@@ -268,7 +249,7 @@ export default function WalkingRobotBar() {
   ];
 
   return (
-    <div className="desktop-only-robot" style={{
+    <div style={{
       position: "fixed",
       bottom: 0,
       left: 0,
@@ -278,7 +259,7 @@ export default function WalkingRobotBar() {
       pointerEvents: "none",
       overflow: "visible",
     }}>
-      {robots.map((r) => (
+      {robots.map((r, index) => (
         <WalkingRobot
           key={r.id}
           startX={r.startX}
@@ -286,7 +267,8 @@ export default function WalkingRobotBar() {
           speed={r.speed}
           cursorXRef={cursorXRef}
           containerWidth={containerWidth}
-          scrollText={scrollText}
+          messages={messages}
+          robotIndex={index}
         />
       ))}
     </div>
