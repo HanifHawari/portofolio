@@ -14,9 +14,15 @@ const BADGES = [
   { id: "b5", text: "GRAPHIC DESIGN", type: "pill", w: 155, h: 46 },
   { id: "b6", text: "✦", type: "icon", w: 50, h: 50 },
   { id: "b7", text: "</>", type: "icon", w: 50, h: 50 },
+  { id: "b8", text: "DATABASE", type: "pill", w: 105, h: 46 },
+  { id: "b9", text: "ALGORITMA", type: "pill", w: 115, h: 46 },
 ];
 
-export default function HeroSection() {
+interface HeroProps {
+  isPreloaderDone?: boolean;
+}
+
+export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
@@ -39,6 +45,7 @@ export default function HeroSection() {
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
+  const badgeBodiesRef = useRef<Matter.Body[]>([]);
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const line1Ref = useRef<HTMLSpanElement>(null);
@@ -80,35 +87,38 @@ export default function HeroSection() {
 
     const textFloor1 = Bodies.rectangle(width / 2, height * 0.4, floor1W, 200, { isStatic: true, render: { visible: false } });
     const textFloor2 = Bodies.rectangle(width / 2, height * 0.5, floor2W, 200, { isStatic: true, render: { visible: false } });
-    const ceiling = Bodies.rectangle(width / 2, -180, width * 10, 500, { isStatic: true, render: { visible: false } });
+    const ceiling = Bodies.rectangle(width / 2, -1000, width * 10, 500, { isStatic: true, render: { visible: false } });
     const wallLeft = Bodies.rectangle(-500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
     const wallRight = Bodies.rectangle(width + 500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
     const bottomFloor = Bodies.rectangle(width / 2, height + 500, width * 10, 1000, { isStatic: true, render: { visible: false } });
 
     World.add(engine.world, [textFloor1, textFloor2, ceiling, wallLeft, wallRight, bottomFloor]);
 
-    const badgeBodies = BADGES.map((badge) => {
-      const x = width / 2 + (Math.random() - 0.5) * (width * 0.4);
-      const y = 80 + Math.random() * 50;
+    // Pada Desktop, badge langsung dijatuhkan saat halaman dimuat
+    if (window.innerWidth >= 768) {
+      const bodies = BADGES.map((badge) => {
+        const x = width / 2 + (Math.random() - 0.5) * (width * 0.4);
+        const y = 80 + Math.random() * 50;
 
-      return Bodies.rectangle(x, y, badge.w, badge.h, {
-        restitution: 0.5,
-        friction: 0.2,
-        density: 0.002,
-        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
-        render: { visible: false },
-        label: badge.id
+        return Bodies.rectangle(x, y, badge.w, badge.h, {
+          restitution: 0.6,
+          friction: 0.2,
+          density: 0.002,
+          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
+          render: { visible: false },
+          label: badge.id
+        });
       });
-    });
-
-    World.add(engine.world, badgeBodies);
+      badgeBodiesRef.current = bodies;
+      World.add(engine.world, bodies);
+    }
 
     const runner = Runner.create();
     Runner.run(runner, engine);
     Render.run(render);
 
     Events.on(engine, 'afterUpdate', () => {
-      badgeBodies.forEach(body => {
+      badgeBodiesRef.current.forEach(body => {
         const el = badgeRefs.current[body.label];
         if (el) {
           el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
@@ -154,7 +164,11 @@ export default function HeroSection() {
 
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
-      Matter.Body.setPosition(ceiling, { x: newW / 2, y: -180 });
+      
+      const isMobile = window.innerWidth < 768;
+      const ceilingY = isMobile ? -270 : -1000; // Pada mobile, bottom ceiling berada di Y = -20 (di atas logo)
+      Matter.Body.setPosition(ceiling, { x: newW / 2, y: ceilingY });
+      
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
       Matter.Body.setPosition(wallRight, { x: newW + 500, y: newH / 2 });
 
@@ -177,6 +191,34 @@ export default function HeroSection() {
       }
     };
   }, []);
+
+  // Effect to drop badges when preloader finishes (MOBILE ONLY)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth >= 768) return; // Abaikan di desktop (sudah di-spawn di awal)
+
+    if (!isPreloaderDone || !engineRef.current || !sceneRef.current) return;
+    if (badgeBodiesRef.current.length > 0) return; // Prevent double spawn
+
+    const width = sceneRef.current.clientWidth;
+    const bodies = BADGES.map((badge, index) => {
+      // Spawn dari area atas logo pada mobile
+      const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
+      const y = -10 + (index * 20) + (Math.random() * 30);
+
+      return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
+        restitution: 0.6,
+        friction: 0.2,
+        density: 0.002,
+        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
+        render: { visible: false },
+        label: badge.id
+      });
+    });
+
+    badgeBodiesRef.current = bodies;
+    Matter.World.add(engineRef.current.world, bodies);
+  }, [isPreloaderDone]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
     e.preventDefault();
@@ -204,7 +246,9 @@ export default function HeroSection() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const clampedY = Math.min(y, boundaryYRef.current - 20);
+    const isMobile = window.innerWidth < 768;
+    const minDragY = isMobile ? -20 : 0;
+    const clampedY = Math.max(minDragY, Math.min(y, boundaryYRef.current - 20));
 
     Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
 
