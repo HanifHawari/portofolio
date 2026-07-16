@@ -137,15 +137,14 @@ export default function HeroSection() {
       }
     });
 
-    const SHAKE_THRESHOLD = 8;
+    const SHAKE_THRESHOLD = 5;
     let lastX: number | null = null;
     let lastY: number | null = null;
     let lastZ: number | null = null;
     let lastShakeTime = 0;
 
     const handleDeviceMotion = (event: DeviceMotionEvent) => {
-      if (window.innerWidth > 1024) return;
-      const acc = event.accelerationIncludingGravity;
+      const acc = event.accelerationIncludingGravity || event.acceleration;
       if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
 
       if (lastX !== null && lastY !== null && lastZ !== null) {
@@ -158,10 +157,10 @@ export default function HeroSection() {
           if (now - lastShakeTime > 300) {
             lastShakeTime = now;
             badgeBodies.forEach(body => {
-              const velX = (Math.random() - 0.5) * 25;
-              const velY = -Math.random() * 25 - 15;
+              const velX = (Math.random() - 0.5) * 35;
+              const velY = (Math.random() - 0.5) * 35;
               Matter.Body.setVelocity(body, { x: velX, y: velY });
-              Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.4);
+              Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 1.5);
             });
           }
         }
@@ -172,24 +171,28 @@ export default function HeroSection() {
     };
 
     const requestMotionPermission = () => {
-      const motionEvent = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
-      if (typeof motionEvent !== 'undefined' && typeof motionEvent.requestPermission === 'function') {
-        motionEvent.requestPermission().catch(console.error);
-      }
-      const orientationEvent = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> };
-      if (typeof orientationEvent !== 'undefined' && typeof orientationEvent.requestPermission === 'function') {
-        orientationEvent.requestPermission().catch(console.error);
+      try {
+        const motionEvent = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
+        if (typeof motionEvent !== 'undefined' && typeof motionEvent.requestPermission === 'function') {
+          motionEvent.requestPermission().catch(() => {});
+        }
+        const orientationEvent = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> };
+        if (typeof orientationEvent !== 'undefined' && typeof orientationEvent.requestPermission === 'function') {
+          orientationEvent.requestPermission().catch(() => {});
+        }
+      } catch (e) {
+        // ignore errors
       }
       window.removeEventListener('click', requestMotionPermission);
       window.removeEventListener('touchstart', requestMotionPermission);
+      window.removeEventListener('pointerdown', requestMotionPermission);
     };
 
     const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-      if (window.innerWidth > 768) return;
       const { gamma, beta } = event;
       if (gamma !== null && beta !== null) {
-        const gx = Math.max(-1, Math.min(1, gamma / 30));
-        const gy = Math.max(0.2, Math.min(1.5, beta / 45));
+        const gx = Math.max(-2, Math.min(2, gamma / 30));
+        const gy = Math.max(-2, Math.min(2, beta / 45));
         engine.gravity.x = gx;
         engine.gravity.y = gy;
       }
@@ -200,6 +203,7 @@ export default function HeroSection() {
       window.addEventListener('deviceorientation', handleDeviceOrientation);
       window.addEventListener('click', requestMotionPermission);
       window.addEventListener('touchstart', requestMotionPermission, { passive: true });
+      window.addEventListener('pointerdown', requestMotionPermission, { passive: true });
     }
 
     const handleResize = () => {
@@ -237,6 +241,7 @@ export default function HeroSection() {
         window.removeEventListener('deviceorientation', handleDeviceOrientation);
         window.removeEventListener('click', requestMotionPermission);
         window.removeEventListener('touchstart', requestMotionPermission);
+        window.removeEventListener('pointerdown', requestMotionPermission);
       }
       Render.stop(render);
       Runner.stop(runner);
