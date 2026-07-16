@@ -137,14 +137,14 @@ export default function HeroSection() {
       }
     });
 
-    const SHAKE_THRESHOLD = 15;
+    const SHAKE_THRESHOLD = 8;
     let lastX: number | null = null;
     let lastY: number | null = null;
     let lastZ: number | null = null;
     let lastShakeTime = 0;
 
     const handleDeviceMotion = (event: DeviceMotionEvent) => {
-      if (window.innerWidth > 768) return;
+      if (window.innerWidth > 1024) return;
       const acc = event.accelerationIncludingGravity;
       if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
 
@@ -158,9 +158,10 @@ export default function HeroSection() {
           if (now - lastShakeTime > 300) {
             lastShakeTime = now;
             badgeBodies.forEach(body => {
-              const velX = (Math.random() - 0.5) * 15;
-              const velY = -Math.random() * 15 - 10;
+              const velX = (Math.random() - 0.5) * 25;
+              const velY = -Math.random() * 25 - 15;
               Matter.Body.setVelocity(body, { x: velX, y: velY });
+              Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.4);
             });
           }
         }
@@ -168,6 +169,17 @@ export default function HeroSection() {
       lastX = acc.x;
       lastY = acc.y;
       lastZ = acc.z;
+    };
+
+    const requestMotionPermission = () => {
+      if (typeof (DeviceMotionEvent as any) !== 'undefined' && typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+        (DeviceMotionEvent as any).requestPermission().catch(console.error);
+      }
+      if (typeof (DeviceOrientationEvent as any) !== 'undefined' && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+        (DeviceOrientationEvent as any).requestPermission().catch(console.error);
+      }
+      window.removeEventListener('click', requestMotionPermission);
+      window.removeEventListener('touchstart', requestMotionPermission);
     };
 
     const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
@@ -184,6 +196,8 @@ export default function HeroSection() {
     if (typeof window !== 'undefined') {
       window.addEventListener('devicemotion', handleDeviceMotion);
       window.addEventListener('deviceorientation', handleDeviceOrientation);
+      window.addEventListener('click', requestMotionPermission);
+      window.addEventListener('touchstart', requestMotionPermission, { passive: true });
     }
 
     const handleResize = () => {
@@ -219,6 +233,8 @@ export default function HeroSection() {
       if (typeof window !== 'undefined') {
         window.removeEventListener('devicemotion', handleDeviceMotion);
         window.removeEventListener('deviceorientation', handleDeviceOrientation);
+        window.removeEventListener('click', requestMotionPermission);
+        window.removeEventListener('touchstart', requestMotionPermission);
       }
       Render.stop(render);
       Runner.stop(runner);

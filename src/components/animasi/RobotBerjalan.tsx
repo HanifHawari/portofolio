@@ -21,8 +21,8 @@ function RoundRobot({
 
   return (
     <motion.div
-      animate={flipping ? { rotateX: [0, 360, 0], y: [0, -30, 0] } : {}}
-      transition={flipping ? { duration: 0.6, ease: "easeInOut" } : {}}
+      animate={flipping ? { y: [0, -50, 0] } : {}}
+      transition={flipping ? { duration: 0.5, ease: "easeInOut" } : {}}
       style={{ position: "relative", width: size, display: "flex", flexDirection: "column", alignItems: "center", transformStyle: "preserve-3d" }}
     >
       {/* Label dihapus berdasarkan permintaan user */}
@@ -85,6 +85,9 @@ function WalkingRobot({
   const [flipping, setFlipping] = useState(false);
   const [step, setStep] = useState(false);
   const [msgIndex, setMsgIndex] = useState(robotIndex % messages.length);
+  const [isPausedState, setIsPausedState] = useState(false);
+  const isPausedRef = useRef(false);
+  const pauseTimerRef = useRef(0);
   const lastFrameRef = useRef<number>(0);
   const rafRef = useRef<number>(0);
   const ROBOT_WIDTH = 80;
@@ -101,6 +104,31 @@ function WalkingRobot({
       const dist = Math.abs(cursorX - curX);
       const isMobile = typeof window !== "undefined" ? window.innerWidth <= 768 : false;
       const isScared = !isMobile && dist < FLEE_DIST && cursorX > 0;
+
+      if (isPausedRef.current && !isScared) {
+        pauseTimerRef.current -= dt;
+        if (pauseTimerRef.current <= 0) {
+          isPausedRef.current = false;
+          setIsPausedState(false);
+          if (Math.random() > 0.4) {
+            dirRef.current = dirRef.current === 1 ? -1 : 1;
+            setDir(dirRef.current);
+          }
+        }
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      } else if (!isScared && !isPausedRef.current && Math.random() < dt * 0.4) {
+        isPausedRef.current = true;
+        setIsPausedState(true);
+        pauseTimerRef.current = 1 + Math.random() * 2.5;
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (isScared && isPausedRef.current) {
+        isPausedRef.current = false;
+        setIsPausedState(false);
+      }
 
       let newDir = dirRef.current;
       if (isScared) {
@@ -156,7 +184,7 @@ function WalkingRobot({
   const handleClick = () => {
     if (!flipping) {
       setFlipping(true);
-      setTimeout(() => setFlipping(false), 700);
+      setTimeout(() => setFlipping(false), 500);
     }
   };
 
@@ -185,7 +213,7 @@ function WalkingRobot({
             className="absolute -top-7 left-1/2 whitespace-nowrap bg-zinc-800 text-white text-[10px] px-2 py-0.5 rounded shadow-lg border border-zinc-700 font-medium z-10 pointer-events-none"
             style={{ fontFamily: "monospace", transform: "translateX(-50%)" }}
           >
-            {flipping ? "🤸" : messages[msgIndex]}
+            {flipping ? "🚀" : isPausedState ? "🤔" : messages[msgIndex]}
             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-zinc-800 border-b border-r border-zinc-700 rotate-45"></div>
           </motion.div>
         )}
