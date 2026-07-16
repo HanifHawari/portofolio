@@ -172,11 +172,13 @@ export default function HeroSection() {
     };
 
     const requestMotionPermission = () => {
-      if (typeof (DeviceMotionEvent as any) !== 'undefined' && typeof (DeviceMotionEvent as any).requestPermission === 'function') {
-        (DeviceMotionEvent as any).requestPermission().catch(console.error);
+      const motionEvent = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
+      if (typeof motionEvent !== 'undefined' && typeof motionEvent.requestPermission === 'function') {
+        motionEvent.requestPermission().catch(console.error);
       }
-      if (typeof (DeviceOrientationEvent as any) !== 'undefined' && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-        (DeviceOrientationEvent as any).requestPermission().catch(console.error);
+      const orientationEvent = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> };
+      if (typeof orientationEvent !== 'undefined' && typeof orientationEvent.requestPermission === 'function') {
+        orientationEvent.requestPermission().catch(console.error);
       }
       window.removeEventListener('click', requestMotionPermission);
       window.removeEventListener('touchstart', requestMotionPermission);
