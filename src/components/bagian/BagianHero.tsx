@@ -137,74 +137,6 @@ export default function HeroSection() {
       }
     });
 
-    const SHAKE_THRESHOLD = 5;
-    let lastX: number | null = null;
-    let lastY: number | null = null;
-    let lastZ: number | null = null;
-    let lastShakeTime = 0;
-
-    const handleDeviceMotion = (event: DeviceMotionEvent) => {
-      const acc = event.accelerationIncludingGravity || event.acceleration;
-      if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
-
-      if (lastX !== null && lastY !== null && lastZ !== null) {
-        const deltaX = Math.abs(acc.x - lastX);
-        const deltaY = Math.abs(acc.y - lastY);
-        const deltaZ = Math.abs(acc.z - lastZ);
-
-        if (deltaX + deltaY + deltaZ > SHAKE_THRESHOLD) {
-          const now = Date.now();
-          if (now - lastShakeTime > 300) {
-            lastShakeTime = now;
-            badgeBodies.forEach(body => {
-              const velX = (Math.random() - 0.5) * 35;
-              const velY = (Math.random() - 0.5) * 35;
-              Matter.Body.setVelocity(body, { x: velX, y: velY });
-              Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 1.5);
-            });
-          }
-        }
-      }
-      lastX = acc.x;
-      lastY = acc.y;
-      lastZ = acc.z;
-    };
-
-    const requestMotionPermission = () => {
-      try {
-        const motionEvent = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
-        if (typeof motionEvent !== 'undefined' && typeof motionEvent.requestPermission === 'function') {
-          motionEvent.requestPermission().catch(() => {});
-        }
-        const orientationEvent = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> };
-        if (typeof orientationEvent !== 'undefined' && typeof orientationEvent.requestPermission === 'function') {
-          orientationEvent.requestPermission().catch(() => {});
-        }
-      } catch (e) {
-        // ignore errors
-      }
-      window.removeEventListener('click', requestMotionPermission);
-      window.removeEventListener('touchstart', requestMotionPermission);
-      window.removeEventListener('pointerdown', requestMotionPermission);
-    };
-
-    const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-      const { gamma, beta } = event;
-      if (gamma !== null && beta !== null) {
-        const gx = Math.max(-2, Math.min(2, gamma / 30));
-        const gy = Math.max(-2, Math.min(2, beta / 45));
-        engine.gravity.x = gx;
-        engine.gravity.y = gy;
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('devicemotion', handleDeviceMotion);
-      window.addEventListener('deviceorientation', handleDeviceOrientation);
-      window.addEventListener('click', requestMotionPermission);
-      window.addEventListener('touchstart', requestMotionPermission, { passive: true });
-      window.addEventListener('pointerdown', requestMotionPermission, { passive: true });
-    }
 
     const handleResize = () => {
       if (!sceneRef.current || !line1Ref.current || !line2Ref.current || !codeLineRef.current) return;
@@ -236,13 +168,6 @@ export default function HeroSection() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('devicemotion', handleDeviceMotion);
-        window.removeEventListener('deviceorientation', handleDeviceOrientation);
-        window.removeEventListener('click', requestMotionPermission);
-        window.removeEventListener('touchstart', requestMotionPermission);
-        window.removeEventListener('pointerdown', requestMotionPermission);
-      }
       Render.stop(render);
       Runner.stop(runner);
       World.clear(engine.world, false);
