@@ -61,7 +61,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
   useEffect(() => {
     if (!sceneRef.current) return;
 
-    const { Engine, Render, Runner, World, Bodies, Events } = Matter;
+    const { Engine, Runner, World, Bodies, Events } = Matter;
 
     const engine = Engine.create();
     engineRef.current = engine;
@@ -70,17 +70,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     const width = sceneRef.current.clientWidth;
     const height = sceneRef.current.clientHeight;
 
-    const render = Render.create({
-      element: sceneRef.current,
-      engine: engine,
-      options: {
-        width,
-        height,
-        wireframes: false,
-        background: 'transparent',
-      }
-    });
-    render.canvas.style.display = 'none';
+    // Render canvas dihapus untuk optimasi performa (tidak me-render canvas tersembunyi)
 
     const floor1W = width * 10;
     const floor2W = width * 10;
@@ -115,13 +105,12 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const runner = Runner.create();
     Runner.run(runner, engine);
-    Render.run(render);
 
     Events.on(engine, 'afterUpdate', () => {
       badgeBodiesRef.current.forEach(body => {
         const el = badgeRefs.current[body.label];
         if (el) {
-          el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
+          el.style.transform = `translate(-50%, -50%) translate3d(${body.position.x}px, ${body.position.y}px, 0) rotate(${body.angle}rad)`;
         }
       });
     });
@@ -152,8 +141,6 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       if (!sceneRef.current || !line1Ref.current || !line2Ref.current || !codeLineRef.current) return;
       const newW = sceneRef.current.clientWidth;
       const newH = sceneRef.current.clientHeight;
-      render.canvas.width = newW;
-      render.canvas.height = newH;
 
       const sceneRect = sceneRef.current.getBoundingClientRect();
       const rect1 = line1Ref.current.getBoundingClientRect();
@@ -182,13 +169,9 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      Render.stop(render);
       Runner.stop(runner);
       World.clear(engine.world, false);
       Engine.clear(engine);
-      if (render.canvas) {
-        render.canvas.remove();
-      }
     };
   }, []);
 
@@ -302,7 +285,6 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
                 height: badge.h,
                 left: 0,
                 top: 0,
-                translate: '-50% -50%',
                 cursor: 'grab',
               }}
               onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grabbing'; }}
