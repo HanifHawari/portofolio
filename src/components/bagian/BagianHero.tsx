@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Matter from "matter-js";
 
 const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; return "ONLINE"; <END_OF_SCRIPT>`;
@@ -22,52 +22,26 @@ interface HeroProps {
   isPreloaderDone?: boolean;
 }
 
-const TypewriterText = () => {
-  const textRef = useRef<HTMLSpanElement>(null);
+export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
-    let index = 0;
-    let isTyping = true;
     let timeout: NodeJS.Timeout;
-    
-    const type = () => {
-      if (!textRef.current) return;
-      
-      if (isTyping) {
-        if (index < typewriterText.length) {
-          textRef.current.textContent = typewriterText.slice(0, index + 1);
-          index++;
-          timeout = setTimeout(type, 30);
-        } else {
-          isTyping = false;
-          timeout = setTimeout(type, 3000);
-        }
+    if (isTyping) {
+      if (displayedText.length < typewriterText.length) {
+        timeout = setTimeout(() => {
+          setDisplayedText(typewriterText.slice(0, displayedText.length + 1));
+        }, 30);
       } else {
-        index = 0;
-        textRef.current.textContent = "";
-        isTyping = true;
-        timeout = setTimeout(type, 30);
+        timeout = setTimeout(() => setIsTyping(false), 3000);
       }
-    };
-    
-    type();
-    
+    } else {
+      setDisplayedText("");
+      setIsTyping(true);
+    }
     return () => clearTimeout(timeout);
-  }, []);
-
-  return (
-    <>
-      <span ref={textRef} />
-      <motion.span
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.8 }}
-        className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
-      />
-    </>
-  );
-};
-
-export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
+  }, [displayedText, isTyping]);
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
@@ -87,17 +61,26 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
   useEffect(() => {
     if (!sceneRef.current) return;
 
-    const { Engine, Runner, World, Bodies, Events } = Matter;
+    const { Engine, Render, Runner, World, Bodies, Events } = Matter;
 
     const engine = Engine.create();
     engineRef.current = engine;
-    engine.enableSleeping = true;
     engine.gravity.y = 0.8;
 
     const width = sceneRef.current.clientWidth;
     const height = sceneRef.current.clientHeight;
 
-    // Render canvas dihapus untuk optimasi performa (tidak me-render canvas tersembunyi)
+    const render = Render.create({
+      element: sceneRef.current,
+      engine: engine,
+      options: {
+        width,
+        height,
+        wireframes: false,
+        background: 'transparent',
+      }
+    });
+    render.canvas.style.display = 'none';
 
     const floor1W = width * 10;
     const floor2W = width * 10;
@@ -117,15 +100,6 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
         const x = width / 2 + (Math.random() - 0.5) * (width * 0.4);
         const y = 80 + Math.random() * 50;
 
-        if (badge.type === "icon") {
-          return Bodies.circle(x, y, badge.w / 2, {
-            restitution: 0.6,
-            friction: 0.2,
-            density: 0.002,
-            render: { visible: false },
-            label: badge.id
-          });
-        }
         return Bodies.rectangle(x, y, badge.w, badge.h, {
           restitution: 0.6,
           friction: 0.2,
@@ -141,12 +115,13 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const runner = Runner.create();
     Runner.run(runner, engine);
+    Render.run(render);
 
     Events.on(engine, 'afterUpdate', () => {
       badgeBodiesRef.current.forEach(body => {
         const el = badgeRefs.current[body.label];
         if (el) {
-          el.style.transform = `translate3d(${body.position.x}px, ${body.position.y}px, 0) rotate(${body.angle}rad)`;
+          el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
         }
       });
     });
@@ -177,6 +152,8 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       if (!sceneRef.current || !line1Ref.current || !line2Ref.current || !codeLineRef.current) return;
       const newW = sceneRef.current.clientWidth;
       const newH = sceneRef.current.clientHeight;
+      render.canvas.width = newW;
+      render.canvas.height = newH;
 
       const sceneRect = sceneRef.current.getBoundingClientRect();
       const rect1 = line1Ref.current.getBoundingClientRect();
@@ -188,7 +165,8 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
       
-      const ceilingY = -1000; // Buka pembatas atas agar badge bisa dilempar ke atas
+      const isMobile = window.innerWidth < 768;
+      const ceilingY = isMobile ? -270 : -1000; // Pada mobile, bottom ceiling berada di Y = -20 (di atas logo)
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: ceilingY });
       
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
@@ -204,9 +182,13 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      Render.stop(render);
       Runner.stop(runner);
       World.clear(engine.world, false);
       Engine.clear(engine);
+      if (render.canvas) {
+        render.canvas.remove();
+      }
     };
   }, []);
 
@@ -220,19 +202,10 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const width = sceneRef.current.clientWidth;
     const bodies = BADGES.map((badge, index) => {
-      // Spawn dari tengah atas
-      const x = width / 2 + (Math.random() - 0.5) * 60; // Posisi di tengah
-      const y = -80 - (index * 30) - (Math.random() * 30); // Muncul dari atas
+      // Spawn dari area atas logo pada mobile
+      const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
+      const y = -10 + (index * 20) + (Math.random() * 30);
 
-      if (badge.type === "icon") {
-        return Matter.Bodies.circle(x, y, badge.w / 2, {
-          restitution: 0.6,
-          friction: 0.2,
-          density: 0.002,
-          render: { visible: false },
-          label: badge.id
-        });
-      }
       return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
         restitution: 0.6,
         friction: 0.2,
@@ -273,7 +246,8 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const minDragY = -1000; // Buka pembatas drag ke atas
+    const isMobile = window.innerWidth < 768;
+    const minDragY = isMobile ? -20 : 0;
     const clampedY = Math.max(minDragY, Math.min(y, boundaryYRef.current - 20));
 
     Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
@@ -329,14 +303,13 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
                 left: 0,
                 top: 0,
                 translate: '-50% -50%',
-                transform: 'translate3d(-1000px, -1000px, 0)', // Sembunyikan di luar layar sebelum spawn
                 cursor: 'grab',
               }}
               onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grabbing'; }}
               onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grab'; }}
             >
               <div
-                className="w-full h-full flex items-center justify-center font-bold text-white bg-zinc-950 border-2 border-zinc-700 transition-colors duration-300 group-hover:border-zinc-400 group-hover:bg-zinc-900"
+                className="w-full h-full flex items-center justify-center font-bold text-white bg-zinc-950 border-2 border-zinc-700 shadow-xl transition-all duration-300 group-hover:border-zinc-400 group-hover:bg-zinc-900 group-hover:scale-[1.08]"
                 style={{
                   borderRadius: badge.type === "icon" ? '50%' : '9999px',
                   fontSize: badge.type === "icon" ? '22px' : '13px',
@@ -372,7 +345,12 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
         <div className="w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] flex justify-center">
           <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center">
-            <TypewriterText />
+            {displayedText}
+            <motion.span
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
+            />
           </p>
         </div>
       </motion.div>

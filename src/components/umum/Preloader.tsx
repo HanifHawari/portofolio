@@ -28,15 +28,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         setTimeout(() => {
           setIsLoading(false);
-          
-          // Panggil onComplete lebih awal agar badge mulai jatuh saat animasi mulai terbuka
-          setTimeout(() => {
-            if (onComplete) onComplete();
-          }, 300); // Sedikit jeda 300ms agar pas dengan efek mask yang membesar
+          if (onComplete) onComplete();
 
           setTimeout(() => {
             document.body.style.overflow = "auto";
-          }, 1600); 
+          }, 3000); // Tunggu sampai animasi iris selesai
         }, 500); // Jeda sejenak di 100% sebelum animasi menutup dimulai
       } else {
         setProgress(currentProgress);
@@ -133,7 +129,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   {Math.round(progress)}%
                 </div>
                 {/* GIF Robot */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/icons/robot.gif"
                   alt="Running Robot"
