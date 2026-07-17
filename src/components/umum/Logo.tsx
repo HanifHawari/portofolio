@@ -33,8 +33,7 @@ export default function Logo({ size = 40, className = "" }: LogoProps) {
           width: '100%', 
           height: '100%', 
           objectFit: 'contain',
-          transform: 'translateZ(0)',
-          imageRendering: 'high-quality'
+          transform: 'translateZ(0)'
         }} 
       />
     </motion.div>
