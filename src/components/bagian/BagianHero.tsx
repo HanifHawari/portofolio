@@ -103,6 +103,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
           restitution: 0.6,
           friction: 0.2,
           density: 0.002,
+          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
           render: { visible: false },
           label: badge.id
         });
@@ -118,7 +119,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       badgeBodiesRef.current.forEach(body => {
         const el = badgeRefs.current[body.label];
         if (el) {
-          el.style.transform = `translate(-50%, -50%) translate3d(${body.position.x}px, ${body.position.y}px, 0) rotate(${body.angle}rad)`;
+          el.style.transform = `translate3d(${body.position.x}px, ${body.position.y}px, 0) rotate(${body.angle}rad)`;
         }
       });
     });
@@ -193,9 +194,9 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const width = sceneRef.current.clientWidth;
     const bodies = BADGES.map((badge, index) => {
-      // Spawn dari area atas logo pada mobile
+      // Spawn dari area atas logo pada mobile (aman dari ceiling di y=-20)
       const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
-      const y = -10 + (index * 20) + (Math.random() * 30);
+      const y = 30 + (index * 20) + (Math.random() * 30);
 
       if (badge.type === "icon") {
         return Matter.Bodies.circle(x, y, badge.w / 2, {
@@ -210,6 +211,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
         restitution: 0.6,
         friction: 0.2,
         density: 0.002,
+        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
         render: { visible: false },
         label: badge.id
       });
@@ -301,6 +303,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
                 height: badge.h,
                 left: 0,
                 top: 0,
+                translate: '-50% -50%',
                 cursor: 'grab',
               }}
               onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grabbing'; }}
