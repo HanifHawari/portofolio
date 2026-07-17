@@ -90,11 +90,19 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
         const x = width / 2 + (Math.random() - 0.5) * (width * 0.4);
         const y = 80 + Math.random() * 50;
 
+        if (badge.type === "icon") {
+          return Bodies.circle(x, y, badge.w / 2, {
+            restitution: 0.6,
+            friction: 0.2,
+            density: 0.002,
+            render: { visible: false },
+            label: badge.id
+          });
+        }
         return Bodies.rectangle(x, y, badge.w, badge.h, {
           restitution: 0.6,
           friction: 0.2,
           density: 0.002,
-          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
           render: { visible: false },
           label: badge.id
         });
@@ -189,11 +197,19 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
       const y = -10 + (index * 20) + (Math.random() * 30);
 
+      if (badge.type === "icon") {
+        return Matter.Bodies.circle(x, y, badge.w / 2, {
+          restitution: 0.6,
+          friction: 0.2,
+          density: 0.002,
+          render: { visible: false },
+          label: badge.id
+        });
+      }
       return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
         restitution: 0.6,
         friction: 0.2,
         density: 0.002,
-        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
         render: { visible: false },
         label: badge.id
       });
@@ -291,7 +307,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
               onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grab'; }}
             >
               <div
-                className="w-full h-full flex items-center justify-center font-bold text-white bg-zinc-950 border-2 border-zinc-700 shadow-xl transition-all duration-300 group-hover:border-zinc-400 group-hover:bg-zinc-900 group-hover:scale-[1.08]"
+                className="w-full h-full flex items-center justify-center font-bold text-white bg-zinc-950 border-2 border-zinc-700 transition-colors duration-300 group-hover:border-zinc-400 group-hover:bg-zinc-900"
                 style={{
                   borderRadius: badge.type === "icon" ? '50%' : '9999px',
                   fontSize: badge.type === "icon" ? '22px' : '13px',
