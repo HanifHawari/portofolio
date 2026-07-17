@@ -18,15 +18,24 @@ export default function Logo({ size = 40, className = "" }: LogoProps) {
     <motion.div
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className={`flex items-center justify-center overflow-hidden rounded-md ${className}`}
+      className={`flex items-center justify-center transform-gpu antialiased ${className}`}
       style={{ width: size, height: size }}
     >
       {/* Memanggil gambar logo.gif langsung dari folder public */}
       <img 
         src="/logo.gif" 
         alt="Logo Animasi" 
-        className="dark:invert dark:hue-rotate-180 drop-shadow-md"
-        style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+        // Menggunakan hue-rotate-[280deg] untuk menggeser warnanya dari pink ke arah ungu yang lebih 'deep' / kebiruan
+        // Meningkatkan saturasi agar warnanya lebih 'menyala' dan serasi dengan video webm
+        // mix-blend-screen memastikan setiap latar belakang gelap (kotak) pada GIF akan tembus pandang 100%
+        className="dark:invert drop-shadow-[0_0_15px_rgba(168,85,247,0.8)] hue-rotate-[280deg] saturate-150 contrast-125 mix-blend-screen"
+        style={{ 
+          width: '100%', 
+          height: '100%', 
+          objectFit: 'contain',
+          transform: 'translateZ(0)',
+          imageRendering: 'high-quality'
+        }} 
       />
     </motion.div>
   );
