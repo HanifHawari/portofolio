@@ -200,24 +200,30 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     if (!isPreloaderDone || !engineRef.current || !sceneRef.current) return;
     if (badgeBodiesRef.current.length > 0) return; // Prevent double spawn
 
-    const width = sceneRef.current.clientWidth;
-    const bodies = BADGES.map((badge, index) => {
-      // Spawn dari area atas logo pada mobile
-      const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
-      const y = -10 + (index * 20) + (Math.random() * 30);
+    // Memberikan jeda waktu agar browser bisa memproses render/layout setelah preloader hilang
+    const timeout = setTimeout(() => {
+      if (!engineRef.current || !sceneRef.current) return;
+      const width = sceneRef.current.clientWidth;
+      const bodies = BADGES.map((badge, index) => {
+        // Spawn dari area atas logo pada mobile
+        const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
+        const y = -10 + (index * 20) + (Math.random() * 30);
 
-      return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
-        restitution: 0.6,
-        friction: 0.2,
-        density: 0.002,
-        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
-        render: { visible: false },
-        label: badge.id
+        return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
+          restitution: 0.6,
+          friction: 0.2,
+          density: 0.002,
+          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
+          render: { visible: false },
+          label: badge.id
+        });
       });
-    });
 
-    badgeBodiesRef.current = bodies;
-    Matter.World.add(engineRef.current.world, bodies);
+      badgeBodiesRef.current = bodies;
+      Matter.World.add(engineRef.current.world, bodies);
+    }, 400); // Jeda 400ms
+
+    return () => clearTimeout(timeout);
   }, [isPreloaderDone]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
