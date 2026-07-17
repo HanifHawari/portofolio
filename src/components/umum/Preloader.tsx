@@ -28,11 +28,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         setTimeout(() => {
           setIsLoading(false);
-          if (onComplete) onComplete();
 
+          // Panggil onComplete SETELAH animasi preloader benar-benar selesai dan hilang (1.6 detik)
           setTimeout(() => {
+            if (onComplete) onComplete();
             document.body.style.overflow = "auto";
-          }, 3000); // Tunggu sampai animasi iris selesai
+          }, 1600); 
         }, 500); // Jeda sejenak di 100% sebelum animasi menutup dimulai
       } else {
         setProgress(currentProgress);
