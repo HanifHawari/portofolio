@@ -23,29 +23,41 @@ interface HeroProps {
 }
 
 const TypewriterText = () => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
+  const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    let index = 0;
+    let isTyping = true;
     let timeout: NodeJS.Timeout;
-    if (isTyping) {
-      if (displayedText.length < typewriterText.length) {
-        timeout = setTimeout(() => {
-          setDisplayedText(typewriterText.slice(0, displayedText.length + 1));
-        }, 30);
+    
+    const type = () => {
+      if (!textRef.current) return;
+      
+      if (isTyping) {
+        if (index < typewriterText.length) {
+          textRef.current.textContent = typewriterText.slice(0, index + 1);
+          index++;
+          timeout = setTimeout(type, 30);
+        } else {
+          isTyping = false;
+          timeout = setTimeout(type, 3000);
+        }
       } else {
-        timeout = setTimeout(() => setIsTyping(false), 3000);
+        index = 0;
+        textRef.current.textContent = "";
+        isTyping = true;
+        timeout = setTimeout(type, 30);
       }
-    } else {
-      setDisplayedText("");
-      setIsTyping(true);
-    }
+    };
+    
+    type();
+    
     return () => clearTimeout(timeout);
-  }, [displayedText, isTyping]);
+  }, []);
 
   return (
     <>
-      {displayedText}
+      <span ref={textRef} />
       <motion.span
         animate={{ opacity: [0, 1, 0] }}
         transition={{ repeat: Infinity, duration: 0.8 }}
@@ -79,6 +91,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const engine = Engine.create();
     engineRef.current = engine;
+    engine.enableSleeping = true;
     engine.gravity.y = 0.8;
 
     const width = sceneRef.current.clientWidth;
