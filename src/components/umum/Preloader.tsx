@@ -133,6 +133,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   {Math.round(progress)}%
                 </div>
                 {/* GIF Robot */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/icons/robot.gif"
                   alt="Running Robot"

@@ -175,7 +175,6 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
       
-      const isMobile = window.innerWidth < 768;
       const ceilingY = -1000; // Buka pembatas atas agar badge bisa dilempar ke atas
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: ceilingY });
       
@@ -261,7 +260,6 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const isMobile = window.innerWidth < 768;
     const minDragY = -1000; // Buka pembatas drag ke atas
     const clampedY = Math.max(minDragY, Math.min(y, boundaryYRef.current - 20));
 
