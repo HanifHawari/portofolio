@@ -28,10 +28,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         setTimeout(() => {
           setIsLoading(false);
-
-          // Panggil onComplete SETELAH animasi preloader benar-benar selesai dan hilang (1.6 detik)
+          
+          // Panggil onComplete lebih awal agar badge mulai jatuh saat animasi mulai terbuka
           setTimeout(() => {
             if (onComplete) onComplete();
+          }, 300); // Sedikit jeda 300ms agar pas dengan efek mask yang membesar
+
+          setTimeout(() => {
             document.body.style.overflow = "auto";
           }, 1600); 
         }, 500); // Jeda sejenak di 100% sebelum animasi menutup dimulai

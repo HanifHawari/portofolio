@@ -22,7 +22,7 @@ interface HeroProps {
   isPreloaderDone?: boolean;
 }
 
-export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
+const TypewriterText = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
@@ -42,6 +42,20 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     }
     return () => clearTimeout(timeout);
   }, [displayedText, isTyping]);
+
+  return (
+    <>
+      {displayedText}
+      <motion.span
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ repeat: Infinity, duration: 0.8 }}
+        className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
+      />
+    </>
+  );
+};
+
+export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
@@ -162,7 +176,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
       
       const isMobile = window.innerWidth < 768;
-      const ceilingY = isMobile ? -270 : -1000; // Pada mobile, bottom ceiling berada di Y = -20 (di atas logo)
+      const ceilingY = -1000; // Buka pembatas atas agar badge bisa dilempar ke atas
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: ceilingY });
       
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
@@ -194,9 +208,9 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const width = sceneRef.current.clientWidth;
     const bodies = BADGES.map((badge, index) => {
-      // Spawn dari area atas logo pada mobile (aman dari ceiling di y=-20)
-      const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
-      const y = 30 + (index * 20) + (Math.random() * 30);
+      // Spawn dari tengah atas
+      const x = width / 2 + (Math.random() - 0.5) * 60; // Posisi di tengah
+      const y = -80 - (index * 30) - (Math.random() * 30); // Muncul dari atas
 
       if (badge.type === "icon") {
         return Matter.Bodies.circle(x, y, badge.w / 2, {
@@ -248,7 +262,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     const y = e.clientY - rect.top;
 
     const isMobile = window.innerWidth < 768;
-    const minDragY = isMobile ? -20 : 0;
+    const minDragY = -1000; // Buka pembatas drag ke atas
     const clampedY = Math.max(minDragY, Math.min(y, boundaryYRef.current - 20));
 
     Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
@@ -304,6 +318,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
                 left: 0,
                 top: 0,
                 translate: '-50% -50%',
+                transform: 'translate3d(-1000px, -1000px, 0)', // Sembunyikan di luar layar sebelum spawn
                 cursor: 'grab',
               }}
               onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.cursor = 'grabbing'; }}
@@ -346,12 +361,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
         <div className="w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] flex justify-center">
           <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center">
-            {displayedText}
-            <motion.span
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 0.8 }}
-              className="inline-block w-1.5 h-3.5 bg-zinc-400 ml-1 align-middle"
-            />
+            <TypewriterText />
           </p>
         </div>
       </motion.div>
