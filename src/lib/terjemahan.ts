@@ -89,7 +89,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://fitmind-ai.up.railway.app",
+                    liveUrl: "https://project-pdmllm.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -336,7 +336,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://fitmind-ai.up.railway.app",
+                    liveUrl: "https://project-pdmllm.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
