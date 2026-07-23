@@ -89,7 +89,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://project-pdmllm.up.railway.app",
+                    liveUrl: "https://fitmind-ai.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -336,7 +336,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://project-pdmllm.up.railway.app",
+                    liveUrl: "https://fitmind-ai.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
