@@ -58,66 +58,66 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "WEB APPLICATION",
-                    title: "E-Commerce Platform",
-                    description: "A full-featured e-commerce platform with real-time inventory management, secure payment processing, and an intuitive admin dashboard. Built with a focus on performance and scalability.",
+                    category: "E-COMMERCE",
+                    title: "Aura Store",
+                    description: "A modern e-commerce platform offering a seamless shopping experience with an elegant UI, fast performance, and responsive design. Built for scalability and user engagement.",
                     stats: [
                         { value: "15+", label: "Monthly Users" },
-                        { value: "85.5%", label: "Uptime" },
-                        { value: "2.1s", label: "Avg Load Time" },
+                        { value: "99%", label: "Uptime" },
+                        { value: "Fast", label: "Load Time" },
                     ],
-                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Google Gemini API"],
+                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
                     caseStudy: "Read Case Study",
                     liveUrl: "https://aura-store-ecommerce.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/Aura-Store.git",
                     image: "/ecommerce.png",
                     caseStudyContent: {
-                        overview: "Developing a robust e-commerce platform designed for high-performance shopping experiences. The platform features real-time inventory management and secure payment processing.",
-                        challenges: "Ensuring zero-downtime during high-traffic sales periods and maintaining data integrity across thousands of simultaneous transactions.",
-                        solutions: "Implemented Next.js for server-side rendering to boost SEO and performance, paired with PostgreSQL and Stripe for secure, reliable transactions.",
-                        results: "Achieved 99.9% uptime and a 40% increase in conversion rates, successfully serving over 15,000 monthly active users."
+                        overview: "Developing a robust e-commerce platform designed for high-performance shopping experiences. The platform features an intuitive interface and responsive layout.",
+                        challenges: "Ensuring a fast and smooth user experience across various devices and managing application state efficiently.",
+                        solutions: "Implemented React and Vite for optimal frontend performance, paired with Tailwind CSS for rapid and responsive styling.",
+                        results: "Achieved a highly responsive and visually appealing online store that enhances customer browsing and shopping experience."
                     }
                 },
                 {
-                    category: "MOBILE APP",
-                    title: "Health & Fitness Tracker",
-                    description: "A cross-platform mobile application that helps users track their fitness goals, monitor nutrition, and connect with a community of health enthusiasts. Features real-time data sync and personalized recommendations.",
+                    category: "ARTIFICIAL INTELLIGENCE",
+                    title: "Fitmind AI",
+                    description: "An AI-powered health and fitness application that provides intelligent recommendations. Features personalized insights and a smart assistant to guide your wellness journey.",
                     stats: [
-                        { value: "28+", label: "Active Users" },
-                        { value: "4.8★", label: "App Rating" },
-                        { value: "17+", label: "Exercises" },
+                        { value: "Active", label: "Development" },
+                        { value: "AI", label: "Powered" },
+                        { value: "Health", label: "Focused" },
                     ],
-                    tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
+                    tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
                     liveUrl: "https://project-pdmllm.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
-                        overview: "A comprehensive health and fitness application built to help users track their wellness journey across multiple platforms with real-time data synchronization.",
-                        challenges: "Integrating real-time data sync across devices while maintaining a smooth user experience and high performance on mobile hardware.",
-                        solutions: "Utilized React Native and Firebase to create a seamless cross-platform experience with real-time updates and robust offline support.",
-                        results: "The app reached over 28,000 active users with a 4.8-star rating, significantly improving user engagement and health tracking accuracy."
+                        overview: "A comprehensive health application leveraging Artificial Intelligence to help users track their wellness and get smart, personalized insights.",
+                        challenges: "Integrating LLM capabilities seamlessly into a mobile-friendly interface while ensuring fast response times for the AI assistant.",
+                        solutions: "Utilized Google Gemini API for the intelligent backend and React Native for a smooth cross-platform mobile experience.",
+                        results: "Created an innovative fitness tracker that goes beyond basic metrics by offering contextual, AI-driven health advice."
                     }
                 },
                 {
-                    category: "WEB DESIGN",
-                    title: "Portfolio & Blog CMS",
-                    description: "A minimal and elegant content management system designed for creatives. Features a powerful markdown editor, SEO optimization tools, and customizable themes with dark mode support.",
+                    category: "LANDING PAGE",
+                    title: "Kopi Josjis",
+                    description: "A visually appealing website for a local coffee shop. Features a dynamic menu display, responsive design, and an elegant aesthetic to attract coffee enthusiasts.",
                     stats: [
-                        { value: "35+", label: "Blog Posts" },
-                        { value: "30+", label: "Themes" },
-                        { value: "5min", label: "Deploy Time" },
+                        { value: "Modern", label: "Design" },
+                        { value: "100%", label: "Responsive" },
+                        { value: "Fast", label: "Performance" },
                     ],
-                    tech: ["Laravel", "Vue.js", "MySQL", "Tailwind", "Docker"],
+                    tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://cms-demo.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/portfolio-cms",
+                    liveUrl: "https://kopijosjis.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "A specialized Content Management System designed specifically for creatives, focusing on speed, minimal design, and ease of use with Markdown support.",
-                        challenges: "Building a flexible theme engine that remains lightweight and ensuring the platform is fully optimized for search engines and performance.",
-                        solutions: "Developed using Laravel and Vue.js to provide a fast, secure, and intuitive admin interface with live previews and customizable templates.",
-                        results: "Successfully powered over 35 professional portfolios, maintaining average deployment times of under 5 minutes and high Lighthouse performance scores."
+                        overview: "A dedicated website for Kopi Josjis designed to showcase their coffee menu, atmosphere, and brand identity to potential customers online.",
+                        challenges: "Creating a design that captures the unique vibe of the coffee shop while ensuring the site remains lightweight and accessible.",
+                        solutions: "Developed using clean HTML, CSS, and JavaScript with a PHP backend to manage dynamic content like menu items and customer inquiries.",
+                        results: "Successfully delivered an engaging online presence that helps the coffee shop connect with its community and showcase its offerings."
                     }
                 },
             ],
@@ -305,66 +305,66 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "APLIKASI WEB",
-                    title: "Platform E-Commerce",
-                    description: "Platform e-commerce lengkap dengan manajemen inventaris real-time, pemrosesan pembayaran aman, dan dashboard admin yang intuitif. Dibangun dengan fokus pada performa dan skalabilitas.",
+                    category: "E-COMMERCE",
+                    title: "Aura Store",
+                    description: "Platform e-commerce modern yang menawarkan pengalaman berbelanja mulus dengan UI elegan, performa cepat, dan desain responsif. Dibangun untuk skalabilitas dan interaksi pengguna.",
                     stats: [
                         { value: "15+", label: "Pengguna Bulanan" },
-                        { value: "85.5%", label: "Uptime" },
-                        { value: "2.1d", label: "Rata-rata Loading" },
+                        { value: "99%", label: "Uptime" },
+                        { value: "Cepat", label: "Waktu Muat" },
                     ],
-                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Google Gemini API"],
+                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://aura-store-ecommerce.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/Aura-Store",
                     image: "/ecommerce.png",
                     caseStudyContent: {
-                        overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi manajemen inventaris real-time dan pemrosesan pembayaran aman.",
-                        challenges: "Memastikan zero-downtime selama periode penjualan trafik tinggi dan menjaga integritas data di ribuan transaksi simultan.",
-                        solutions: "Mengimplementasikan Next.js untuk server-side rendering guna meningkatkan SEO dan performa, dipasangkan dengan PostgreSQL dan Stripe untuk transaksi yang aman dan andal.",
-                        results: "Mencapai uptime 99,9% dan peningkatan 40% dalam tingkat konversi, berhasil melayani lebih dari 15 pengguna aktif bulanan."
+                        overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi antarmuka intuitif dan tata letak responsif.",
+                        challenges: "Memastikan pengalaman pengguna yang cepat dan lancar di berbagai perangkat dan mengelola state aplikasi secara efisien.",
+                        solutions: "Mengimplementasikan React dan Vite untuk performa frontend optimal, dipasangkan dengan Tailwind CSS untuk styling yang cepat dan responsif.",
+                        results: "Menghasilkan toko online yang sangat responsif dan menarik secara visual yang meningkatkan pengalaman menjelajah dan berbelanja pelanggan."
                     }
                 },
                 {
-                    category: "APLIKASI MOBILE",
-                    title: "Pelacak Kesehatan & Kebugaran",
-                    description: "Aplikasi mobile cross-platform yang membantu pengguna melacak tujuan kebugaran, memantau nutrisi, dan terhubung dengan komunitas penggemar kesehatan.",
+                    category: "KECERDASAN BUATAN",
+                    title: "Fitmind AI",
+                    description: "Aplikasi kesehatan dan kebugaran bertenaga AI yang menyediakan rekomendasi cerdas. Dilengkapi wawasan yang dipersonalisasi dan asisten pintar untuk memandu perjalanan kesehatan Anda.",
                     stats: [
-                        { value: "28+", label: "Pengguna Aktif" },
-                        { value: "4.8★", label: "Rating Aplikasi" },
-                        { value: "17+", label: "Latihan" },
+                        { value: "Aktif", label: "Pengembangan" },
+                        { value: "AI", label: "Terintegrasi" },
+                        { value: "Kesehatan", label: "Fokus" },
                     ],
-                    tech: ["React Native", "Capacitor", "Firebase", "TensorFlow Lite"],
+                    tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://project-pdmllm.up.railway.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
-                        overview: "Aplikasi kesehatan dan kebugaran komprehensif yang dibangun untuk membantu pengguna melacak perjalanan kesehatan mereka di berbagai platform dengan sinkronisasi data real-time.",
-                        challenges: "Mengintegrasikan sinkronisasi data real-time di berbagai perangkat sambil menjaga pengalaman pengguna yang lancar dan performa tinggi pada perangkat seluler.",
-                        solutions: "Memanfaatkan React Native dan Firebase untuk menciptakan pengalaman lintas platform yang mulus dengan pembaruan real-time dan dukungan offline yang kuat.",
-                        results: "Aplikasi ini mencapai lebih dari 28 pengguna aktif dengan rating 4.8 bintang, secara signifikan meningkatkan keterlibatan pengguna dan akurasi pelacakan kesehatan."
+                        overview: "Aplikasi kesehatan komprehensif yang memanfaatkan Kecerdasan Buatan untuk membantu pengguna melacak kesehatan mereka dan mendapatkan wawasan cerdas yang dipersonalisasi.",
+                        challenges: "Mengintegrasikan kemampuan LLM secara mulus ke dalam antarmuka yang ramah seluler sambil memastikan waktu respons yang cepat untuk asisten AI.",
+                        solutions: "Memanfaatkan Google Gemini API untuk backend cerdas dan React Native untuk pengalaman seluler lintas platform yang lancar.",
+                        results: "Menciptakan pelacak kebugaran inovatif yang melampaui metrik dasar dengan menawarkan saran kesehatan yang kontekstual dan digerakkan oleh AI."
                     }
                 },
                 {
-                    category: "DESAIN WEB",
-                    title: "Portfolio & Blog CMS",
-                    description: "Sistem manajemen konten yang minimal dan elegan dirancang untuk kreator. Dilengkapi editor markdown yang kuat, alat optimasi SEO, dan tema yang dapat disesuaikan.",
+                    category: "HALAMAN LANDAS",
+                    title: "Kopi Josjis",
+                    description: "Situs web yang menarik secara visual untuk kedai kopi lokal. Menampilkan menu dinamis, desain responsif, dan estetika elegan untuk menarik pecinta kopi.",
                     stats: [
-                        { value: "35+", label: "Postingan Blog" },
-                        { value: "30+", label: "Tema" },
-                        { value: "5menit", label: "Waktu Deploy" },
+                        { value: "Modern", label: "Desain" },
+                        { value: "100%", label: "Responsif" },
+                        { value: "Cepat", label: "Performa" },
                     ],
-                    tech: ["Laravel", "Vue.js", "MySQL", "Tailwind", "Docker"],
+                    tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://cms-demo.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/portfolio-cms",
+                    liveUrl: "https://kopijosjis.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "Sistem Manajemen Konten (CMS) khusus yang dirancang untuk kreator, berfokus pada kecepatan, desain minimalis, dan kemudahan penggunaan dengan dukungan Markdown.",
-                        challenges: "Membangun mesin tema yang fleksibel yang tetap ringan dan memastikan platform dioptimalkan sepenuhnya untuk mesin pencari dan performa.",
-                        solutions: "Dikembangkan menggunakan Laravel dan Vue.js untuk menyediakan antarmuka admin yang cepat, aman, dan intuitif dengan pratinjau langsung dan templat yang dapat disesuaikan.",
-                        results: "Berhasil digunakan di lebih dari 35 portofolio profesional, mempertahankan waktu deploy rata-rata di bawah 5 menit dan skor performa Lighthouse yang tinggi."
+                        overview: "Situs web khusus untuk Kopi Josjis yang dirancang untuk memamerkan menu kopi, suasana, dan identitas merek mereka kepada pelanggan potensial secara online.",
+                        challenges: "Menciptakan desain yang menangkap suasana unik dari kedai kopi sambil memastikan situs tetap ringan dan mudah diakses.",
+                        solutions: "Dikembangkan menggunakan HTML, CSS, dan JavaScript yang bersih dengan backend PHP untuk mengelola konten dinamis seperti item menu dan pertanyaan pelanggan.",
+                        results: "Berhasil memberikan kehadiran online yang menarik yang membantu kedai kopi terhubung dengan komunitasnya dan memamerkan penawarannya."
                     }
                 },
             ],
