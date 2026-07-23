@@ -128,6 +128,12 @@ export default function ContactSection() {
       // 🖼️ GIF — taruh file di: public/icons/social-instagram.gif
       gif: "/icons/social-instagram.gif",
     },
+    {
+      label: "Discord",
+      href: "https://discord.com/users/bangneps", // Ganti dengan link/ID Discord kamu
+      // 🖼️ GIF — taruh file di: public/icons/social-discord.gif
+      gif: "/icons/social-discord.gif",
+    },
   ];
 
   return (
