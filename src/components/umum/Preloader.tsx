@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Logo from "@/components/umum/Logo";
 
 interface PreloaderProps {
@@ -129,13 +130,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   {Math.round(progress)}%
                 </div>
                 {/* GIF Robot */}
-                <img
+                <Image
                   src="/icons/robot.gif"
                   alt="Running Robot"
+                  width={40}
+                  height={40}
                   className="w-10 h-10 object-contain drop-shadow-[0_0_4px_rgba(255,255,255,0.2)]"
                   // Membalik arah robot jika progress bar berjalan dari kiri ke kanan, 
                   // karena GIF aslinya menghadap kiri (scaleX(-1) untuk menghadap kanan)
                   style={{ transform: "scaleX(-1)" }}
+                  unoptimized={true}
                 />
               </motion.div>
             </div>

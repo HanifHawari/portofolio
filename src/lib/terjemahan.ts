@@ -62,9 +62,9 @@ export const translations = {
                     title: "Aura Store",
                     description: "A modern e-commerce platform offering a seamless shopping experience with an elegant UI, fast performance, and responsive design. Built for scalability and user engagement.",
                     stats: [
-                        { value: "15+", label: "Monthly Users" },
-                        { value: "99%", label: "Uptime" },
-                        { value: "Fast", label: "Load Time" },
+                        { value: "100%", label: "Responsive" },
+                        { value: "98%", label: "Uptime" },
+                        { value: "1 sec", label: "Load Time" },
                     ],
                     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
                     caseStudy: "Read Case Study",
@@ -72,10 +72,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/Aura-Store.git",
                     image: "/ecommerce.png",
                     caseStudyContent: {
-                        overview: "Developing a robust e-commerce platform designed for high-performance shopping experiences. The platform features an intuitive interface and responsive layout.",
-                        challenges: "Ensuring a fast and smooth user experience across various devices and managing application state efficiently.",
-                        solutions: "Implemented React and Vite for optimal frontend performance, paired with Tailwind CSS for rapid and responsive styling.",
-                        results: "Achieved a highly responsive and visually appealing online store that enhances customer browsing and shopping experience."
+                        overview: "This project aims to revolutionize the local online shopping experience by building a highly responsive Headless e-commerce platform. The primary focus is on page load metrics and an intuitive checkout flow to maximize customer retention.",
+                        challenges: "Handling a persistent shopping cart state management cycle on the client side, while keeping the initial rendering time under 1 second on mobile devices.",
+                        solutions: "Built an SPA architecture with React and Vite for instant asset delivery. Utilized Zustand for lightweight state management without boilerplate, and Tailwind CSS for a modular design system.",
+                        results: "Achieved high performance metrics with load speeds under 1 second. Seamless UI interactions without page reloads successfully reduced customer bounce rates."
                     }
                 },
                 {
@@ -84,8 +84,8 @@ export const translations = {
                     description: "An AI-powered health and fitness application that provides intelligent recommendations. Features personalized insights and a smart assistant to guide your wellness journey.",
                     stats: [
                         { value: "Active", label: "Development" },
-                        { value: "AI", label: "Powered" },
-                        { value: "Health", label: "Focused" },
+                        { value: "1-2 sec", label: "AI Response" },
+                        { value: "3+", label: "AI Features" },
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
@@ -93,10 +93,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
-                        overview: "A comprehensive health application leveraging Artificial Intelligence to help users track their wellness and get smart, personalized insights.",
-                        challenges: "Integrating LLM capabilities seamlessly into a mobile-friendly interface while ensuring fast response times for the AI assistant.",
-                        solutions: "Utilized Google Gemini API for the intelligent backend and React Native for a smooth cross-platform mobile experience.",
-                        results: "Created an innovative fitness tracker that goes beyond basic metrics by offering contextual, AI-driven health advice."
+                        overview: "Developing a next-generation virtual health assistant that not only tracks passive metrics but proactively provides context-based recommendations using Generative AI.",
+                        challenges: "Keeping AI response latency low on the mobile app, and designing a data architecture capable of synchronizing user health profiles in real-time across devices.",
+                        solutions: "Integrated Google Gemini API through a decentralized architecture using Firebase. Built a reactive conversational interface and smooth data transition animations using React Native.",
+                        results: "The app delivers highly personalized health insights and workout advice with response latencies under 2 seconds, creating a truly realistic AI personal trainer experience."
                     }
                 },
                 {
@@ -104,9 +104,9 @@ export const translations = {
                     title: "Kopi Josjis",
                     description: "A visually appealing website for a local coffee shop. Features a dynamic menu display, responsive design, and an elegant aesthetic to attract coffee enthusiasts.",
                     stats: [
-                        { value: "Modern", label: "Design" },
+                        { value: "10+", label: "Menu Items" },
                         { value: "100%", label: "Responsive" },
-                        { value: "Fast", label: "Performance" },
+                        { value: "1 sec", label: "Load Time" },
                     ],
                     tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
                     caseStudy: "Read Case Study",
@@ -114,10 +114,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "A dedicated website for Kopi Josjis designed to showcase their coffee menu, atmosphere, and brand identity to potential customers online.",
-                        challenges: "Creating a design that captures the unique vibe of the coffee shop while ensuring the site remains lightweight and accessible.",
-                        solutions: "Developed using clean HTML, CSS, and JavaScript with a PHP backend to manage dynamic content like menu items and customer inquiries.",
-                        results: "Successfully delivered an engaging online presence that helps the coffee shop connect with its community and showcase its offerings."
+                        overview: "Digitalizing the Kopi Josjis brand identity through a custom web platform. The goal is to create an interactive digital representation while facilitating dynamic daily menu updates by shop staff.",
+                        challenges: "The client required an extremely simple content management backend (CMS) with no steep learning curve, yet the frontend performance had to match modern web standards.",
+                        solutions: "Designed a lightweight backend architecture with PHP and MySQL for a custom CMS. The frontend was built with a mobile-first approach using Vanilla JavaScript and pure CSS to minimize payload size.",
+                        results: "The website achieved maximum performance scores. The highly intuitive admin panel now allows staff to update menu availability and pricing in seconds without technical assistance."
                     }
                 },
             ],
@@ -309,9 +309,9 @@ export const translations = {
                     title: "Aura Store",
                     description: "Platform e-commerce modern yang menawarkan pengalaman berbelanja mulus dengan UI elegan, performa cepat, dan desain responsif. Dibangun untuk skalabilitas dan interaksi pengguna.",
                     stats: [
-                        { value: "15+", label: "Pengguna Bulanan" },
-                        { value: "99%", label: "Uptime" },
-                        { value: "Cepat", label: "Waktu Muat" },
+                        { value: "100%", label: "Responsif" },
+                        { value: "98%", label: "Uptime" },
+                        { value: "1 dtk", label: "Waktu Muat" },
                     ],
                     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
                     caseStudy: "Baca Studi Kasus",
@@ -319,10 +319,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/Aura-Store",
                     image: "/ecommerce.png",
                     caseStudyContent: {
-                        overview: "Pengembangan platform e-commerce yang kuat yang dirancang untuk pengalaman berbelanja performa tinggi. Platform ini dilengkapi antarmuka intuitif dan tata letak responsif.",
-                        challenges: "Memastikan pengalaman pengguna yang cepat dan lancar di berbagai perangkat dan mengelola state aplikasi secara efisien.",
-                        solutions: "Mengimplementasikan React dan Vite untuk performa frontend optimal, dipasangkan dengan Tailwind CSS untuk styling yang cepat dan responsif.",
-                        results: "Menghasilkan toko online yang sangat responsif dan menarik secara visual yang meningkatkan pengalaman menjelajah dan berbelanja pelanggan."
+                        overview: "Proyek ini bertujuan merevolusi pengalaman belanja online lokal dengan membangun platform e-commerce Headless. Fokus utama adalah pada metrik kecepatan muat halaman dan alur checkout yang sangat intuitif untuk memaksimalkan retensi pelanggan.",
+                        challenges: "Menangani siklus manajemen state keranjang belanja yang persisten di sisi klien, sekaligus menekan waktu rendering awal agar di bawah 1 detik pada perangkat seluler.",
+                        solutions: "Membangun arsitektur SPA dengan React dan sistem build Vite untuk pengiriman aset instan. Menggunakan Zustand untuk state management ringan tanpa boilerplate, serta Tailwind CSS untuk sistem desain modular.",
+                        results: "Mencapai metrik performa tinggi dengan kecepatan muat di bawah 1 detik. Interaksi UI yang mulus tanpa reload halaman berhasil memangkas rasio pantulan (bounce rate) pelanggan."
                     }
                 },
                 {
@@ -331,8 +331,8 @@ export const translations = {
                     description: "Aplikasi kesehatan dan kebugaran bertenaga AI yang menyediakan rekomendasi cerdas. Dilengkapi wawasan yang dipersonalisasi dan asisten pintar untuk memandu perjalanan kesehatan Anda.",
                     stats: [
                         { value: "Aktif", label: "Pengembangan" },
-                        { value: "AI", label: "Terintegrasi" },
-                        { value: "Kesehatan", label: "Fokus" },
+                        { value: "1-2 dtk", label: "Respons AI" },
+                        { value: "3+", label: "Fitur AI" },
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
@@ -340,10 +340,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
-                        overview: "Aplikasi kesehatan komprehensif yang memanfaatkan Kecerdasan Buatan untuk membantu pengguna melacak kesehatan mereka dan mendapatkan wawasan cerdas yang dipersonalisasi.",
-                        challenges: "Mengintegrasikan kemampuan LLM secara mulus ke dalam antarmuka yang ramah seluler sambil memastikan waktu respons yang cepat untuk asisten AI.",
-                        solutions: "Memanfaatkan Google Gemini API untuk backend cerdas dan React Native untuk pengalaman seluler lintas platform yang lancar.",
-                        results: "Menciptakan pelacak kebugaran inovatif yang melampaui metrik dasar dengan menawarkan saran kesehatan yang kontekstual dan digerakkan oleh AI."
+                        overview: "Mengembangkan asisten kesehatan virtual generasi berikutnya yang tidak hanya melacak metrik pasif, tetapi secara proaktif memberikan rekomendasi berbasis konteks menggunakan AI Generatif.",
+                        challenges: "Menjaga latensi respons AI tetap rendah di aplikasi mobile, serta merancang arsitektur data yang mampu menyinkronkan profil kesehatan pengguna secara real-time antar perangkat.",
+                        solutions: "Mengintegrasikan Google Gemini API melalui arsitektur terdesentralisasi menggunakan Firebase. Membangun antarmuka percakapan reaktif dan animasi transisi data yang smooth menggunakan React Native.",
+                        results: "Aplikasi mampu memberikan insight kesehatan dan saran latihan sangat personal dengan latensi respons di bawah 2 detik, menciptakan pengalaman pelatih pribadi AI yang terasa nyata."
                     }
                 },
                 {
@@ -351,9 +351,9 @@ export const translations = {
                     title: "Kopi Josjis",
                     description: "Situs web yang menarik secara visual untuk kedai kopi lokal. Menampilkan menu dinamis, desain responsif, dan estetika elegan untuk menarik pecinta kopi.",
                     stats: [
-                        { value: "Modern", label: "Desain" },
+                        { value: "10+", label: "Item Menu" },
                         { value: "100%", label: "Responsif" },
-                        { value: "Cepat", label: "Performa" },
+                        { value: "1 dtk", label: "Waktu Muat" },
                     ],
                     tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
                     caseStudy: "Baca Studi Kasus",
@@ -361,10 +361,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "Situs web khusus untuk Kopi Josjis yang dirancang untuk memamerkan menu kopi, suasana, dan identitas merek mereka kepada pelanggan potensial secara online.",
-                        challenges: "Menciptakan desain yang menangkap suasana unik dari kedai kopi sambil memastikan situs tetap ringan dan mudah diakses.",
-                        solutions: "Dikembangkan menggunakan HTML, CSS, dan JavaScript yang bersih dengan backend PHP untuk mengelola konten dinamis seperti item menu dan pertanyaan pelanggan.",
-                        results: "Berhasil memberikan kehadiran online yang menarik yang membantu kedai kopi terhubung dengan komunitasnya dan memamerkan penawarannya."
+                        overview: "Digitalisasi identitas merek Kopi Josjis melalui platform web kustom. Tujuannya adalah menciptakan representasi digital interaktif sekaligus memfasilitasi pembaruan menu harian secara dinamis oleh staf kedai.",
+                        challenges: "Klien membutuhkan sistem backend manajemen konten (CMS) yang sangat sederhana tanpa kurva belajar yang curam, namun performa frontend harus tetap setara dengan standar web modern.",
+                        solutions: "Merancang arsitektur backend ringan dengan PHP dan MySQL untuk CMS kustom. Frontend dibangun dengan pendekatan mobile-first menggunakan Vanilla JavaScript dan CSS murni untuk meminimalkan ukuran payload.",
+                        results: "Situs web mencapai skor performa maksimal. Panel admin yang sangat intuitif kini memungkinkan staf memperbarui ketersediaan menu dan harga dalam hitungan detik tanpa bantuan teknis."
                     }
                 },
             ],

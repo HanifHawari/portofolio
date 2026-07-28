@@ -57,6 +57,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
   const lastTimeRef = useRef(0);
   const velRef = useRef({ x: 0, y: 0 });
   const boundaryYRef = useRef(0);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -117,14 +118,17 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     Runner.run(runner, engine);
     Render.run(render);
 
-    Events.on(engine, 'afterUpdate', () => {
+    // Use rAF for smooth DOM sync with browser repaint instead of afterUpdate event
+    const animationLoop = () => {
       badgeBodiesRef.current.forEach(body => {
         const el = badgeRefs.current[body.label];
         if (el) {
           el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
         }
       });
-    });
+      rafRef.current = requestAnimationFrame(animationLoop);
+    };
+    rafRef.current = requestAnimationFrame(animationLoop);
 
     let lastBubbleTime = 0;
     Events.on(engine, 'collisionStart', (event) => {
@@ -182,6 +186,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(rafRef.current);
       Render.stop(render);
       Runner.stop(runner);
       World.clear(engine.world, false);
