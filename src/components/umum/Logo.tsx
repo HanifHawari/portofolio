@@ -25,10 +25,9 @@ export default function Logo({ size = 40, className = "" }: LogoProps) {
       <img 
         src="/logo.gif" 
         alt="Logo Animasi" 
-        // Menggunakan hue-rotate-[280deg] untuk menggeser warnanya dari pink ke arah ungu yang lebih 'deep' / kebiruan
-        // Meningkatkan saturasi agar warnanya lebih 'menyala' dan serasi dengan video webm
-        // mix-blend-screen memastikan setiap latar belakang gelap (kotak) pada GIF akan tembus pandang 100%
-        className="dark:invert drop-shadow-[0_0_15px_rgba(168,85,247,0.8)] hue-rotate-[280deg] saturate-150 contrast-125 mix-blend-screen"
+        // Trik CSS: invert mengubah hitam jadi putih, tapi merusak warna. 
+        // hue-rotate-180 mengembalikan warna (hue) ke aslinya!
+        className="dark:invert dark:hue-rotate-180"
         style={{ 
           width: '100%', 
           height: '100%', 

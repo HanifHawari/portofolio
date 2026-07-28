@@ -7,22 +7,16 @@ import Matter from "matter-js";
 const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; return "ONLINE"; <END_OF_SCRIPT>`;
 
 const BADGES = [
-  { id: "b1", text: "FRONTEND ENGINEER", type: "pill", w: 185, h: 46 },
   { id: "b2", text: "LINUX", type: "pill", w: 80, h: 46 },
   { id: "b3", text: "INFORMATICS", type: "pill", w: 130, h: 46 },
   { id: "b4", text: "UI/UX", type: "pill", w: 80, h: 46 },
   { id: "b5", text: "GRAPHIC DESIGN", type: "pill", w: 155, h: 46 },
   { id: "b6", text: "✦", type: "icon", w: 50, h: 50 },
   { id: "b7", text: "</>", type: "icon", w: 50, h: 50 },
-  { id: "b8", text: "DATABASE", type: "pill", w: 105, h: 46 },
   { id: "b9", text: "ALGORITMA", type: "pill", w: 115, h: 46 },
 ];
 
-interface HeroProps {
-  isPreloaderDone?: boolean;
-}
-
-export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
+export default function HeroSection() {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
@@ -66,7 +60,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     const engine = Engine.create();
     engineRef.current = engine;
-    engine.gravity.y = 0.8;
+    engine.gravity.y = 0.8; // Mengembalikan gravitasi normal
 
     const width = sceneRef.current.clientWidth;
     const height = sceneRef.current.clientHeight;
@@ -95,24 +89,24 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
 
     World.add(engine.world, [textFloor1, textFloor2, ceiling, wallLeft, wallRight, bottomFloor]);
 
-    // Pada Desktop, badge langsung dijatuhkan saat halaman dimuat
-    if (window.innerWidth >= 768) {
-      const bodies = BADGES.map((badge) => {
-        const x = width / 2 + (Math.random() - 0.5) * (width * 0.4);
-        const y = 80 + Math.random() * 50;
+    // Spawn badges for both mobile and desktop (tersebar di bawah agar tidak ada animasi jatuh dari atas)
+    const bodies = BADGES.map((badge, index) => {
+      // Sebar x dari kiri ke kanan secara merata
+      const x = (width / BADGES.length) * index + (Math.random() * 20);
+      // Letakkan di dekat lantai (bawah) agar langsung diam
+      const y = height - 150 - Math.random() * 50;
 
-        return Bodies.rectangle(x, y, badge.w, badge.h, {
-          restitution: 0.6,
-          friction: 0.2,
-          density: 0.002,
-          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
-          render: { visible: false },
-          label: badge.id
-        });
+      return Bodies.rectangle(x, y, badge.w, badge.h, {
+        restitution: 0.6,
+        friction: 0.2, // Mengembalikan friction normal
+        density: 0.002,
+        chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
+        render: { visible: false },
+        label: badge.id
       });
-      badgeBodiesRef.current = bodies;
-      World.add(engine.world, bodies);
-    }
+    });
+    badgeBodiesRef.current = bodies;
+    World.add(engine.world, bodies);
 
     const runner = Runner.create();
     Runner.run(runner, engine);
@@ -169,8 +163,9 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
       Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
       Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
       
-      const isMobile = window.innerWidth < 768;
-      const ceilingY = isMobile ? -270 : -1000; // Pada mobile, bottom ceiling berada di Y = -20 (di atas logo)
+      // Batas atas (ceiling) dinaikkan ke paling atas layar (di atas logo dan navbar)
+      // Tinggi rectangle adalah 500, jika pusat di -250, maka ujung bawahnya ada di Y = 0 (top of viewport)
+      const ceilingY = -250;
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: ceilingY });
       
       Matter.Body.setPosition(wallLeft, { x: -500, y: newH / 2 });
@@ -197,39 +192,7 @@ export default function HeroSection({ isPreloaderDone = true }: HeroProps) {
     };
   }, []);
 
-  // Effect to drop badges when preloader finishes (MOBILE ONLY)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (window.innerWidth >= 768) return; // Abaikan di desktop (sudah di-spawn di awal)
 
-    if (!isPreloaderDone || !engineRef.current || !sceneRef.current) return;
-    if (badgeBodiesRef.current.length > 0) return; // Prevent double spawn
-
-    // Memberikan jeda waktu agar browser bisa memproses render/layout setelah preloader hilang
-    const timeout = setTimeout(() => {
-      if (!engineRef.current || !sceneRef.current) return;
-      const width = sceneRef.current.clientWidth;
-      const bodies = BADGES.map((badge, index) => {
-        // Spawn dari area atas logo pada mobile
-        const x = width / 2 + (Math.random() - 0.5) * (width * 0.8);
-        const y = -10 + (index * 20) + (Math.random() * 30);
-
-        return Matter.Bodies.rectangle(x, y, badge.w, badge.h, {
-          restitution: 0.6,
-          friction: 0.2,
-          density: 0.002,
-          chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
-          render: { visible: false },
-          label: badge.id
-        });
-      });
-
-      badgeBodiesRef.current = bodies;
-      Matter.World.add(engineRef.current.world, bodies);
-    }, 400); // Jeda 400ms
-
-    return () => clearTimeout(timeout);
-  }, [isPreloaderDone]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
     e.preventDefault();
