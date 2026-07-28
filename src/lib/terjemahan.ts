@@ -84,7 +84,7 @@ export const translations = {
                     description: "An AI-powered health and fitness application that provides intelligent recommendations. Features personalized insights and a smart assistant to guide your wellness journey.",
                     stats: [
                         { value: "Active", label: "Development" },
-                        { value: "1-2 sec", label: "AI Response" },
+                        { value: "2 sec", label: "AI Response" },
                         { value: "3+", label: "AI Features" },
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
@@ -331,7 +331,7 @@ export const translations = {
                     description: "Aplikasi kesehatan dan kebugaran bertenaga AI yang menyediakan rekomendasi cerdas. Dilengkapi wawasan yang dipersonalisasi dan asisten pintar untuk memandu perjalanan kesehatan Anda.",
                     stats: [
                         { value: "Aktif", label: "Pengembangan" },
-                        { value: "1-2 dtk", label: "Respons AI" },
+                        { value: "2 dtk", label: "Respons AI" },
                         { value: "3+", label: "Fitur AI" },
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],

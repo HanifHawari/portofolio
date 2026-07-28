@@ -251,7 +251,7 @@ export default function ProjectsSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl will-change-transform will-change-opacity"
+              className="relative w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl will-change-transform will-change-opacity"
             >
               <button
                 onClick={() => { setActiveCaseStudy(null); }}
@@ -260,7 +260,8 @@ export default function ProjectsSection() {
                 <X size={18} />
               </button>
 
-              <div className="relative w-full h-52 sm:h-64 bg-zinc-200 dark:bg-zinc-900 overflow-hidden">
+              <div className="overflow-y-auto w-full flex-1">
+                <div className="relative w-full h-52 sm:h-64 bg-zinc-200 dark:bg-zinc-900 overflow-hidden shrink-0">
                 <Image
                   src={(t.projects.items[activeCaseStudy] as unknown as ProjectItem).image}
                   alt={t.projects.items[activeCaseStudy].title}
@@ -332,6 +333,7 @@ export default function ProjectsSection() {
                     {(t.projects as any).sourceCode}
                   </a>
                 </div>
+              </div>
               </div>
             </motion.div>
           </motion.div>

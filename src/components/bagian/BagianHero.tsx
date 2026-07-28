@@ -21,6 +21,7 @@ export default function HeroSection() {
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
+
     let timeout: NodeJS.Timeout;
     if (isTyping) {
       if (displayedText.length < typewriterText.length) {
@@ -43,7 +44,6 @@ export default function HeroSection() {
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const line1Ref = useRef<HTMLSpanElement>(null);
-  const line2Ref = useRef<HTMLSpanElement>(null);
   const codeLineRef = useRef<HTMLParagraphElement>(null);
 
   const dragBodyRef = useRef<Matter.Body | null>(null);
@@ -65,6 +65,10 @@ export default function HeroSection() {
     const width = sceneRef.current.clientWidth;
     const height = sceneRef.current.clientHeight;
 
+    const sceneRect = sceneRef.current.getBoundingClientRect();
+    const rect1 = line1Ref.current?.getBoundingClientRect();
+    const initialY1 = (rect1 && sceneRect) ? rect1.top - sceneRect.top : height * 0.4;
+
     const render = Render.create({
       element: sceneRef.current,
       engine: engine,
@@ -77,24 +81,19 @@ export default function HeroSection() {
     });
     render.canvas.style.display = 'none';
 
-    const floor1W = width * 10;
-    const floor2W = width * 10;
-
-    const textFloor1 = Bodies.rectangle(width / 2, height * 0.4, floor1W, 200, { isStatic: true, render: { visible: false } });
-    const textFloor2 = Bodies.rectangle(width / 2, height * 0.5, floor2W, 200, { isStatic: true, render: { visible: false } });
     const ceiling = Bodies.rectangle(width / 2, -1000, width * 10, 500, { isStatic: true, render: { visible: false } });
     const wallLeft = Bodies.rectangle(-500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
     const wallRight = Bodies.rectangle(width + 500, height / 2, 1000, height * 10, { isStatic: true, render: { visible: false } });
-    const bottomFloor = Bodies.rectangle(width / 2, height + 500, width * 10, 1000, { isStatic: true, render: { visible: false } });
+    const bottomFloor = Bodies.rectangle(width / 2, initialY1 + 500, width * 10, 1000, { isStatic: true, render: { visible: false } });
 
-    World.add(engine.world, [textFloor1, textFloor2, ceiling, wallLeft, wallRight, bottomFloor]);
+    World.add(engine.world, [ceiling, wallLeft, wallRight, bottomFloor]);
 
     // Spawn badges for both mobile and desktop (tersebar di bawah agar tidak ada animasi jatuh dari atas)
     const bodies = BADGES.map((badge, index) => {
       // Sebar x dari kiri ke kanan secara merata
       const x = (width / BADGES.length) * index + (Math.random() * 20);
-      // Letakkan di dekat lantai (bawah) agar langsung diam
-      const y = height - 150 - Math.random() * 50;
+      // Letakkan tepat di atas lantai teks (y1) agar langsung diam tanpa terjepit
+      const y = initialY1 - badge.h / 2 - Math.random() * 10;
 
       return Bodies.rectangle(x, y, badge.w, badge.h, {
         restitution: 0.6,
@@ -147,7 +146,7 @@ export default function HeroSection() {
 
 
     const handleResize = () => {
-      if (!sceneRef.current || !line1Ref.current || !line2Ref.current || !codeLineRef.current) return;
+      if (!sceneRef.current || !line1Ref.current || !codeLineRef.current) return;
       const newW = sceneRef.current.clientWidth;
       const newH = sceneRef.current.clientHeight;
       render.canvas.width = newW;
@@ -155,13 +154,8 @@ export default function HeroSection() {
 
       const sceneRect = sceneRef.current.getBoundingClientRect();
       const rect1 = line1Ref.current.getBoundingClientRect();
-      const rect2 = line2Ref.current.getBoundingClientRect();
 
       const y1 = rect1.top - sceneRect.top;
-      const y2 = rect2.top - sceneRect.top;
-
-      Matter.Body.setPosition(textFloor1, { x: newW / 2, y: y1 + 100 });
-      Matter.Body.setPosition(textFloor2, { x: newW / 2, y: y2 + 100 });
       
       // Batas atas (ceiling) dinaikkan ke paling atas layar (di atas logo dan navbar)
       // Tinggi rectangle adalah 500, jika pusat di -250, maka ujung bawahnya ada di Y = 0 (top of viewport)
@@ -314,7 +308,7 @@ export default function HeroSection() {
           }}
         >
           <span ref={line1Ref} className="mb-2 sm:mb-0 inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
-          <span ref={line2Ref} className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
+          <span className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
         <div className="w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] flex justify-center">
