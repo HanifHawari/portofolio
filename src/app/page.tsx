@@ -8,20 +8,23 @@ import DesaGeist from "@/components/animasi/DesaGeist";
 import BagianKontak from "@/components/bagian/BagianKontak";
 import BagianFooter from "@/components/bagian/BagianFooter";
 import RobotBerjalan from "@/components/animasi/RobotBerjalan";
+import PreloaderWrapper from "@/components/animasi/PreloaderWrapper";
 
 export default function Home() {
   return (
-    <main className="min-h-screen" style={{ background: "var(--background)", paddingBottom: 64 }}>
-      <Navigasi />
-      <BagianHero />
-      <BagianTentang />
-      <BagianProyek />
-      <BagianPencapaian />
-      <BagianPerjalanan />
-      <DesaGeist />
-      <BagianKontak />
-      <BagianFooter />
-      <RobotBerjalan />
-    </main>
+    <PreloaderWrapper>
+      <main className="min-h-screen" style={{ background: "var(--background)", paddingBottom: 64 }}>
+        <Navigasi />
+        <BagianHero />
+        <BagianTentang />
+        <BagianProyek />
+        <BagianPencapaian />
+        <BagianPerjalanan />
+        <DesaGeist />
+        <BagianKontak />
+        <BagianFooter />
+        <RobotBerjalan />
+      </main>
+    </PreloaderWrapper>
   );
 }

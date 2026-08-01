@@ -248,7 +248,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0a0a0a]">
+    <section id="home" className="relative min-h-[75vh] md:min-h-screen flex flex-col justify-between overflow-hidden bg-[#0a0a0a]">
       <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-blue-950/10 to-transparent pointer-events-none" />
 
       <div
@@ -307,12 +307,12 @@ export default function HeroSection() {
             transform: 'scaleY(1.15)',
           }}
         >
-          <span ref={line1Ref} className="mb-2 sm:mb-0 inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
-          <span className="inline-block relative z-30 whitespace-nowrap text-[14vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
+          <span ref={line1Ref} className="mb-2 sm:mb-0 inline-block relative z-30 whitespace-nowrap text-[15vw] sm:text-[clamp(60px,14vw,240px)]">MUHAMMAD</span>
+          <span className="inline-block relative z-30 whitespace-nowrap text-[15vw] sm:text-[clamp(60px,14vw,240px)]">HANIF HAWARI</span>
         </h1>
 
-        <div className="w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] flex justify-center">
-          <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center">
+        <div className="hidden md:flex w-full max-w-4xl px-4 sm:px-6 md:px-0 mt-4 sm:mt-16 h-[200px] sm:h-[120px] lg:h-[80px] justify-center overflow-hidden">
+          <p ref={codeLineRef} className="text-[10px] sm:text-xs text-zinc-500 font-mono tracking-wide text-center w-full" style={{ wordBreak: "break-all", overflowWrap: "anywhere", overflow: "hidden" }}>
             {displayedText}
             <motion.span
               animate={{ opacity: [0, 1, 0] }}
