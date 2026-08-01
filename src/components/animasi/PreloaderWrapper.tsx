@@ -77,7 +77,7 @@ export default function PreloaderWrapper({ children }: { children: React.ReactNo
           visibility: phase === "loading" ? "hidden" : "visible",
         }}
       >
-        {phase !== "loading" ? children : null}
+        {children}
       </div>
 
       <style>{`
