@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useRef, useState, useEffect, ElementType } from "react";
@@ -289,7 +288,7 @@ export default function AboutSection() {
               <div className="space-y-5">
                 <h2 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-2">
                   {/* 🖼️ GIF — taruh file di: public/icons/wave.gif */}
-                  <img src="/icons/wave.gif" alt="wave" width={36} height={36} style={{ display: "inline-block", verticalAlign: "middle" }} />
+                  <Image src="/icons/wave.gif" alt="wave" width={36} height={36} style={{ display: "inline-block", verticalAlign: "middle" }} />
                   <span>
                     {t.about.hi}{""}<span className="text-white">{t.about.name}</span>
                   </span>
@@ -332,7 +331,7 @@ export default function AboutSection() {
               <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1 flex items-center gap-2">
                 {t.about.education.title}
                   {/* 🖼️ GIF — taruh file di: public/icons/graduate.gif */}
-                  <img src="/icons/graduate.gif" alt="graduate" width={28} height={28} style={{ display: "inline-block", verticalAlign: "middle" }} />
+                  <Image src="/icons/graduate.gif" alt="graduate" width={28} height={28} style={{ display: "inline-block", verticalAlign: "middle" }} />
               </h3>
               <div className="flex items-center gap-2 text-zinc-500 text-sm mb-3">
                 <MapPin size={14} />
@@ -405,7 +404,7 @@ export default function AboutSection() {
                   <div key={i} className="flex gap-3">
                     {/* 🖼️ GIF ICON — taruh file GIF kamu di: public/icons/philosophy-{i+1}.gif
                         Contoh: public/icons/philosophy-1.gif, philosophy-2.gif, philosophy-3.gif */}
-                    <img
+                    <Image
                       src={`/icons/philosophy-${i + 1}.gif`}
                       alt={item.title}
                       width={44}

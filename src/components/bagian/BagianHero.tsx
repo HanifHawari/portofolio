@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
-import Matter from "matter-js";
+import type Matter from "matter-js";
 
 const typewriterText = `const INITIALIZE_SYSTEM = async () => { const Developer = { ID: "Muhammad_Hanif_Hawari", Origin: "Indonesia", Role: "Creative_Engineer" }; await System.load("Next.js", "React", "TypeScript", "Tailwind_CSS", "Framer_Motion"); if (Project.isComplex) return Developer.solveWith(Physics + Logic + Experience); const Mission = "Crafting digital experiences that feel alive, intentional, and intuitive."; return magic.deploy(); }; return "ONLINE"; <END_OF_SCRIPT>`;
 
@@ -40,6 +40,7 @@ export default function HeroSection() {
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
+  const matterRef = useRef<typeof Matter | null>(null);
   const badgeBodiesRef = useRef<Matter.Body[]>([]);
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -55,23 +56,32 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (!sceneRef.current) return;
+    let isActive = true;
+    let engine: Matter.Engine;
+    let render: Matter.Render;
+    let runner: Matter.Runner;
 
-    const { Engine, Render, Runner, World, Bodies, Events } = Matter;
+    import("matter-js").then((MatterModule) => {
+      if (!isActive || !sceneRef.current) return;
+      const Matter = MatterModule.default || MatterModule;
+      matterRef.current = Matter;
 
-    const engine = Engine.create();
-    engineRef.current = engine;
-    engine.gravity.y = 0.8; // Mengembalikan gravitasi normal
+      const { Engine, Render, Runner, World, Bodies, Events } = Matter;
+
+      engine = Engine.create();
+      engineRef.current = engine;
+      engine.gravity.y = 0.8; // Mengembalikan gravitasi normal
 
     const width = sceneRef.current.clientWidth;
     const height = sceneRef.current.clientHeight;
 
     const sceneRect = sceneRef.current.getBoundingClientRect();
-    const rect1 = line1Ref.current?.getBoundingClientRect();
-    const initialY1 = (rect1 && sceneRect) ? rect1.top - sceneRect.top : height * 0.4;
+      const rect1 = line1Ref.current?.getBoundingClientRect();
+      const initialY1 = (rect1 && sceneRect) ? rect1.top - sceneRect.top : height * 0.4;
 
-    const render = Render.create({
-      element: sceneRef.current,
-      engine: engine,
+      render = Render.create({
+        element: sceneRef.current!,
+        engine: engine,
       options: {
         width,
         height,
@@ -105,11 +115,11 @@ export default function HeroSection() {
       });
     });
     badgeBodiesRef.current = bodies;
-    World.add(engine.world, bodies);
+      World.add(engine.world, bodies);
 
-    const runner = Runner.create();
-    Runner.run(runner, engine);
-    Render.run(render);
+      runner = Runner.create();
+      Runner.run(runner, engine);
+      Render.run(render);
 
     // Use rAF for smooth DOM sync with browser repaint instead of afterUpdate event
     const animationLoop = () => {
@@ -141,11 +151,11 @@ export default function HeroSection() {
         if (play && maxSpeed > 1) {
           lastBubbleTime = now;
         }
-      }
-    });
+            }
+      });
 
 
-    const handleResize = () => {
+      const handleResize = () => {
       if (!sceneRef.current || !line1Ref.current || !codeLineRef.current) return;
       const newW = sceneRef.current.clientWidth;
       const newH = sceneRef.current.clientHeight;
@@ -170,19 +180,20 @@ export default function HeroSection() {
       Matter.Body.setPosition(bottomFloor, { x: newW / 2, y: currentBoundaryY + 500 });
     };
 
-    setTimeout(handleResize, 100);
-    window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
+      setTimeout(handleResize, 100);
+    });
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      isActive = false;
+      window.removeEventListener("resize", () => {});
       cancelAnimationFrame(rafRef.current);
-      Render.stop(render);
-      Runner.stop(runner);
-      World.clear(engine.world, false);
-      Engine.clear(engine);
-      if (render.canvas) {
-        render.canvas.remove();
+      if (render) {
+        matterRef.current?.Render.stop(render);
+        if (render.canvas) render.canvas.remove();
       }
+      if (runner) matterRef.current?.Runner.stop(runner);
+      if (engine) matterRef.current?.Engine.clear(engine);
     };
   }, []);
 
@@ -197,7 +208,7 @@ export default function HeroSection() {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragBodyRef.current = body;
 
-    Matter.Body.setStatic(body, true);
+    if (matterRef.current) matterRef.current.Body.setStatic(body, true);
 
     const rect = sceneRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -218,7 +229,7 @@ export default function HeroSection() {
     const minDragY = isMobile ? -20 : 0;
     const clampedY = Math.max(minDragY, Math.min(y, boundaryYRef.current - 20));
 
-    Matter.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
+    if (matterRef.current) matterRef.current.Body.setPosition(dragBodyRef.current, { x, y: clampedY });
 
     const now = Date.now();
     const dt = now - lastTimeRef.current;
@@ -236,8 +247,10 @@ export default function HeroSection() {
     if (!dragBodyRef.current) return;
     e.currentTarget.releasePointerCapture(e.pointerId);
 
-    Matter.Body.setStatic(dragBodyRef.current, false);
-    Matter.Body.setVelocity(dragBodyRef.current, velRef.current);
+    if (matterRef.current) {
+      matterRef.current.Body.setStatic(dragBodyRef.current, false);
+      matterRef.current.Body.setVelocity(dragBodyRef.current, velRef.current);
+    }
 
     dragBodyRef.current = null;
   }, []);

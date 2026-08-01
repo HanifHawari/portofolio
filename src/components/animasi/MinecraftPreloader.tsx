@@ -8,6 +8,8 @@ const BLOCKS = [
   ),
 ];
 
+const SORTED_BLOCKS = [...BLOCKS].sort((a, b) => a.z - b.z || a.x - b.x);
+
 const BLOCK_COLORS: Record<string, { top: string; left: string; right: string }> = {
   ground: { top: "#27272a", left: "#18181b", right: "#1c1c1f" },
 };
@@ -40,16 +42,14 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
   const [exiting, setExiting]         = useState(false);
   const doneRef = useRef(false);
 
-  const sorted = [...BLOCKS].sort((a, b) => a.z - b.z || a.x - b.x);
-
   // Build blocks one by one — 160ms per block × 25 blocks = 4000ms (synced with terminal)
   useEffect(() => {
     let i = 0;
     const id = setInterval(() => {
-      if (i >= sorted.length) { clearInterval(id); return; }
-      const b = sorted[i];
+      if (i >= SORTED_BLOCKS.length) { clearInterval(id); return; }
+      const b = SORTED_BLOCKS[i];
       setVisible(prev => [...prev, `${b.x},${b.y},${b.z}`]);
-      setProgress(Math.round(((i + 1) / sorted.length) * 100));
+      setProgress(Math.round(((i + 1) / SORTED_BLOCKS.length) * 100));
       i++;
     }, 160);
     return () => clearInterval(id);
@@ -125,7 +125,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
           </p>
 
           <div style={{ position: "relative", width: canvasW, height: canvasH }}>
-            {sorted.map((block, i) => {
+            {SORTED_BLOCKS.map((block, i) => {
               const key = `${block.x},${block.y},${block.z}`;
               const shown = visible.includes(key);
               const { sx, sy } = project(block.x, block.y, block.z);
