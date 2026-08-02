@@ -7,13 +7,12 @@ import BagianPencapaian from "@/components/bagian/BagianPencapaian";
 import DesaGeist from "@/components/animasi/DesaGeist";
 import BagianKontak from "@/components/bagian/BagianKontak";
 import BagianFooter from "@/components/bagian/BagianFooter";
-import RobotBerjalan from "@/components/animasi/RobotBerjalan";
 import PreloaderWrapper from "@/components/animasi/PreloaderWrapper";
 
 export default function Home() {
   return (
     <PreloaderWrapper>
-      <main className="min-h-screen" style={{ background: "var(--background)", paddingBottom: 64 }}>
+      <main className="min-h-screen" style={{ background: "var(--background)" }}>
         <Navigasi />
         <BagianHero />
         <BagianTentang />
@@ -23,7 +22,6 @@ export default function Home() {
         <DesaGeist />
         <BagianKontak />
         <BagianFooter />
-        <RobotBerjalan />
       </main>
     </PreloaderWrapper>
   );

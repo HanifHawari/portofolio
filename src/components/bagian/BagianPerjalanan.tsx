@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
@@ -15,49 +16,16 @@ const itemVariants = {
   },
 };
 
-function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
+function FolderIcon({ size = 40 }: { size?: number }) {
   return (
-    <svg
+    <Image
+      src="/icons/folder.gif" 
+      alt="Project Archive"
       width={size}
       height={size}
-      viewBox="0 0 48 48"
-      fill="none"
-      style={{ overflow: "visible" }}
-    >
-      <rect x="4" y="16" width="40" height="26" rx="3" fill="currentColor" opacity="0.15" />
-      <rect x="4" y="16" width="40" height="26" rx="3" stroke="currentColor" strokeWidth="2" />
-
-      <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" fill="currentColor" opacity="0.25" />
-      <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" stroke="currentColor" strokeWidth="2" />
-
-      <motion.g
-        animate={isOpen ? { rotateX: -70, y: -6 } : { rotateX: 0, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        style={{ originX: "50%", originY: "100%", transformPerspective: 400 }}
-      >
-        <rect x="4" y="13" width="40" height="6" rx="2" fill="currentColor" opacity="0.3" />
-        <rect x="4" y="13" width="40" height="6" rx="2" stroke="currentColor" strokeWidth="2" />
-      </motion.g>
-
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {[-16, -5, 6].map((rotate, i) => (
-              <motion.rect
-                key={i}
-                x="11" y="10" width="26" height="20" rx="2"
-                fill="currentColor"
-                opacity={0.85 - i * 0.22}
-                initial={{ y: 0, rotate: 0, opacity: 0 }}
-                animate={{ y: -(14 + i * 6), rotate, opacity: 0.85 - i * 0.22 }}
-                exit={{ y: 0, rotate: 0, opacity: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.055, ease: [0.34, 1.56, 0.64, 1] }}
-              />
-            ))}
-          </>
-        )}
-      </AnimatePresence>
-    </svg>
+      unoptimized={true}
+      style={{ objectFit: "contain" }}
+    />
   );
 }
 
@@ -113,15 +81,15 @@ function FolderModal({
 }) {
   const photo = GALLERY_DATA[index];
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
+      <div className="absolute inset-0 z-0 bg-black/75 backdrop-blur-sm" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -129,7 +97,7 @@ function FolderModal({
         exit={{ opacity: 0, y: 30 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
+        className="relative z-10 w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
         style={{ boxShadow: "0 0 70px rgba(0,0,0,0.85), 0 0 24px rgba(255,255,255,0.04)" }}
       >
         <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
@@ -141,7 +109,7 @@ function FolderModal({
             transition={{ duration: 0.4, delay: 0.08, type: "spring", stiffness: 260, damping: 18 }}
             className="text-zinc-300"
           >
-            <FolderIcon isOpen size={30} />
+            <FolderIcon size={30} />
           </motion.div>
           <div>
             <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">Project Archive</p>
@@ -180,7 +148,8 @@ function FolderModal({
           )}
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
 
@@ -197,7 +166,6 @@ function JourneyCard({ children, className = "" }: { children: React.ReactNode; 
 export default function JourneySection() {
   const { t } = useLanguage();
   const [openFolder, setOpenFolder] = useState<number | null>(null);
-  const [hoverFolder, setHoverFolder] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleOpenFolder = useCallback((index: number) => {
@@ -288,13 +256,11 @@ export default function JourneySection() {
 
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
-                      onHoverStart={() => setHoverFolder(index)}
-                      onHoverEnd={() => setHoverFolder(null)}
                       whileTap={{ scale: 0.93 }}
                       className="flex items-center gap-3 group/folder border border-zinc-800 rounded-xl px-4 py-3 hover:border-zinc-600 hover:bg-white/5 transition-all duration-200"
                     >
-                      <div className="text-foreground transition-colors duration-200 animate-wiggle">
-                        <FolderIcon isOpen={hoverFolder === index} size={38} />
+                      <div className="text-foreground transition-colors duration-200">
+                        <FolderIcon size={38} />
                       </div>
                       <div className="text-left">
                         <p className="text-xs font-bold tracking-[0.2em] text-zinc-500 group-hover/folder:text-zinc-300 uppercase transition-colors">

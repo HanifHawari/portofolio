@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
@@ -41,41 +42,16 @@ const itemVariants = {
   },
 };
 
-/* ── Folder icon — identik JourneySection ── */
-function FolderIcon({ isOpen, size = 40 }: { isOpen: boolean; size?: number }) {
+function FolderIcon({ size = 40 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" style={{ overflow: "visible" }}>
-      <rect x="4" y="16" width="40" height="26" rx="3" fill="currentColor" opacity="0.15" />
-      <rect x="4" y="16" width="40" height="26" rx="3" stroke="currentColor" strokeWidth="2" />
-      <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" fill="currentColor" opacity="0.25" />
-      <path d="M4 16 L4 12 Q4 10 6 10 L18 10 Q20 10 21 12 L23 16Z" stroke="currentColor" strokeWidth="2" />
-      <motion.g
-        animate={isOpen ? { rotateX: -70, y: -6 } : { rotateX: 0, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        style={{ originX: "50%", originY: "100%", transformPerspective: 400 }}
-      >
-        <rect x="4" y="13" width="40" height="6" rx="2" fill="currentColor" opacity="0.3" />
-        <rect x="4" y="13" width="40" height="6" rx="2" stroke="currentColor" strokeWidth="2" />
-      </motion.g>
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {[-16, -5, 6].map((rotate, i) => (
-              <motion.rect
-                key={i}
-                x="11" y="10" width="26" height="20" rx="2"
-                fill="currentColor"
-                opacity={0.85 - i * 0.22}
-                initial={{ y: 0, rotate: 0, opacity: 0 }}
-                animate={{ y: -(14 + i * 6), rotate, opacity: 0.85 - i * 0.22 }}
-                exit={{ y: 0, rotate: 0, opacity: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.055, ease: [0.34, 1.56, 0.64, 1] }}
-              />
-            ))}
-          </>
-        )}
-      </AnimatePresence>
-    </svg>
+    <Image
+      src="/icons/folder.gif" 
+      alt="Folder Icon"
+      width={size}
+      height={size}
+      unoptimized={true}
+      style={{ objectFit: "contain" }}
+    />
   );
 }
 
@@ -91,15 +67,15 @@ function PhotoModal({
   const photos = item.galleryImages;
   const photo = photos[currentIndex];
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
+      <div className="absolute inset-0 z-0 bg-black/75 backdrop-blur-sm" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -107,7 +83,7 @@ function PhotoModal({
         exit={{ opacity: 0, y: 30 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
+        className="relative z-10 w-full max-w-2xl bg-zinc-950 border border-zinc-700 rounded-[32px] overflow-hidden will-change-transform will-change-opacity"
         style={{ boxShadow: "0 0 70px rgba(0,0,0,0.85), 0 0 24px rgba(255,255,255,0.04)" }}
       >
         {/* Top shimmer — identik JourneySection */}
@@ -121,7 +97,7 @@ function PhotoModal({
             transition={{ duration: 0.4, delay: 0.08, type: "spring", stiffness: 260, damping: 18 }}
             className="text-zinc-300"
           >
-            <FolderIcon isOpen size={30} />
+            <FolderIcon size={30} />
           </motion.div>
           <div>
             <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">
@@ -184,7 +160,8 @@ function PhotoModal({
           )}
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
 
@@ -196,8 +173,8 @@ export default function AchievementsSection() {
   const [activeDetail, setActiveDetail] = useState<number | null>(null);
 
   useEffect(() => {
-    document.body.style.overflow = activeDetail !== null ? "hidden" : "auto";
-    return () => { document.body.style.overflow = "auto"; };
+    document.body.style.overflow = activeDetail !== null ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [activeDetail]);
 
   const handleOpen = useCallback((i: number) => {

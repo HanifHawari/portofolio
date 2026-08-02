@@ -38,6 +38,14 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -63,30 +71,34 @@ export default function Navbar() {
 
   return (
     <>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
       <motion.nav
+        layout
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        animate={{ 
+          y: scrolled && !isMobile ? 24 : 0, 
+          opacity: 1,
+          borderRadius: scrolled && !isMobile ? 9999 : 0,
+          background: scrolled ? (isDark ? "rgba(10,10,10,0.85)" : "rgba(240,240,240,0.9)") : "transparent",
+        }}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          transition: "background 0.3s ease, border-color 0.3s ease",
-          background: scrolled
-            ? isDark
-              ? "rgba(10,10,10,0.85)"
-              : "rgba(240,240,240,0.85)"
-            : "transparent",
+          pointerEvents: "auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: scrolled && !isMobile ? "fit-content" : "100%",
+          maxWidth: 1280,
+          height: scrolled && !isMobile ? 60 : 64,
+          padding: "0 24px",
           backdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled
-            ? `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`
-            : "1px solid transparent",
+          border: scrolled && !isMobile ? `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}` : "1px solid transparent",
+          borderBottom: scrolled && isMobile ? `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` : undefined,
+          boxShadow: scrolled && !isMobile ? "0 10px 40px -10px rgba(0,0,0,0.3)" : "none",
+          gap: scrolled && !isMobile ? 48 : 0,
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <button
+        <button
             onClick={() => handleNavClick("#home")}
             style={{ background: "none", border: "none", cursor: "pointer", color: "var(--foreground)", display: "flex", alignItems: "center" }}
           >
@@ -173,23 +185,15 @@ export default function Navbar() {
             </div>
 
             <button
-              onClick={() => {
-                setMobileOpen(!mobileOpen);
-              }}
+              onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden"
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "var(--foreground)",
-                padding: 4,
-              }}
+              style={{ background: "none", border: "none", color: "var(--foreground)", cursor: "pointer", padding: 4 }}
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
-        </div>
       </motion.nav>
+    </div>
 
       <AnimatePresence>
         {mobileOpen && (

@@ -64,7 +64,9 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <LanguageProvider>
-            {children}
+            <div className="relative w-full min-h-screen overflow-x-hidden">
+              {children}
+            </div>
           </LanguageProvider>
         </ThemeProvider>
       </body>
