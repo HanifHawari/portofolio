@@ -239,8 +239,8 @@ export default function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
-              className="group relative overflow-hidden bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/50 rounded-3xl hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500"
             >
+              <div className="group relative overflow-hidden bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/50 rounded-3xl hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_24px_50px_rgba(0,0,0,0.65)] active:translate-y-0 active:scale-[0.98] transition-all duration-500">
               <div className="grid grid-cols-1 lg:grid-cols-2 relative z-10">
                 <div className="p-8 sm:p-10 flex flex-col justify-between">
                   <div>
@@ -358,6 +358,7 @@ export default function ProjectsSection() {
                     </a>
                   </div>
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}

@@ -74,8 +74,18 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => { setHovering(false); setTilt({ x: 0, y: 0 }); setGloss({ x: 50, y: 50 }); }}
-      animate={{ rotateX: tilt.x, rotateY: tilt.y, scale: hovering ? 1.02 : 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      animate={{ 
+        rotateX: tilt.x, 
+        rotateY: tilt.y, 
+        scale: hovering ? 1.02 : 1,
+        y: [-8, 8, -8]
+      }}
+      transition={{ 
+        rotateX: { type: "spring", stiffness: 300, damping: 20 },
+        rotateY: { type: "spring", stiffness: 300, damping: 20 },
+        scale: { type: "spring", stiffness: 300, damping: 20 },
+        y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+      }}
       style={{ transformStyle: "preserve-3d", perspective: 800 }}
       className="w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
     >
@@ -102,7 +112,6 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       <div
         className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
         style={{
-          transform: "translateZ(30px)",
           backgroundColor: "var(--card-bg)",
           border: "1px solid var(--border)"
         }}
@@ -346,7 +355,7 @@ export default function AboutSection() {
                   <motion.span 
                     key={i} 
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all cursor-default bg-zinc-900/50"
+                    className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                   >
                     {tag}
                   </motion.span>
@@ -457,7 +466,7 @@ export default function AboutSection() {
                       color: "var(--text-secondary)", letterSpacing: "0.05em",
                       borderRadius: 9999,
                       cursor: "default",
-                      transition: "all 0.3s ease",
+                      transition: "box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease",
                       "--wave-index": i,
                     } as React.CSSProperties}
                   >
