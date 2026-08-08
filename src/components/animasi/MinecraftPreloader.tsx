@@ -13,15 +13,15 @@ const BLOCK_COLORS: Record<string, { top: string; left: string; right: string }>
 };
 
 const TERMINAL_STEPS = [
-  { text: "> Booting HANIF OS v2.0 ...        ", delay: 400  },
-  { text: "> Importing Next.js          [OK]  ", delay: 1000 },
-  { text: "> Importing React            [OK]  ", delay: 1500 },
-  { text: "> Importing TypeScript       [OK]  ", delay: 2000 },
-  { text: "> Importing Framer Motion    [OK]  ", delay: 2500 },
-  { text: "> Compiling portfolio ...          ", delay: 2900 },
-  { text: "> creativity.exe            [OK]   ", delay: 3300 },
-  { text: "> imagination.dll           [OK]   ", delay: 3700 },
-  { text: "> SYSTEM READY ✓                   ", delay: 4000 },
+  { text: "> Booting HANIF OS v2.0 ...        ", delay: 200  },
+  { text: "> Importing Next.js          [OK]  ", delay: 500 },
+  { text: "> Importing React            [OK]  ", delay: 750 },
+  { text: "> Importing TypeScript       [OK]  ", delay: 1000 },
+  { text: "> Importing Framer Motion    [OK]  ", delay: 1250 },
+  { text: "> Compiling portfolio ...          ", delay: 1450 },
+  { text: "> creativity.exe            [OK]   ", delay: 1650 },
+  { text: "> imagination.dll           [OK]   ", delay: 1850 },
+  { text: "> SYSTEM READY ✓                   ", delay: 2000 },
 ];
 
 const ISO_SIZE = 24;
@@ -43,7 +43,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
   const doneRef = useRef(false);
 
 
-  // Build blocks one by one — 160ms per block × 25 blocks = 4000ms (synced with terminal)
+  // Build blocks one by one — 80ms per block × 25 blocks = 2000ms (synced with terminal)
   useEffect(() => {
     let i = 0;
     const id = setInterval(() => {
@@ -52,7 +52,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
       setVisible(prev => [...prev, `${b.x},${b.y},${b.z}`]);
       setProgress(Math.round(((i + 1) / SORTED_BLOCKS.length) * 100));
       i++;
-    }, 160);
+    }, 80);
     return () => clearInterval(id);
   }, []);
 
@@ -66,7 +66,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
           setTimeout(() => {
             setExiting(true);
             setTimeout(onDone, 500); // call parent after exit anim
-          }, 550);
+          }, 300);
         }
       }, step.delay)
     );
@@ -140,7 +140,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
                   position: "absolute", left: ox, top: oy,
                   width: s * 2, height: s * 2,
                   animation: shown
-                    ? "blockDrop 0.38s cubic-bezier(0.22,1,0.36,1) forwards"
+                    ? "blockDrop 0.25s cubic-bezier(0.22,1,0.36,1) forwards"
                     : "none",
                   opacity: shown ? undefined : 0,
                 }}>
@@ -178,7 +178,7 @@ export default function MinecraftPreloader({ onDone }: { onDone: () => void }) {
                 height: "100%",
                 width: `${progress}%`,
                 background: "linear-gradient(90deg, #1d4ed8, #3b82f6, #7dd3fc)",
-                transition: "width 0.14s linear",
+                transition: "width 0.08s linear",
                 borderRadius: 2,
                 boxShadow: "0 0 10px rgba(96,165,250,0.55)",
               }} />

@@ -19,12 +19,15 @@ export const metadata: Metadata = {
   description:
     "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
   keywords: [
-    "web developer",
-    "portfolio",
     "Muhammad Hanif Hawari",
-    "Next.js",
+    "Hanif Hawari",
+    "web developer",
+    "frontend developer",
+    "portfolio",
     "React",
+    "Next.js",
     "TypeScript",
+    "Indonesia",
   ],
   authors: [{ name: "Muhammad Hanif Hawari" }],
   openGraph: {
@@ -48,6 +51,9 @@ export const metadata: Metadata = {
     description:
       "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies.",
     images: ["/icon.jpg"],
+  },
+  verification: {
+    google: "S_tyokcVXFzZzwp0F-XfOXHxZ35_IBTDzFdYZI-iwN4",
   },
 };
 
