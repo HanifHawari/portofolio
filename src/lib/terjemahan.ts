@@ -58,24 +58,24 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "E-COMMERCE",
-                    title: "Aura Store",
-                    description: "A modern e-commerce platform offering a seamless shopping experience with an elegant UI, fast performance, and responsive design. Built for scalability and user engagement.",
+                    category: "HEALTHCARE",
+                    title: "Puskesmas Ipuh",
+                    description: "Public Service Information System (SIPP) for UPTD Puskesmas Ipuh. A digital healthcare platform featuring online queue registration, facility information, doctor schedules, and public complaint services.",
                     stats: [
                         { value: "100%", label: "Responsive" },
                         { value: "98%", label: "Uptime" },
-                        { value: "1 sec", label: "Load Time" },
+                        { value: "Fast", label: "Load Time" },
                     ],
-                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
+                    tech: ["PHP", "Laravel", "Bootstrap", "Vite", "MySQL"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://aura-store-ecommerce.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/Aura-Store.git",
-                    image: "/ecommerce.png",
+                    liveUrl: "https://puskesmas-ipuh.up.railway.app",
+                    codeUrl: "https://github.com/HanifHawari/puskesmas",
+                    image: "/puskesmas.png",
                     caseStudyContent: {
-                        overview: "This project aims to revolutionize the local online shopping experience by building a highly responsive Headless e-commerce platform. The primary focus is on page load metrics and an intuitive checkout flow to maximize customer retention.",
-                        challenges: "Handling a persistent shopping cart state management cycle on the client side, while keeping the initial rendering time under 1 second on mobile devices.",
-                        solutions: "Built an SPA architecture with React and Vite for instant asset delivery. Utilized Zustand for lightweight state management without boilerplate, and Tailwind CSS for a modular design system.",
-                        results: "Achieved high performance metrics with load speeds under 1 second. Seamless UI interactions without page reloads successfully reduced customer bounce rates."
+                        overview: "This project is the Public Service Information System (SIPP) for UPTD Puskesmas Ipuh. It serves as a comprehensive digital healthcare platform for the community, providing essential information and online services.",
+                        challenges: "Digitizing public health services to provide easy access to information like polyclinic schedules and facility details, while implementing a seamless online queue registration system and a public complaint mechanism.",
+                        solutions: "Developed a robust web application featuring online patient queue registration, detailed directories for facilities and medical staff, and an integrated public complaint service, ensuring all Puskesmas profiles and manifestos are easily accessible.",
+                        results: "Successfully improved community access to healthcare services through a centralized digital platform, reducing physical queues and enhancing communication between the public and the health center."
                     }
                 },
                 {
@@ -100,24 +100,24 @@ export const translations = {
                     }
                 },
                 {
-                    category: "LANDING PAGE",
-                    title: "Kopi Josjis",
-                    description: "A visually appealing website for a local coffee shop. Features a dynamic menu display, responsive design, and an elegant aesthetic to attract coffee enthusiasts.",
+                    category: "SPA & DASHBOARD",
+                    title: "Kopi Josjis - Coffee Roasters",
+                    description: "A single-page web application (SPA) serving as a landing page, dynamic menu, ordering system, and secure admin dashboard for Kopi Josjis.",
                     stats: [
-                        { value: "10+", label: "Menu Items" },
-                        { value: "100%", label: "Responsive" },
-                        { value: "1 sec", label: "Load Time" },
+                        { value: "100%", label: "Serverless" },
+                        { value: "Realtime", label: "Database" },
+                        { value: "60fps", label: "Animations" },
                     ],
-                    tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
+                    tech: ["TypeScript", "HTML", "Vite", "Tailwind CSS", "GSAP", "Supabase"],
                     caseStudy: "Read Case Study",
                     liveUrl: "https://kopijosjis.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "Digitalizing the Kopi Josjis brand identity through a custom web platform. The goal is to create an interactive digital representation while facilitating dynamic daily menu updates by shop staff.",
-                        challenges: "The client required an extremely simple content management backend (CMS) with no steep learning curve, yet the frontend performance had to match modern web standards.",
-                        solutions: "Designed a lightweight backend architecture with PHP and MySQL for a custom CMS. The frontend was built with a mobile-first approach using Vanilla JavaScript and pure CSS to minimize payload size.",
-                        results: "The website achieved maximum performance scores. The highly intuitive admin panel now allows staff to update menu availability and pricing in seconds without technical assistance."
+                        overview: "Developing a frontend-heavy Single-Page Application (SPA) for Kopi Josjis, integrating a landing page, menu, ordering system, and an admin dashboard into one seamless platform without a traditional custom backend.",
+                        challenges: "The main challenge was building a fully functional and secure ordering system and admin dashboard entirely from the frontend, while maintaining modularity, high performance, and smooth animations.",
+                        solutions: "Utilized TypeScript with modular architecture (api, components, store, animations) and Vite for fast bundling. Implemented Supabase as a BaaS for the database and authentication, bypassing the need for a custom Node.js backend. Styled with Tailwind CSS and animated with GSAP.",
+                        results: "Delivered a highly responsive, animated frontend-heavy SPA. The Supabase integration successfully manages orders and configuration data while securing the admin dashboard, allowing staff to manage the shop directly from the client side."
                     }
                 },
             ],
@@ -305,24 +305,24 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "E-COMMERCE",
-                    title: "Aura Store",
-                    description: "Platform e-commerce modern yang menawarkan pengalaman berbelanja mulus dengan UI elegan, performa cepat, dan desain responsif. Dibangun untuk skalabilitas dan interaksi pengguna.",
+                    category: "LAYANAN KESEHATAN",
+                    title: "Puskesmas Ipuh",
+                    description: "Website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas Ipuh. Platform layanan kesehatan digital dengan fitur pendaftaran antrean online, informasi fasilitas, jadwal poli, dan layanan pengaduan.",
                     stats: [
                         { value: "100%", label: "Responsif" },
                         { value: "98%", label: "Uptime" },
-                        { value: "1 dtk", label: "Waktu Muat" },
+                        { value: "Cepat", label: "Waktu Muat" },
                     ],
-                    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
+                    tech: ["PHP", "Laravel", "Bootstrap", "Vite", "Mysql"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://aura-store-ecommerce.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/Aura-Store",
-                    image: "/ecommerce.png",
+                    liveUrl: "https://puskesmas-ipuh.up.railway.app",
+                    codeUrl: "https://github.com/HanifHawari/puskesmas",
+                    image: "/puskesmas.png",
                     caseStudyContent: {
-                        overview: "Proyek ini bertujuan merevolusi pengalaman belanja online lokal dengan membangun platform e-commerce Headless. Fokus utama adalah pada metrik kecepatan muat halaman dan alur checkout yang sangat intuitif untuk memaksimalkan retensi pelanggan.",
-                        challenges: "Menangani siklus manajemen state keranjang belanja yang persisten di sisi klien, sekaligus menekan waktu rendering awal agar di bawah 1 detik pada perangkat seluler.",
-                        solutions: "Membangun arsitektur SPA dengan React dan sistem build Vite untuk pengiriman aset instan. Menggunakan Zustand untuk state management ringan tanpa boilerplate, serta Tailwind CSS untuk sistem desain modular.",
-                        results: "Mencapai metrik performa tinggi dengan kecepatan muat di bawah 1 detik. Interaksi UI yang mulus tanpa reload halaman berhasil memangkas rasio pantulan (bounce rate) pelanggan."
+                        overview: "Proyek ini adalah website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas Ipuh. Berfungsi sebagai platform layanan kesehatan digital untuk masyarakat, menyediakan informasi penting dan layanan online.",
+                        challenges: "Mendigitalkan layanan kesehatan publik untuk memberikan akses mudah ke informasi seperti jadwal poli dan detail fasilitas, sekaligus menerapkan sistem pendaftaran antrean online dan mekanisme pengaduan masyarakat yang lancar.",
+                        solutions: "Mengembangkan aplikasi web yang tangguh dengan fitur pendaftaran antrean pasien online, direktori fasilitas dan tenaga medis yang terperinci, layanan pengaduan masyarakat terintegrasi, serta profil dan maklumat Puskesmas yang mudah diakses.",
+                        results: "Berhasil meningkatkan akses masyarakat terhadap layanan kesehatan melalui platform digital terpusat, mengurangi antrean fisik, dan meningkatkan komunikasi antara masyarakat dan puskesmas."
                     }
                 },
                 {
@@ -347,24 +347,24 @@ export const translations = {
                     }
                 },
                 {
-                    category: "HALAMAN LANDAS",
-                    title: "Kopi Josjis",
-                    description: "Situs web yang menarik secara visual untuk kedai kopi lokal. Menampilkan menu dinamis, desain responsif, dan estetika elegan untuk menarik pecinta kopi.",
+                    category: "SPA & DASHBOARD",
+                    title: "Kopi Josjis - Coffee Roasters",
+                    description: "Single-page web application (SPA) yang berfungsi sebagai landing page, menu dinamis, sistem pemesanan, dan admin dashboard yang aman untuk Kopi Josjis.",
                     stats: [
-                        { value: "10+", label: "Item Menu" },
-                        { value: "100%", label: "Responsif" },
-                        { value: "1 dtk", label: "Waktu Muat" },
+                        { value: "100%", label: "Serverless" },
+                        { value: "Realtime", label: "Database" },
+                        { value: "60fps", label: "Animasi" },
                     ],
-                    tech: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
+                    tech: ["TypeScript", "HTML", "Vite", "Tailwind CSS", "GSAP", "Supabase"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://kopijosjis.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/coffeeshop",
                     image: "/cms.png",
                     caseStudyContent: {
-                        overview: "Digitalisasi identitas merek Kopi Josjis melalui platform web kustom. Tujuannya adalah menciptakan representasi digital interaktif sekaligus memfasilitasi pembaruan menu harian secara dinamis oleh staf kedai.",
-                        challenges: "Klien membutuhkan sistem backend manajemen konten (CMS) yang sangat sederhana tanpa kurva belajar yang curam, namun performa frontend harus tetap setara dengan standar web modern.",
-                        solutions: "Merancang arsitektur backend ringan dengan PHP dan MySQL untuk CMS kustom. Frontend dibangun dengan pendekatan mobile-first menggunakan Vanilla JavaScript dan CSS murni untuk meminimalkan ukuran payload.",
-                        results: "Situs web mencapai skor performa maksimal. Panel admin yang sangat intuitif kini memungkinkan staf memperbarui ketersediaan menu dan harga dalam hitungan detik tanpa bantuan teknis."
+                        overview: "Mengembangkan Single-Page Application (SPA) yang berpusat pada frontend untuk Kopi Josjis, mengintegrasikan landing page, menu, sistem pemesanan, dan admin dashboard menjadi satu platform tanpa custom backend tradisional.",
+                        challenges: "Tantangan utamanya adalah membangun sistem pemesanan dan dashboard admin yang fungsional dan aman sepenuhnya dari frontend, sambil mempertahankan modularitas, performa tinggi, dan animasi yang mulus.",
+                        solutions: "Memanfaatkan TypeScript dengan arsitektur modular (api, components, store, animations) dan Vite untuk bundling yang cepat. Mengimplementasikan Supabase sebagai BaaS untuk database dan autentikasi, menghindari kebutuhan custom backend Node.js. Menggunakan Tailwind CSS untuk styling dan GSAP untuk animasi.",
+                        results: "Menghasilkan SPA frontend-heavy yang sangat responsif dan beranimasi. Integrasi Supabase berhasil mengelola data pesanan dan konfigurasi sekaligus mengamankan dashboard admin, memungkinkan staf mengelola kedai langsung dari sisi klien."
                     }
                 },
             ],
