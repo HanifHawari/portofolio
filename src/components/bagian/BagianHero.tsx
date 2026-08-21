@@ -11,8 +11,8 @@ const BADGES = [
   { id: "b3", text: "INFORMATICS", type: "pill", w: 130, h: 46 },
   { id: "b4", text: "UI/UX", type: "pill", w: 80, h: 46 },
   { id: "b5", text: "GRAPHIC DESIGN", type: "pill", w: 155, h: 46 },
-  { id: "b6", text: "✦", type: "icon", w: 50, h: 50 },
-  { id: "b7", text: "</>", type: "icon", w: 50, h: 50 },
+  { id: "b6", text: "GITHUB", type: "pill", w: 100, h: 46 },
+  { id: "b7", text: "VSCODE", type: "pill", w: 100, h: 46 },
   { id: "b9", text: "ALGORITMA", type: "pill", w: 115, h: 46 },
 ];
 
