@@ -68,7 +68,7 @@ export const translations = {
                     ],
                     tech: ["PHP", "Laravel", "Bootstrap", "Vite", "MySQL"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://puskesmas-ipuh.up.railway.app",
+                    liveUrl: "https://www.puskesmasipuh.my.id",
                     codeUrl: "https://github.com/HanifHawari/puskesmas",
                     image: "/puskesmas.png",
                     caseStudyContent: {
@@ -89,7 +89,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://fitmind-ai.up.railway.app",
+                    liveUrl: "https://www.fitmindai.my.id",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -315,7 +315,7 @@ export const translations = {
                     ],
                     tech: ["PHP", "Laravel", "Bootstrap", "Vite", "Mysql"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://puskesmas-ipuh.up.railway.app",
+                    liveUrl: "https://www.puskesmasipuh.my.id",
                     codeUrl: "https://github.com/HanifHawari/puskesmas",
                     image: "/puskesmas.png",
                     caseStudyContent: {
@@ -336,7 +336,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://fitmind-ai.up.railway.app",
+                    liveUrl: "https://www.fitmindai.my.id",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
