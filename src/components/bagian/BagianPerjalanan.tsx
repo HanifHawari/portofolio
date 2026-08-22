@@ -30,11 +30,11 @@ function FolderIcon({ size = 40 }: { size?: number }) {
 }
 
 const GALLERY_DATA: { src: string; caption: string }[] = [
-  { src: "/proyek1.png", caption: "" },
-  { src: "/proyek1.png", caption: "" },
-  { src: "/proyek1.png", caption: "" },
-  { src: "/proyek1.png", caption: "" },
-  { src: "/proyek1.png", caption: "" },
+  { src: "/proyek1.png", caption: "Full-Stack Developer" },
+  { src: "/proyek1.png", caption: "Proyek Freelance" },
+  { src: "/foto-web2025.png", caption: "Pengembangan Web 2025" },
+  { src: "/foto-mahasiswa2024.png", caption: "Mahasiswa Informatika" },
+  { src: "/foto-maba2023.png", caption: "Mahasiswa Baru 2023" },
 ];
 
 function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
@@ -131,10 +131,9 @@ function FolderModal({
               <Image
                 src={photo.src}
                 alt={photo.caption}
-                className="w-full object-cover"
-                style={{ aspectRatio: "1024/573" }}
+                className="w-full h-auto object-contain max-h-[70vh] bg-zinc-950/50"
                 width={1024}
-                height={573}
+                height={1024}
                 unoptimized={true}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3">

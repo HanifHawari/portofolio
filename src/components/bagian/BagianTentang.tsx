@@ -90,10 +90,12 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       className="w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
     >
       <Image
-        src="/profile.jpg"
+        src="/profile.png"
         alt="Profile"
         fill
-        className="object-cover"
+        quality={100}
+        unoptimized={true}
+        className="object-cover object-top"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = 'none';
         }}
