@@ -456,6 +456,9 @@ export const translations = {
         geistVillage: {
             title: "The Geist Village",
             subtitle: "Taman bermain fisika interaktif. Klik dan seret objeknya!",
+            loading: "Memuat Playground...",
+            preparing: "Menyiapkan Physics Engine...",
+            reset: "Reset",
             words: [
                 "Next.js", "React", "TypeScript", "Tailwind", "Figma",
                 "Node.js", "Git", "Laravel", "CSS3", "HTML5",
