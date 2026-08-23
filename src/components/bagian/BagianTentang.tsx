@@ -52,108 +52,160 @@ const itemVariants = {
 };
 
 function IDCard({ t }: { t: { about: { name: string; discordUser: string; online: string; hireMe: string } } }) {
+  const sceneRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const isHolding = useRef(false);
   const [gloss, setGloss] = useState({ x: 50, y: 50 });
   const [hovering, setHovering] = useState(false);
 
+  const getRotation = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!sceneRef.current) return { rotateX: 0, rotateY: 0 };
+    const rect = sceneRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateY = ((x / rect.width) - 0.5) * 30;
+    const rotateX = ((y / rect.height) - 0.5) * -30;
+    return { rotateX, rotateY };
+  };
+
+  const applyTilt = (e: React.MouseEvent<HTMLDivElement>, extraTransform = '') => {
+    if (!cardRef.current) return;
+    const { rotateX, rotateY } = getRotation(e);
+    cardRef.current.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)${extraTransform}`;
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    setTilt({ x: dy * -10, y: dx * 10 });
-    setGloss({ x: (e.clientX - rect.left) / rect.width * 100, y: (e.clientY - rect.top) / rect.height * 100 });
+    if (!cardRef.current) return;
+    cardRef.current.style.transition = isHolding.current 
+      ? 'transform 0.05s linear' 
+      : 'transform 0.15s ease-out';
+    applyTilt(e, isHolding.current ? ' scale(1.05) translateY(-4px)' : '');
+
+    if (sceneRef.current) {
+      const rect = sceneRef.current.getBoundingClientRect();
+      setGloss({ x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100 });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    isHolding.current = true;
+    cardRef.current.style.transition = 'transform 0.05s linear';
+    applyTilt(e, ' scale(1.05) translateY(-4px)');
+  };
+
+  const jump = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transition = 'transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+    cardRef.current.style.transform = 'translateY(-28px) scale(1.08) rotateX(0deg) rotateY(0deg)';
+    
+    setTimeout(() => {
+      if (cardRef.current) {
+        cardRef.current.style.transform = 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg)';
+      }
+    }, 260);
+  };
+
+  const handleMouseUp = () => {
+    if (!isHolding.current) return;
+    isHolding.current = false;
+    jump();
+  };
+
+  const handleMouseLeave = () => {
+    isHolding.current = false;
+    setHovering(false);
+    if (!cardRef.current) return;
+    cardRef.current.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    cardRef.current.style.transform = 'rotateX(0deg) rotateY(0deg)';
+  };
+
+  const handleMouseEnter = () => {
+    setHovering(true);
   };
 
   return (
-    <motion.div
-      ref={cardRef}
+    <div
+      ref={sceneRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => { setHovering(false); setTilt({ x: 0, y: 0 }); setGloss({ x: 50, y: 50 }); }}
-      animate={{ 
-        rotateX: tilt.x, 
-        rotateY: tilt.y, 
-        scale: hovering ? 1.02 : 1,
-        y: [-8, 8, -8]
-      }}
-      transition={{ 
-        rotateX: { type: "spring", stiffness: 300, damping: 20 },
-        rotateY: { type: "spring", stiffness: 300, damping: 20 },
-        scale: { type: "spring", stiffness: 300, damping: 20 },
-        y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-      }}
-      style={{ transformStyle: "preserve-3d", perspective: 800 }}
-      className="w-full h-[320px] sm:h-[400px] rounded-[32px] overflow-hidden relative shadow-2xl border border-zinc-700 bg-zinc-900"
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="w-full h-[320px] sm:h-[400px] cursor-grab active:cursor-grabbing"
+      style={{ perspective: 900 }}
     >
-      <Image
-        src="/profile.png"
-        alt="Profile"
-        fill
-        quality={100}
-        unoptimized={true}
-        className="object-cover object-top"
-        onError={(e) => {
-          (e.target as HTMLImageElement).style.display = 'none';
-        }}
-      />
-
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-
-      {hovering && (
-        <div style={{
-          position: "absolute", inset: 0,
-          background: `radial-gradient(circle at ${gloss.x}% ${gloss.y}%, rgba(255,255,255,0.15) 0%, transparent 60%)`,
-          pointerEvents: "none", zIndex: 10,
-        }} />
-      )}
-
       <div
-        className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors"
-        style={{
-          backgroundColor: "var(--card-bg)",
-          border: "1px solid var(--border)"
-        }}
+        ref={cardRef}
+        style={{ transformStyle: "preserve-3d" }}
+        className="w-full h-full overflow-hidden relative section-card select-none"
       >
-        <div className="flex flex-col gap-1">
-          <h3 className="font-bold text-sm sm:text-base tracking-wide" style={{ color: "var(--foreground)" }}>
-            {t.about.discordUser}
-          </h3>
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-muted)" }}>
-              {t.about.online}
-            </span>
-          </div>
-        </div>
+        <Image
+          src="/profile.png"
+          alt="Profile"
+          fill
+          quality={100}
+          unoptimized={true}
+          className="object-cover object-top pointer-events-none"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
 
-        <a
-          href="#contact"
-          className="px-5 py-2 text-[10px] font-bold tracking-[0.15em] uppercase transition-colors rounded-lg"
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+
+        {hovering && (
+          <div style={{
+            position: "absolute", inset: 0,
+            background: `radial-gradient(circle at ${gloss.x}% ${gloss.y}%, rgba(255,255,255,0.15) 0%, transparent 60%)`,
+            pointerEvents: "none", zIndex: 10,
+          }} />
+        )}
+
+        <div
+          className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between z-20 transition-colors pointer-events-auto"
           style={{
-            backgroundColor: "var(--foreground)",
-            color: "var(--background)",
-            border: "1px solid var(--background)"
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--text-muted)";
-            e.currentTarget.style.color = "var(--background)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--foreground)";
-            e.currentTarget.style.color = "var(--background)";
+            backgroundColor: "var(--card-bg)",
+            border: "1px solid var(--border)"
           }}
         >
-          {t.about.hireMe}
-        </a>
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold text-sm sm:text-base tracking-wide" style={{ color: "var(--foreground)" }}>
+              {t.about.discordUser}
+            </h3>
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-muted)" }}>
+                {t.about.online}
+              </span>
+            </div>
+          </div>
+
+          <a
+            href="#contact"
+            className="px-5 py-2 text-[10px] font-bold tracking-[0.15em] uppercase transition-colors rounded-lg"
+            style={{
+              backgroundColor: "var(--foreground)",
+              color: "var(--background)",
+              border: "1px solid var(--background)"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "var(--text-muted)";
+              e.currentTarget.style.color = "var(--background)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "var(--foreground)";
+              e.currentTarget.style.color = "var(--background)";
+            }}
+          >
+            {t.about.hireMe}
+          </a>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -162,18 +214,9 @@ function TechPill({ label, index = 0 }: { label: string; index?: number }) {
   const Icon = iconData?.icon;
 
   return (
-    <span
-      className="group hover:border-zinc-600 hover:text-white tech-wave-anim"
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 8,
-        padding: "6px 14px",
-        border: "1px solid var(--border-strong)",
-        background: "var(--surface-2)",
-        fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
-        color: "var(--text-secondary)", borderRadius: 9999, whiteSpace: "nowrap",
-        transition: "border-color 0.2s ease, color 0.2s ease", cursor: "default",
-        "--wave-index": index,
-      } as React.CSSProperties}
+    <motion.span
+      whileHover={{ scale: 1.05, y: -2 }}
+      className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50 flex items-center gap-2 w-max"
     >
       {Icon && (
         <span style={{ display: "inline-flex", alignItems: "center", color: iconData.color }}>
@@ -181,7 +224,7 @@ function TechPill({ label, index = 0 }: { label: string; index?: number }) {
         </span>
       )}
       {label}
-    </span>
+    </motion.span>
   );
 }
 
@@ -451,26 +494,12 @@ export default function AboutSection() {
                   {language === "id" ? "FOKUS SAYA" : "FOCUS AREAS"}
                 </h3>
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className="flex flex-wrap gap-2">
                 {focusAreas.map((area, i) => (
                   <motion.span
                     key={i}
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.08 }}
-                    className="tech-wave-anim hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:border-zinc-400 hover:text-white"
-                    style={{
-                      display: "inline-flex", padding: "6px 16px",
-                      border: "1px solid var(--border-strong)",
-                      fontSize: 12, fontWeight: 600,
-                      background: "var(--surface-2)",
-                      color: "var(--text-secondary)", letterSpacing: "0.05em",
-                      borderRadius: 9999,
-                      cursor: "default",
-                      transition: "box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease",
-                      "--wave-index": i,
-                    } as React.CSSProperties}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                   >
                     {area}
                   </motion.span>

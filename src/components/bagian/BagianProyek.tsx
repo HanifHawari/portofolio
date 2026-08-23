@@ -271,12 +271,14 @@ export default function ProjectsSection() {
 
                     <div className="flex flex-wrap gap-2 mb-8">
                       {project.tech.map((tech, i) => (
-                        <span
+                        <motion.span
                           key={i}
-                          className="px-3 py-1.5 border border-zinc-800 rounded-full text-xs font-medium text-zinc-400 tracking-wider"
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                         >
                           {tech}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>

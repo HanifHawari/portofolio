@@ -175,6 +175,12 @@ export default function JourneySection() {
 
   return (
     <section id="journey" ref={sectionRef} className="py-24 sm:py-32 bg-[#0a0a0a]">
+      {/* Preload images so they appear instantly when the modal is opened */}
+      <div style={{ display: "none" }}>
+        {GALLERY_DATA.map((photo, i) => (
+          <Image key={i} src={photo.src} alt="preload" width={10} height={10} priority unoptimized={true} />
+        ))}
+      </div>
       <div className="max-w-5xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -244,29 +250,33 @@ export default function JourneySection() {
 
                     <div className="flex flex-wrap gap-2 mb-6">
                       {item.tags.map((tag, i) => (
-                        <span
+                        <motion.span
                           key={i}
-                          className="px-3 py-1 border border-zinc-800 rounded-full text-xs font-medium text-zinc-400 tracking-wider"
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                         >
                           {tag}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
 
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
                       whileTap={{ scale: 0.93 }}
-                      className="flex items-center gap-3 group/folder border border-zinc-800 rounded-xl px-4 py-3 hover:border-zinc-600 hover:bg-white/5 transition-all duration-200"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                      className="flex items-center gap-3 group/folder border border-zinc-700 rounded-xl px-4 py-3 bg-zinc-900/50 hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300"
                     >
-                      <div className="text-foreground transition-colors duration-200">
+                      <div className="text-foreground transition-colors duration-300">
                         <FolderIcon size={38} />
                       </div>
                       <div className="text-left">
-                        <p className="text-xs font-bold tracking-[0.2em] text-zinc-500 group-hover/folder:text-zinc-300 uppercase transition-colors">
-                          Project Archive
+                        <p className="text-xs font-bold tracking-[0.2em] text-zinc-300 group-hover/folder:text-white uppercase transition-colors duration-300">
+                          {item.archiveLabel || "Project Archive"}
                         </p>
-                        <p className="text-[10px] text-zinc-700 group-hover/folder:text-zinc-500 transition-colors">
-                          Click to open folder
+                        <p className="text-[10px] text-zinc-400 group-hover/folder:text-zinc-300 transition-colors duration-300">
+                          {item.archiveTap || "Click to open folder"}
                         </p>
                       </div>
                     </motion.button>

@@ -213,18 +213,7 @@ body {
   animation: pulse-icon-continuous 1.5s ease-in-out infinite;
 }
 
-@keyframes tech-wave {
-  0% { transform: translateY(0); }
-  10% { transform: translateY(-6px); }
-  20% { transform: translateY(0); }
-  100% { transform: translateY(0); }
-}
 
-.tech-wave-anim {
-  animation: tech-wave 4s ease-in-out infinite;
-  animation-delay: calc(var(--wave-index) * 0.1s);
-  will-change: transform;
-}
 
 ::selection {
   background: rgba(128, 128, 128, 0.2);

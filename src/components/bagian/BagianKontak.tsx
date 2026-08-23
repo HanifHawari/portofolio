@@ -38,26 +38,22 @@ function CopyEmailButton({ email }: { email: string }) {
   return (
     <motion.button
       onClick={handleCopy}
-      whileHover={{ scale: 1.05, rotate: 5 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.05, y: -2 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
       title="Copy email"
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         width: 36,
         height: 36,
-        border: "1px solid var(--border-strong)",
-        background: copied ? "rgba(34,197,94,0.1)" : "var(--surface-2)",
-        color: copied ? "#22c55e" : "var(--text-muted)",
-        borderColor: copied ? "rgba(34,197,94,0.4)" : "var(--border-strong)",
         borderRadius: 10,
-        cursor: "pointer",
-        transition: "all 0.2s ease",
         flexShrink: 0,
       }}
+      className={`flex items-center justify-center border transition-colors duration-300 cursor-pointer ${
+        copied 
+          ? "border-green-500/50 text-green-500 bg-green-500/10" 
+          : "border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] bg-zinc-900/50"
+      }`}
     >
-      {copied ? <Check size={16} /> : <Copy size={16} />}
+      {copied ? <Check size={12} /> : <Copy size={12} />}
     </motion.button>
   );
 }
@@ -171,24 +167,26 @@ export default function ContactSection() {
               <h3 className="text-sm font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4">
                 {t.contact.directEmail}
               </h3>
-              <div className="group flex items-center justify-between p-3 border border-zinc-800 rounded-2xl hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] transition-all duration-300 bg-zinc-950/50">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="group flex items-center justify-between p-3 border border-zinc-800 rounded-2xl hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 bg-zinc-950/50"
+              >
                 <a
                   href={`mailto:${t.contact.email}`}
                   className="flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-colors flex-1"
                 >
-                  {/* 🖼️ GIF icon — public/icons/mail.gif */}
                   <img 
                     src="/icons/mail.gif" 
                     alt="Mail" 
                     width={28} 
                     height={28} 
                     style={{ objectFit: "contain" }}
-                    className="group-hover:scale-110 transition-transform duration-300"
                   />
                   <span className="truncate">{t.contact.email}</span>
                 </a>
                 <CopyEmailButton email={t.contact.email} />
-              </div>
+              </motion.div>
             </div>
 
             <div>
@@ -202,14 +200,11 @@ export default function ContactSection() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group flex items-center gap-3 p-3 border border-zinc-800 rounded-2xl hover:border-zinc-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,0,0,0.4)] active:translate-y-0 active:scale-[0.98] transition-all duration-300 bg-zinc-950/50"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="group flex items-center gap-3 p-3 border border-zinc-800 rounded-2xl hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 bg-zinc-950/50"
                   >
                     <span className="flex-shrink-0 w-9 h-9 flex items-center justify-center">
-                      {/* 🖼️ GIF icon — taruh file sesuai nama di socialLinks.gif */}
                       <img
                         src={link.gif}
                         alt={link.label}
@@ -221,7 +216,7 @@ export default function ContactSection() {
                     <span className="text-zinc-400 group-hover:text-white font-medium transition-colors">
                       {link.label}
                     </span>
-                    <span className="ml-auto text-zinc-700 group-hover:text-zinc-400 text-sm animate-slide-right">
+                    <span className="ml-auto text-zinc-700 group-hover:text-zinc-400 text-sm">
                       →
                     </span>
                   </motion.a>
