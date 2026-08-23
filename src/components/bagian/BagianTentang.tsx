@@ -215,7 +215,7 @@ function TechPill({ label, index = 0 }: { label: string; index?: number }) {
 
   return (
     <motion.span
-      whileHover={{ scale: 1.05, y: -2 }}
+      whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
       className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50 flex items-center gap-2 w-max"
     >
       {Icon && (
@@ -258,7 +258,11 @@ function StatusBar() {
   return (
     <div className="w-full border-t border-b border-zinc-800 bg-zinc-950/20 backdrop-blur-sm overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-zinc-800 border-x border-zinc-800">
-        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center gap-2 sm:gap-3 transition-colors duration-300 hover:bg-white/5 cursor-default"
+        >
           <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
@@ -266,21 +270,33 @@ function StatusBar() {
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors group-hover/item:text-green-400">
             {t.hero.openToWork}
           </span>
-        </div>
+        </motion.div>
 
-        <div className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center transition-colors duration-300 hover:bg-white/5 cursor-default"
+        >
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.1em] sm:tracking-[0.2em] text-zinc-500 uppercase overflow-hidden text-ellipsis transition-colors group-hover/item:text-white" style={{ maxWidth: '100%' }}>
             {t.hero.basedIn}
           </span>
-        </div>
+        </motion.div>
 
-        <div className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="group/item status-bar-item py-4 px-3 sm:px-6 flex items-center gap-2 border-t border-zinc-800 lg:border-t-0 transition-colors duration-300 hover:bg-white/5 cursor-default"
+        >
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.1em] sm:tracking-[0.2em] text-white uppercase whitespace-nowrap transition-colors">
             {t.hero.today} <span className="text-zinc-500 font-medium ml-1 transition-colors group-hover/item:text-white">{dateStr}</span>
           </span>
-        </div>
+        </motion.div>
 
-        <div className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center justify-between gap-3 border-t border-zinc-800 lg:border-t-0 transition-all duration-300 hover:bg-white/5 cursor-default hover:scale-[1.02]">
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="group/item status-bar-item py-4 px-4 sm:px-6 flex items-center justify-between gap-3 border-t border-zinc-800 lg:border-t-0 transition-colors duration-300 hover:bg-white/5 cursor-default"
+        >
           <span className="text-[9px] sm:text-[10px] font-black tracking-[0.2em] text-zinc-500 uppercase whitespace-nowrap transition-colors group-hover/item:text-white">
             {t.hero.scrollDown}
           </span>
@@ -291,7 +307,7 @@ function StatusBar() {
           >
             ↓
           </motion.span>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -399,7 +415,7 @@ export default function AboutSection() {
                 {t.about.education.tags.map((tag, i) => (
                   <motion.span 
                     key={i} 
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                     className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                   >
                     {tag}
@@ -498,7 +514,7 @@ export default function AboutSection() {
                 {focusAreas.map((area, i) => (
                   <motion.span
                     key={i}
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                     className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                   >
                     {area}

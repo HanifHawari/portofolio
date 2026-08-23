@@ -101,7 +101,7 @@ function CaseStudyModal({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative z-10 w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl"
+            className="cs-modal relative z-10 w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl"
           >
             <button
               onClick={onClose}
@@ -273,8 +273,7 @@ export default function ProjectsSection() {
                       {project.tech.map((tech, i) => (
                         <motion.span
                           key={i}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          whileHover={{ scale: 1.05, transition: { type: "spring", stiffness: 400, damping: 17 } }}
                           className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                         >
                           {tech}

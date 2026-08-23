@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
@@ -36,39 +36,6 @@ const GALLERY_DATA: { src: string; caption: string }[] = [
   { src: "/foto-mahasiswa2024.png", caption: "Mahasiswa Informatika" },
   { src: "/foto-maba2023.png", caption: "Mahasiswa Baru 2023" },
 ];
-
-function TimelineProgress({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start center", "end center"],
-  });
-
-  const scaleY = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
-
-  return (
-    <>
-      <div
-        className="absolute left-[15px] sm:left-[140px] top-0 bottom-0 w-px"
-        style={{ background: "var(--border-strong)" }}
-      />
-      <motion.div
-        className="absolute left-[15px] sm:left-[140px] top-0 bottom-0 w-px origin-top"
-        style={{
-          background: "linear-gradient(to bottom, var(--foreground), rgba(255,255,255,0.2))",
-          scaleY,
-          opacity,
-          boxShadow: "0 0 8px 1px rgba(255,255,255,0.15)",
-        }}
-      />
-    </>
-  );
-}
 
 function FolderModal({
   index,
@@ -165,7 +132,36 @@ function JourneyCard({ children, className = "" }: { children: React.ReactNode; 
 export default function JourneySection() {
   const { t } = useLanguage();
   const [openFolder, setOpenFolder] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [trackHeight, setTrackHeight] = useState(0);
+
+  // Ukur tinggi track setiap kali konten berubah
+  useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      setTrackHeight(entry.contentRect.height);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.8", "end 0.2"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 20,
+    mass: 0.3,
+  });
+
+  // Garis tumbuh dari atas ke bawah (scaleY 0 → 1)
+  const lineScale = useTransform(smoothProgress, [0, 1], [0, 1]);
+  // Titik mengikuti ujung garis (Y 0 → trackHeight px)
+  const dotY = useTransform(smoothProgress, [0, 1], [0, trackHeight]);
 
   const handleOpenFolder = useCallback((index: number) => {
     setOpenFolder(index);
@@ -174,7 +170,7 @@ export default function JourneySection() {
   const handleClose = useCallback(() => setOpenFolder(null), []);
 
   return (
-    <section id="journey" ref={sectionRef} className="py-24 sm:py-32 bg-[#0a0a0a]">
+    <section id="journey" className="py-24 sm:py-32 bg-[#0a0a0a]">
       {/* Preload images so they appear instantly when the modal is opened */}
       <div style={{ display: "none" }}>
         {GALLERY_DATA.map((photo, i) => (
@@ -197,8 +193,52 @@ export default function JourneySection() {
           </p>
         </motion.div>
 
-        <div className="relative">
-          <TimelineProgress sectionRef={sectionRef} />
+        {/* Container utama — dijadikan target scroll ukur */}
+        <div ref={containerRef} className="relative">
+
+          {/* Garis background statis (redup) */}
+          <div
+            ref={trackRef}
+            className="absolute left-[15px] sm:left-[140px] top-0 bottom-0 w-[3px]"
+            style={{ background: "var(--border-strong)" }}
+          />
+
+          {/* Garis isi yang tumbuh mengikuti scroll */}
+          <motion.div
+            className="absolute left-[15px] sm:left-[140px] top-0 w-[3px] origin-top pointer-events-none"
+            style={{
+              height: "100%",
+              scaleY: lineScale,
+              background: "linear-gradient(to bottom, var(--foreground), rgba(255,255,255,0.2))",
+            }}
+          />
+
+          {/* Override posisi untuk sm: breakpoint */}
+          <motion.div
+            className="absolute pointer-events-none z-20 hidden sm:block"
+            style={{
+              left: "136.5px",
+              top: dotY,
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "var(--foreground)",
+              translateY: "-50%",
+            }}
+          />
+          {/* Mobile dot (sm:hidden) */}
+          <motion.div
+            className="absolute pointer-events-none z-20 sm:hidden"
+            style={{
+              left: "11.5px",
+              top: dotY,
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "var(--foreground)",
+              translateY: "-50%",
+            }}
+          />
 
           <div className="space-y-12">
             {t.journey.items.map((item, index) => (
@@ -220,22 +260,6 @@ export default function JourneySection() {
                   </span>
                 </div>
 
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15, delay: index * 0.08 + 0.3 }}
-                  className="absolute left-[11px] sm:left-[136px] top-1.5 z-10"
-                  style={{
-                    width: 9,
-                    height: 9,
-                    borderRadius: "50%",
-                    border: "2px solid var(--foreground)",
-                    background: "var(--background)",
-                    boxShadow: "0 0 8px 2px rgba(255,255,255,0.2)",
-                  }}
-                />
-
                 <JourneyCard>
                   <div className="relative z-10">
                     <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
@@ -252,8 +276,7 @@ export default function JourneySection() {
                       {item.tags.map((tag, i) => (
                         <motion.span
                           key={i}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          whileHover={{ scale: 1.05, transition: { type: "spring", stiffness: 400, damping: 17 } }}
                           className="px-3 py-1 rounded-full border border-zinc-700 text-xs font-medium tracking-wider text-zinc-300 hover:text-white hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300 cursor-default bg-zinc-900/50"
                         >
                           {tag}
@@ -264,8 +287,6 @@ export default function JourneySection() {
                     <motion.button
                       onClick={() => handleOpenFolder(index)}
                       whileTap={{ scale: 0.93 }}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       className="flex items-center gap-3 group/folder border border-zinc-700 rounded-xl px-4 py-3 bg-zinc-900/50 hover:border-zinc-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-colors duration-300"
                     >
                       <div className="text-foreground transition-colors duration-300">

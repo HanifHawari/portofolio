@@ -709,7 +709,7 @@ export default function GeistVillage() {
           <div className="absolute top-0 left-1/4 right-1/4 h-[12px] bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm pointer-events-none z-0" />
           <div style={{
             position: "absolute", inset: 0,
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(var(--geist-grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--geist-grid-color) 1px, transparent 1px)`,
             backgroundSize: "40px 40px",
             pointerEvents: "none",
           }} />

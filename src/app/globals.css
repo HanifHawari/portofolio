@@ -34,6 +34,7 @@
   --zinc-900: #18181b;
   --zinc-950: #09090b;
   --tech-icon-filter: brightness(0) invert(1);
+  --geist-grid-color: rgba(255, 255, 255, 0.025);
 }
 
 [data-theme="light"] {
@@ -41,8 +42,8 @@
   --foreground: #0a0a0a;
   --surface: #e8e8e8;
   --surface-2: #dcdcdc;
-  --border: rgba(0, 0, 0, 0.07);
-  --border-strong: #c4c4c8;
+  --border: rgba(0, 0, 0, 0.12);
+  --border-strong: #a1a1aa;
   --text-muted: #52525b;
   --text-subtle: #71717a;
   --text-secondary: #3f3f46;
@@ -52,7 +53,7 @@
   --scrollbar-thumb-hover: #71717a;
   --grid-color: rgba(0, 0, 0, 0.04);
   --status-bar-bg: rgba(240, 240, 240, 0.95);
-  --status-bar-border: rgba(0, 0, 0, 0.08);
+  --status-bar-border: rgba(0, 0, 0, 0.12);
   --bubble-bg: rgba(10, 10, 10, 0.9);
   --bubble-color: #fff;
   --zinc-50: #18181b;
@@ -67,6 +68,7 @@
   --zinc-900: #f4f4f5;
   --zinc-950: #fafafa;
   --tech-icon-filter: brightness(0);
+  --geist-grid-color: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -113,63 +115,6 @@ body {
   background: var(--scrollbar-thumb-hover);
 }
 
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.5);
-  }
-}
-
-.pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes bounce-arrow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
-}
-
-.bounce-arrow {
-  animation: bounce-arrow 1.5s ease-in-out infinite;
-}
-
-@keyframes slide-right-continuous {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(4px);
-  }
-}
-
-.animate-slide-right {
-  animation: slide-right-continuous 1.5s ease-in-out infinite;
-}
 
 @keyframes slide-diagonal-continuous {
   0%,
@@ -212,8 +157,6 @@ body {
 .animate-pulse-icon {
   animation: pulse-icon-continuous 1.5s ease-in-out infinite;
 }
-
-
 
 ::selection {
   background: rgba(128, 128, 128, 0.2);
@@ -504,18 +447,6 @@ nav,
   color: #a1a1aa !important;
 }
 
-[data-theme="light"] .text-zinc-300 {
-  color: #3f3f46 !important;
-}
-
-[data-theme="light"] .border-zinc-800 {
-  border-color: #d4d4d8 !important;
-}
-
-[data-theme="light"] .border-zinc-700 {
-  border-color: #c4c4c8 !important;
-}
-
 [data-theme="light"] .border-zinc-800\/50 {
   border-color: rgba(212, 212, 216, 0.5) !important;
 }
@@ -541,13 +472,6 @@ nav,
   border-color: #a1a1aa !important;
 }
 
-[data-theme="light"] .hover\:border-zinc-600:hover {
-  border-color: #c4c4c8 !important;
-}
-
-[data-theme="light"] .hover\:text-white:hover {
-  color: #0a0a0a !important;
-}
 
 [data-theme="light"] .border-zinc-800.bg-zinc-950 {
   background-color: #ffffff !important;
@@ -575,17 +499,6 @@ nav,
   background-color: #27272a !important;
 }
 
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #f0f0f0;
-}
-
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: #a1a1aa;
-}
-
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
-}
 
 [data-theme="light"] .border-zinc-800.bg-\[\#0a0a0a\] {
   background-color: var(--background) !important;
@@ -700,4 +613,191 @@ section, div[style*="overflow-y"] {
   [data-theme="light"] .giant-name {
     -webkit-text-stroke: 2px #0a0a0a !important;
   }
+}
+
+/* ── Light Mode: Badge, Border, Button & Animation Fixes ──────────────────── */
+
+/* Tech pills & tag badges — border-zinc-700 tetap gelap tanpa override */
+[data-theme="light"] .border-zinc-700 {
+  border-color: #8c8c96 !important;
+}
+
+/* Background badge pill bg-zinc-900/50 → abu terang */
+[data-theme="light"] .bg-zinc-900\/50 {
+  background-color: rgba(220, 220, 224, 0.8) !important;
+}
+
+/* Hover: border jadi lebih gelap, bukan lebih terang */
+[data-theme="light"] .hover\:border-zinc-500:hover {
+  border-color: #52525b !important;
+}
+[data-theme="light"] .hover\:border-zinc-600:hover {
+  border-color: #71717a !important;
+}
+
+/* Hover glow — ganti rgba putih jadi gelap agar terlihat di light bg */
+[data-theme="light"] .hover\:shadow-\[0_0_10px_rgba\(255\,255\,255\,0\.2\)\]:hover {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* text-zinc-300 di dalam pill → gelap di light mode */
+[data-theme="light"] .text-zinc-300 {
+  color: #3f3f46 !important;
+}
+
+/* ── Project / Achievement card: tombol outline ── */
+/* border border-zinc-700 rounded-full (tombol Case Study, Detail, GitHub) */
+[data-theme="light"] .border-zinc-700.rounded-full {
+  border-color: #8c8c96 !important;
+  color: #0a0a0a !important;
+}
+[data-theme="light"] .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Tombol GitHub — bg-zinc-800 text-white border-zinc-700 */
+[data-theme="light"] .bg-zinc-800.border-zinc-700.rounded-full {
+  background-color: #e4e4e7 !important;
+  color: #0a0a0a !important;
+  border-color: #8c8c96 !important;
+}
+[data-theme="light"] .hover\:bg-zinc-800:hover {
+  background-color: #d4d4d8 !important;
+}
+[data-theme="light"] .hover\:bg-zinc-700:hover {
+  background-color: #e4e4e7 !important;
+}
+
+
+/* ── Category badge (sharp / rounded-none) ── */
+[data-theme="light"] .border-zinc-700.rounded-none {
+  border-color: #8c8c96 !important;
+  color: #52525b !important;
+}
+
+/* ── Image panel (sisi kanan card proyek/pencapaian) ── */
+[data-theme="light"] .bg-zinc-900.border-zinc-800 {
+  background-color: #e0e0e4 !important;
+  border-color: #b0b0b8 !important;
+}
+
+/* ── Status bar (BagianTentang) ── */
+[data-theme="light"] .border-zinc-800.bg-zinc-950\/20 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  background-color: rgba(240, 240, 240, 0.75) !important;
+}
+[data-theme="light"] .divide-zinc-800 > * + * {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .border-x.border-zinc-800 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .border-t.border-zinc-800 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Year badge di Journey (bg-zinc-800 tanpa rounded) ── */
+[data-theme="light"] .bg-zinc-800.text-zinc-400 {
+  background-color: #e4e4e7 !important;
+  color: #52525b !important;
+}
+
+/* ── Folder button di BagianPerjalanan (border-zinc-700 rounded-xl) ── */
+[data-theme="light"] .border-zinc-700.rounded-xl {
+  border-color: #8c8c96 !important;
+  background-color: rgba(228, 228, 231, 0.8) !important;
+}
+
+/* ── Education year badge (border-zinc-700 tanpa bg) ── */
+[data-theme="light"] .border-zinc-700.text-white {
+  border-color: #8c8c96 !important;
+  color: #0a0a0a !important;
+}
+
+/* ── Download CV button (BagianTentang) ── */
+[data-theme="light"] .border-zinc-700.hover\:bg-white:hover {
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+  border-color: #0a0a0a !important;
+}
+
+/* ── Timeline border & dot glow (BagianPerjalanan) ── */
+[data-theme="light"] .border-b.border-zinc-800 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Hover text-white → text gelap di light ── */
+[data-theme="light"] .hover\:text-white:hover {
+  color: #0a0a0a !important;
+}
+
+/* ── Outline button hover: status-bar-style invert (light mode) ── */
+/* Berlaku untuk: Case Study, Source Code/GitHub, View Detail */
+[data-theme="light"] .border-zinc-700.rounded-full.tracking-wider:hover {
+  background-color: #0a0a0a !important;
+  border-color: #0a0a0a !important;
+  color: #ffffff !important;
+}
+[data-theme="light"] .border-zinc-700.rounded-full.tracking-wider:hover * {
+  color: #ffffff !important;
+}
+
+/* ── Geist Village container — light mode border & bg ── */
+[data-theme="light"] .border-zinc-800.bg-zinc-950\/30 {
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ── Case Study Modal — scoped light mode text & color fixes ── */
+/* Body text (challenge/solution/overview/results) */
+[data-theme="light"] .cs-modal .text-zinc-700,
+[data-theme="light"] .cs-modal .text-zinc-600,
+[data-theme="light"] .cs-modal .text-zinc-300 {
+  color: #3f3f46 !important;
+}
+
+/* Label text (Overview, Results, category) */
+[data-theme="light"] .cs-modal .text-zinc-400,
+[data-theme="light"] .cs-modal .text-zinc-500 {
+  color: #71717a !important;
+}
+
+/* Heading & strong text */
+[data-theme="light"] .cs-modal .text-black,
+[data-theme="light"] .cs-modal .text-white {
+  color: #0a0a0a !important;
+}
+
+/* Divider border di atas tombol action */
+[data-theme="light"] .cs-modal .border-zinc-800 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Modal border */
+[data-theme="light"] .cs-modal {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* GitHub/Source Code button di dalam modal */
+[data-theme="light"] .cs-modal .bg-zinc-800 {
+  background-color: #e4e4e7 !important;
+  color: #0a0a0a !important;
+}
+[data-theme="light"] .cs-modal .bg-zinc-800:hover {
+  background-color: #d4d4d8 !important;
+}
+[data-theme="light"] .cs-modal .bg-zinc-800 * {
+  color: #0a0a0a !important;
+}
+
+/* Live Demo button di dalam modal */
+[data-theme="light"] .cs-modal .bg-white.text-black {
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+}
+[data-theme="light"] .cs-modal .bg-white.text-black:hover {
+  background-color: #27272a !important;
+}
+[data-theme="light"] .cs-modal .bg-white.text-black * {
+  color: #ffffff !important;
 }
