@@ -9,7 +9,7 @@ export const translations = {
             contact: "CONTACT",
         },
         hero: {
-            badges: ["FRONTEND ENGINEER", "FREELANCER"],
+            badges: ["FULLSTACK DEVELOPER", "FREELANCER"],
             tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
             openToWork: "OPEN TO WORK",
             basedIn: "BASED IN INDONESIA, ID",
@@ -23,14 +23,14 @@ export const translations = {
             name: "Muhammad Hanif Hawari",
             bio1: "I am a Computer Science Student at University of Amikom Yogyakarta. I have the skills to build websites that are modern, interactive, and user centered. My journey in web development started from curiosity and has grown into a full-blown passion.",
             bio2: "I specialize in building modern web applications using React, Next.js, and the latest web technologies. I believe in writing clean, maintainable code and creating designs that not only look great but also provide seamless user experiences.",
-            downloadResume: "Download Full CV",
+            downloadResume: "View Full CV",
             discordUser: "@hanifhawari",
             online: "Online",
             hireMe: "Hire Me",
             education: {
                 title: "INFORMATICS (GPA 3.3)",
                 university: "UNIVERSITAS AMIKOM YOGYAKARTA",
-                description: "Built a strong foundation in software engineering, algorithms, and database architecture. Focused on practical web & mobile development skills.",
+                description: "Built a strong foundation in fullstack development, algorithms, and database architecture. Focused on practical web & mobile development skills.",
                 tags: ["ALGORITHM", "DATABASE", "WEB DEVELOPMENT"],
                 year: "2026",
                 badge: "ACADEMIC",
@@ -59,8 +59,8 @@ export const translations = {
             items: [
                 {
                     category: "HEALTHCARE",
-                    title: "Puskesmas Ipuh",
-                    description: "Public Service Information System (SIPP) for UPTD Puskesmas Ipuh. A digital healthcare platform featuring online queue registration, facility information, doctor schedules, and public complaint services.",
+                    title: "Puskesmas",
+                    description: "Public Service Information System (SIPP) for UPTD Puskesmas. A digital healthcare platform featuring online queue registration, facility information, doctor schedules, and public complaint services.",
                     stats: [
                         { value: "100%", label: "Responsive" },
                         { value: "98%", label: "Uptime" },
@@ -72,7 +72,7 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/puskesmas",
                     image: "/puskesmas.png",
                     caseStudyContent: {
-                        overview: "This project is the Public Service Information System (SIPP) for UPTD Puskesmas Ipuh. It serves as a comprehensive digital healthcare platform for the community, providing essential information and online services.",
+                        overview: "This project is the Public Service Information System (SIPP) for UPTD Puskesmas. It serves as a comprehensive digital healthcare platform for the community, providing essential information and online services.",
                         challenges: "Digitizing public health services to provide easy access to information like polyclinic schedules and facility details, while implementing a seamless online queue registration system and a public complaint mechanism.",
                         solutions: "Developed a robust web application featuring online patient queue registration, detailed directories for facilities and medical staff, and an integrated public complaint service, ensuring all Puskesmas profiles and manifestos are easily accessible.",
                         results: "Successfully improved community access to healthcare services through a centralized digital platform, reducing physical queues and enhancing communication between the public and the health center."
@@ -166,11 +166,11 @@ export const translations = {
                 },
                 {
                     year: "2026",
-                    badge: "FREELANCE",
-                    role: "FREELANCE DEVELOPER",
-                    company: "Self-Employed",
-                    description: "Took on freelance projects building custom websites and web applications for small businesses and startups. Focused on delivering high-quality, responsive designs.",
-                    tags: ["React", "Node.js", "Figma"],
+                    badge: "INTERNSHIP",
+                    role: "FULLSTACK DEVELOPER INTERN",
+                    company: "Company Name",
+                    description: "Contributed as a Fullstack Developer Intern, working on real-world web projects using modern technologies. Gained hands-on experience in both frontend and backend development within a professional team environment.",
+                    tags: ["React", "Next.js", "Node.js", "Fullstack"],
                     archiveLabel: "PROJECT ARCHIVE",
                     archiveTap: "Tap to Open",
                 },
@@ -256,7 +256,7 @@ export const translations = {
             contact: "KONTAK",
         },
         hero: {
-            badges: ["FRONTEND ENGINEER", "FREELANCER"],
+            badges: ["FULLSTACK DEVELOPER", "FREELANCER"],
             tagBadges: ["INFORMATICS", "UI/UX", "GRAPHIC DESIGN"],
             openToWork: "TERBUKA UNTUK BEKERJA",
             basedIn: "BERBASIS DI INDONESIA, ID",
@@ -270,14 +270,14 @@ export const translations = {
             name: "Muhammad Hanif Hawari",
             bio1: "Saya adalah Mahasiswa Informatika yang sedang berkuliah di Universitas Amikom Yogyakarta. Saya memiliki skill dalam membuat website yang modern, interaktif, dan berpusat pada pengguna. Perjalanan saya dalam pengembangan web dimulai dari rasa ingin tahu dan telah berkembang menjadi sebuah passion.",
             bio2: "Saya mengkhususkan diri dalam membangun aplikasi web modern menggunakan React, Next.js, dan teknologi web terbaru. Saya percaya pada penulisan kode yang bersih dan mudah dipelihara serta membuat desain yang tidak hanya terlihat bagus tetapi juga memberikan pengalaman pengguna yang mulus.",
-            downloadResume: "Unduh CV Lengkap",
+            downloadResume: "Lihat CV Lengkap",
             discordUser: "@hanifhawari",
             online: "Online",
             hireMe: "Rekrut Saya",
             education: {
                 title: "INFORMATIKA (IPK 3.3)",
                 university: "UNIVERSITAS AMIKOM YOGYAKARTA",
-                description: "Membangun fondasi yang kuat dalam rekayasa perangkat lunak, algoritma, dan arsitektur database. Fokus pada pengembangan web & mobile yang praktis.",
+                description: "Membangun fondasi yang kuat dalam pengembangan fullstack, algoritma, dan arsitektur database. Fokus pada pengembangan web & mobile yang praktis.",
                 tags: ["ALGORITMA", "DATABASE", "PENGEMBANGAN WEB"],
                 year: "2026",
                 badge: "AKADEMIK",
@@ -306,8 +306,8 @@ export const translations = {
             items: [
                 {
                     category: "LAYANAN KESEHATAN",
-                    title: "Puskesmas Ipuh",
-                    description: "Website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas Ipuh. Platform layanan kesehatan digital dengan fitur pendaftaran antrean online, informasi fasilitas, jadwal poli, dan layanan pengaduan.",
+                    title: "Puskesmas",
+                    description: "Website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas. Platform layanan kesehatan digital dengan fitur pendaftaran antrean online, informasi fasilitas, jadwal poli, dan layanan pengaduan.",
                     stats: [
                         { value: "100%", label: "Responsif" },
                         { value: "98%", label: "Uptime" },
@@ -319,7 +319,7 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari/puskesmas",
                     image: "/puskesmas.png",
                     caseStudyContent: {
-                        overview: "Proyek ini adalah website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas Ipuh. Berfungsi sebagai platform layanan kesehatan digital untuk masyarakat, menyediakan informasi penting dan layanan online.",
+                        overview: "Proyek ini adalah website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas. Berfungsi sebagai platform layanan kesehatan digital untuk masyarakat, menyediakan informasi penting dan layanan online.",
                         challenges: "Mendigitalkan layanan kesehatan publik untuk memberikan akses mudah ke informasi seperti jadwal poli dan detail fasilitas, sekaligus menerapkan sistem pendaftaran antrean online dan mekanisme pengaduan masyarakat yang lancar.",
                         solutions: "Mengembangkan aplikasi web yang tangguh dengan fitur pendaftaran antrean pasien online, direktori fasilitas dan tenaga medis yang terperinci, layanan pengaduan masyarakat terintegrasi, serta profil dan maklumat Puskesmas yang mudah diakses.",
                         results: "Berhasil meningkatkan akses masyarakat terhadap layanan kesehatan melalui platform digital terpusat, mengurangi antrean fisik, dan meningkatkan komunikasi antara masyarakat dan puskesmas."
@@ -413,11 +413,11 @@ export const translations = {
                 },
                 {
                     year: "2026",
-                    badge: "FREELANCE",
-                    role: "FREELANCE DEVELOPER",
-                    company: "Wiraswasta",
-                    description: "Mengerjakan proyek freelance membangun situs web dan aplikasi web kustom untuk bisnis kecil dan startup. Fokus pada pengiriman desain responsif berkualitas tinggi.",
-                    tags: ["React", "Node.js", "Figma"],
+                    badge: "MAGANG",
+                    role: "FULLSTACK DEVELOPER INTERN",
+                    company: "Nama Perusahaan",
+                    description: "Berkontribusi sebagai Fullstack Developer Intern, mengerjakan proyek web nyata menggunakan teknologi modern. Mendapatkan pengalaman langsung di pengembangan frontend dan backend dalam lingkungan tim profesional.",
+                    tags: ["React", "Next.js", "Node.js", "Fullstack"],
                     archiveLabel: "ARSIP PROYEK",
                     archiveTap: "Ketuk untuk Buka",
                 },
@@ -456,9 +456,6 @@ export const translations = {
         geistVillage: {
             title: "The Geist Village",
             subtitle: "Taman bermain fisika interaktif. Klik dan seret objeknya!",
-            loading: "Memuat Taman Bermain...",
-            preparing: "Menyiapkan Mesin Fisika...",
-            reset: "Reset",
             words: [
                 "Next.js", "React", "TypeScript", "Tailwind", "Figma",
                 "Node.js", "Git", "Laravel", "CSS3", "HTML5",

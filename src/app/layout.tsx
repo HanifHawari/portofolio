@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.portfoliohanief.web.id"), // Domain website 
   title: "Muhammad Hanif Hawari | Web Developer",
   description:
-    "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
+    "Professional portfolio of Muhammad Hanif Hawari — Fullstack Developer specializing in modern web technologies, React, Next.js, and creative digital experiences.",
   keywords: [
     "Muhammad Hanif Hawari",
     "Hanif Hawari",
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
-      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies.",
+      "Professional portfolio of Muhammad Hanif Hawari — Fullstack Developer specializing in modern web technologies.",
     url: "https://www.portfoliohanief.web.id",
     type: "website",
     images: [
       {
-        url: "/icon.jpg",
+        url: "/profile.png",
         width: 1200,
         height: 630,
         alt: "Muhammad Hanif Hawari",
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
-      "Professional portfolio of Muhammad Hanif Hawari — Frontend Engineer specializing in modern web technologies.",
-    images: ["/icon.jpg"],
+      "Professional portfolio of Muhammad Hanif Hawari — Fullstack Developer specializing in modern web technologies.",
+    images: ["/profile.png"],
   },
   verification: {
     google: "S_tyokcVXFzZzwp0F-XfOXHxZ35_IBTDzFdYZI-iwN4",

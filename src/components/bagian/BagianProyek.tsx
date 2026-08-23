@@ -92,7 +92,7 @@ function CaseStudyModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 z-0 bg-black/80 md:backdrop-blur-sm"
+            className="absolute inset-0 z-0 bg-black/60 dark:bg-black/80 md:backdrop-blur-none dark:md:backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -105,29 +105,21 @@ function CaseStudyModal({
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 md:backdrop-blur-md border border-white/20 text-white hover:scale-110 transition-all duration-300"
+              className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-white/80 dark:bg-black/50 md:backdrop-blur-md border border-black/10 dark:border-white/20 text-black dark:text-white hover:scale-110 transition-all duration-300 shadow-sm"
             >
               <X size={18} />
             </button>
 
             <div className="overflow-y-auto w-full flex-1">
-              <div className="relative w-full h-52 sm:h-64 bg-zinc-200 dark:bg-zinc-900 overflow-hidden shrink-0">
+              <div className="relative w-full h-52 sm:h-64 bg-zinc-100 dark:bg-zinc-900 overflow-hidden shrink-0">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover opacity-80"
+                  className="object-cover opacity-100 dark:opacity-80"
                   unoptimized={true}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
-                <div className="absolute bottom-5 left-6 right-16">
-                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-600 dark:text-zinc-300 mb-1">
-                    {project.category} — Case Study
-                  </p>
-                  <h3 className="text-2xl sm:text-3xl font-black text-black dark:text-white leading-tight">
-                    {project.title}
-                  </h3>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
               </div>
 
               <div className="p-6 sm:p-10">
