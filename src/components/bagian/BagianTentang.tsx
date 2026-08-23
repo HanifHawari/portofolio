@@ -434,22 +434,18 @@ export default function AboutSection() {
                 </h3>
               </div>
               <div className="space-y-4">
-                {(() => {
-                  let globalIndex = 0;
-                  return [t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
-                    <div key={ci}>
-                      <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 6 }}>
-                        {cat.title}
-                      </p>
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                        {cat.items.map((item, i) => {
-                          const currentIndex = globalIndex++;
-                          return <TechPill key={i} label={item} index={currentIndex} />;
-                        })}
-                      </div>
+                {[t.about.techStack.core, t.about.techStack.frameworks, t.about.techStack.tools].map((cat, ci) => (
+                  <div key={ci}>
+                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-subtle)", marginBottom: 6 }}>
+                      {cat.title}
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {cat.items.map((item, i) => (
+                        <TechPill key={i} label={item} />
+                      ))}
                     </div>
-                  ));
-                })()}
+                  </div>
+                ))}
               </div>
             </SectionCard>
           </motion.div>
