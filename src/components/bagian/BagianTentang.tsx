@@ -209,7 +209,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
   );
 }
 
-function TechPill({ label, index = 0 }: { label: string; index?: number }) {
+function TechPill({ label }: { label: string }) {
   const iconData = techIcons[label];
   const Icon = iconData?.icon;
 
