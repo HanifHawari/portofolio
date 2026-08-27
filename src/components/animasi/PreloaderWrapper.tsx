@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import MinecraftPreloader from "@/components/animasi/MinecraftPreloader";
+import { useEffect, useState } from "react";
 
 // Panel animation: 1.6s total
 // 0–35%  : panels slide IN from top & bottom → meet at center
@@ -11,18 +10,17 @@ import MinecraftPreloader from "@/components/animasi/MinecraftPreloader";
 export default function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<"loading" | "reveal" | "done">("loading");
 
-  const handlePreloaderDone = () => {
-    setPhase("reveal");
-    // Switch to done at 750ms — panels are still opening, creating a nice overlap
-    setTimeout(() => setPhase("done"), 750);
-  };
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setPhase("reveal");
+      setTimeout(() => setPhase("done"), 750);
+    }, 500);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
-      {/* 1. Preloader */}
-      {phase === "loading" && (
-        <MinecraftPreloader onDone={handlePreloaderDone} />
-      )}
+      {/* 1. Panel curtain — stays mounted during reveal + done so animation completes */}
 
       {/* 2. Two-panel curtain — stays mounted during reveal + done so animation completes */}
       {phase !== "loading" && (

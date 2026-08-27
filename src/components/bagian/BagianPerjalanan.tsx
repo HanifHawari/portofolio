@@ -47,6 +47,7 @@ function FolderModal({
   onClose: () => void;
 }) {
   const photo = GALLERY_DATA[index];
+  const isComingSoon = index === 0 || index === 1;
 
   return createPortal(
     <motion.div
@@ -88,7 +89,33 @@ function FolderModal({
         </div>
 
         <div className="p-4">
-          {photo ? (
+          {isComingSoon ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="relative rounded-lg overflow-hidden border border-zinc-800 bg-zinc-950/80"
+              style={{ minHeight: 240 }}
+            >
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                <motion.div
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                  className="w-12 h-12 rounded-full border-2 border-zinc-600 flex items-center justify-center"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-zinc-400">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                </motion.div>
+                <div className="text-center">
+                  <p className="text-white font-black text-2xl tracking-[0.3em] uppercase">Coming Soon</p>
+                  <p className="text-zinc-500 text-xs mt-2 tracking-widest">Konten sedang disiapkan</p>
+                </div>
+              </div>
+              <div className="h-60" />
+            </motion.div>
+          ) : photo ? (
             <motion.div
               initial={{ opacity: 0, y: 24, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}

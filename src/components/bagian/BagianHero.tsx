@@ -88,21 +88,31 @@ export default function HeroSection() {
 
     World.add(engine.world, [ceiling, wallLeft, wallRight, bottomFloor]);
 
-    // Spawn badges for both mobile and desktop (tersebar di bawah agar tidak ada animasi jatuh dari atas)
-    const bodies = BADGES.map((badge, index) => {
-      // Sebar x dari kiri ke kanan secara merata
-      const x = (width / BADGES.length) * index + (Math.random() * 20);
-      // Letakkan tepat di atas lantai teks (y1) agar langsung diam tanpa terjepit
-      const y = initialY1 - badge.h / 2 - Math.random() * 10;
+    // Spawn badges dengan posisi acak-berantakan dan bertumpuk
+    const bodies = BADGES.map((badge) => {
+      // X acak di seluruh lebar layar, bisa bertumpuk
+      const x = Math.random() * width;
+      // Y acak di zona atas — sebagian besar menumpuk di area yang sama
+      const clusterY = initialY1 * 0.35 + Math.random() * (initialY1 * 0.5);
+      const y = Math.max(20, clusterY);
 
-      return Bodies.rectangle(x, y, badge.w, badge.h, {
+      const body = Bodies.rectangle(x, y, badge.w, badge.h, {
         restitution: 0.6,
-        friction: 0.2, // Mengembalikan friction normal
+        friction: 0.2,
         density: 0.002,
         chamfer: { radius: badge.type === "icon" ? badge.w / 2 : 20 },
         render: { visible: false },
-        label: badge.id
+        label: badge.id,
       });
+
+      // Beri velocity awal acak agar badge langsung saling bertabrakan
+      Matter.Body.setVelocity(body, {
+        x: (Math.random() - 0.5) * 8,
+        y: Math.random() * 4,
+      });
+      Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.3);
+
+      return body;
     });
     badgeBodiesRef.current = bodies;
     World.add(engine.world, bodies);
