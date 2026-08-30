@@ -132,8 +132,8 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       onMouseUp={handleMouseUp}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="w-full h-[320px] sm:h-[400px] cursor-grab active:cursor-grabbing"
-      style={{ perspective: 900 }}
+      className="w-full h-full cursor-grab active:cursor-grabbing"
+      style={{ perspective: 900, minHeight: 0 }}
     >
       <div
         ref={cardRef}
@@ -377,8 +377,10 @@ export default function AboutSection() {
             </SectionCard>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex items-start justify-center lg:justify-end">
-            <IDCard t={t} />
+          <motion.div variants={itemVariants} className="flex items-stretch justify-center lg:justify-end w-full">
+            <div className="w-full h-full">
+              <IDCard t={t} />
+            </div>
           </motion.div>
         </motion.div>
 

@@ -20,9 +20,7 @@ export default function PreloaderWrapper({ children }: { children: React.ReactNo
 
   return (
     <>
-      {/* 1. Panel curtain — stays mounted during reveal + done so animation completes */}
-
-      {/* 2. Two-panel curtain — stays mounted during reveal + done so animation completes */}
+      {/* Two-panel curtain — stays mounted during reveal + done so animation completes */}
       {phase !== "loading" && (
         <div className="fixed inset-0 z-[9998] pointer-events-none">
 
