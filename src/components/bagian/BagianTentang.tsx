@@ -146,7 +146,7 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
           fill
           quality={100}
           unoptimized={true}
-          className="object-cover object-top pointer-events-none"
+          className="object-contain pointer-events-none" style={{ backgroundColor: '#c8ccd5' }}
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
           }}
