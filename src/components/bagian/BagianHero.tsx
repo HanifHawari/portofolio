@@ -32,8 +32,10 @@ export default function HeroSection() {
         timeout = setTimeout(() => setIsTyping(false), 3000);
       }
     } else {
-      setDisplayedText("");
-      setIsTyping(true);
+      timeout = setTimeout(() => {
+        setDisplayedText("");
+        setIsTyping(true);
+      }, 500);
     }
     return () => clearTimeout(timeout);
   }, [displayedText, isTyping]);

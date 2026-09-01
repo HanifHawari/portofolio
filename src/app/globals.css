@@ -234,7 +234,7 @@ body {
     transform: none !important;
     border-radius: 20px;
     border: var(--card-border-hover, 2px solid var(--foreground)) !important;
-    box-shadow: var(--border-3d-shadow-hover) !important;
+    box-shadow: none !important;
   }
 }
 

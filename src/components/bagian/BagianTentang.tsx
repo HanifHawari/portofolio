@@ -378,7 +378,7 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex items-stretch justify-center lg:justify-end w-full">
-            <div className="w-full h-full">
+            <div className="w-full min-h-[420px] sm:min-h-[480px]">
               <IDCard t={t} />
             </div>
           </motion.div>

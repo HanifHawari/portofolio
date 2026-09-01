@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useLayoutEffect } from "react";
+import { useState, useRef, useCallback, useLayoutEffect, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
@@ -195,6 +195,11 @@ export default function JourneySection() {
   }, []);
 
   const handleClose = useCallback(() => setOpenFolder(null), []);
+
+  useEffect(() => {
+    document.body.style.overflow = openFolder !== null ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [openFolder]);
 
   return (
     <section id="journey" className="py-24 sm:py-32 bg-[#0a0a0a]">
