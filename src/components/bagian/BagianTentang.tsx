@@ -367,7 +367,7 @@ export default function AboutSection() {
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio1}</p>
                 <p className="text-zinc-400 leading-relaxed text-sm">{t.about.bio2}</p>
                 <a
-                  href="/cv.pdf" target="_blank" rel="noopener noreferrer"
+                  href="/cv-muhammad-hanif-hawari.pdf" target="_blank" rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-700 text-white text-sm font-semibold tracking-wider hover:bg-white hover:text-black transition-all duration-300 btn-glow"
                 >
                   <Download size={15} className="animate-bounce" />
