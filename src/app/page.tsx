@@ -2,6 +2,7 @@ import Navigasi from "@/components/umum/Navigasi";
 import BagianHero from "@/components/bagian/BagianHero";
 import BagianTentang from "@/components/bagian/BagianTentang";
 import BagianProyek from "@/components/bagian/BagianProyek";
+import BagianPencapaian from "@/components/bagian/BagianPencapaian";
 import BagianPerjalanan from "@/components/bagian/BagianPerjalanan";
 
 import DesaGeist from "@/components/animasi/DesaGeist";
@@ -17,7 +18,7 @@ export default function Home() {
         <BagianHero />
         <BagianTentang />
         <BagianProyek />
-
+        <BagianPencapaian />
         <BagianPerjalanan />
         <DesaGeist />
         <BagianKontak />

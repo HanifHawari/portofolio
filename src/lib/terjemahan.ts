@@ -58,24 +58,24 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "HEALTHCARE",
-                    title: "Puskesmas",
-                    description: "Public Service Information System (SIPP) for UPTD Puskesmas. A digital healthcare platform featuring online queue registration, facility information, doctor schedules, and public complaint services.",
+                    category: "WEB DEVELOPMENT",
+                    title: "Kartu Nikah",
+                    description: "A beautiful digital wedding invitation web app. Features an interactive cover with background music, countdown timer, ceremony details, Google Maps location, live streaming links, photo gallery, and RSVP form.",
                     stats: [
                         { value: "100%", label: "Responsive" },
-                        { value: "98%", label: "Uptime" },
+                        { value: "Smooth", label: "Animation" },
                         { value: "Fast", label: "Load Time" },
                     ],
-                    tech: ["PHP", "Laravel", "Bootstrap", "Vite", "MySQL"],
+                    tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://www.puskesmasipuh.my.id",
-                    codeUrl: "https://github.com/HanifHawari/puskesmas",
-                    image: "/puskesmas.png",
+                    liveUrl: "https://kartu-nikah.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari/kartu-nikah",
+                    image: "/kartu-nikah.png",
                     caseStudyContent: {
-                        overview: "This project is the Public Service Information System (SIPP) for UPTD Puskesmas. It serves as a comprehensive digital healthcare platform for the community, providing essential information and online services.",
-                        challenges: "Digitizing public health services to provide easy access to information like polyclinic schedules and facility details, while implementing a seamless online queue registration system and a public complaint mechanism.",
-                        solutions: "Developed a robust web application featuring online patient queue registration, detailed directories for facilities and medical staff, and an integrated public complaint service, ensuring all Puskesmas profiles and manifestos are easily accessible.",
-                        results: "Successfully improved community access to healthcare services through a centralized digital platform, reducing physical queues and enhancing communication between the public and the health center."
+                        overview: "A digital wedding invitation web application built for wedding. The site presents couple profiles, ceremony schedules, venue locations, a photo gallery, kisah perjalanan, gift info, and an RSVP system. all in a responsive and elegant design.",
+                        challenges: "Crafting an emotionally engaging experience that feels personal and elegant, while ensuring smooth animations and performance across all devices. from the interactive opening cover to the gallery lightbox and countdown timer.",
+                        solutions: "Built with React and Vite for a fast, modular architecture. Used Framer Motion for fluid entrance animations and page transitions, and Fancybox for the immersive photo gallery lightbox experience.",
+                        results: "Delivered a visually stunning and fully responsive digital wedding invitation with smooth animations, interactive features, and fast load times. creating a memorable digital experience for guests."
                     }
                 },
                 {
@@ -89,7 +89,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://www.fitmindai.my.id",
+                    liveUrl: "https://fitmind-pdm.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -133,7 +133,7 @@ export const translations = {
                     description: "Successfully reached the Immortal rank in Mobile Legends with a total of 324 matches and a 65.74% win rate in Season 40.",
                     stats: [
                         { value: "35", label: "WIN STREAK" },
-                        { value: "52.76%", label: "WR ALL SEASON" },
+                        { value: "65.76%", label: "WR ALL SEASON" },
                         { value: "594", label: "ALL SKIN" },
                     ],
                     archiveLabel: "PHOTO ARCHIVE",
@@ -305,24 +305,24 @@ export const translations = {
             sourceCode: "Code",
             items: [
                 {
-                    category: "LAYANAN KESEHATAN",
-                    title: "Puskesmas",
-                    description: "Website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas. Platform layanan kesehatan digital dengan fitur pendaftaran antrean online, informasi fasilitas, jadwal poli, dan layanan pengaduan.",
+                    category: "WEB DEVELOPMENT",
+                    title: "Kartu Nikah",
+                    description: "Aplikasi web undangan pernikahan digital. Dilengkapi cover interaktif dengan musik latar, hitung mundur, detail akad & resepsi, lokasi Google Maps, tautan live streaming, galeri foto, dan form konfirmasi kehadiran.",
                     stats: [
                         { value: "100%", label: "Responsif" },
-                        { value: "98%", label: "Uptime" },
+                        { value: "Smooth", label: "Animasi" },
                         { value: "Cepat", label: "Waktu Muat" },
                     ],
-                    tech: ["PHP", "Laravel", "Bootstrap", "Vite", "Mysql"],
+                    tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://www.puskesmasipuh.my.id",
-                    codeUrl: "https://github.com/HanifHawari/puskesmas",
-                    image: "/puskesmas.png",
+                    liveUrl: "https://kartu-nikah.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari/kartu-nikah",
+                    image: "/kartu-nikah.png",
                     caseStudyContent: {
-                        overview: "Proyek ini adalah website Sistem Informasi Pelayanan Publik (SIPP) UPTD Puskesmas. Berfungsi sebagai platform layanan kesehatan digital untuk masyarakat, menyediakan informasi penting dan layanan online.",
-                        challenges: "Mendigitalkan layanan kesehatan publik untuk memberikan akses mudah ke informasi seperti jadwal poli dan detail fasilitas, sekaligus menerapkan sistem pendaftaran antrean online dan mekanisme pengaduan masyarakat yang lancar.",
-                        solutions: "Mengembangkan aplikasi web yang tangguh dengan fitur pendaftaran antrean pasien online, direktori fasilitas dan tenaga medis yang terperinci, layanan pengaduan masyarakat terintegrasi, serta profil dan maklumat Puskesmas yang mudah diakses.",
-                        results: "Berhasil meningkatkan akses masyarakat terhadap layanan kesehatan melalui platform digital terpusat, mengurangi antrean fisik, dan meningkatkan komunikasi antara masyarakat dan puskesmas."
+                        overview: "Aplikasi web undangan pernikahan digital yang dibangun untuk acara pernikahan. Menampilkan profil kedua mempelai, jadwal acara, lokasi venue, galeri foto, kisah perjalanan, info hadiah, dan sistem RSVP. semua dalam desain yang responsif dan elegan.",
+                        challenges: "Menciptakan pengalaman yang terasa personal dan elegan sekaligus memastikan animasi yang mulus dan performa optimal di semua perangkat. mulai dari cover pembuka interaktif hingga galeri lightbox dan hitung mundur.",
+                        solutions: "Dibangun dengan React dan Vite untuk arsitektur yang cepat dan modular. Menggunakan Framer Motion untuk animasi masuk dan transisi halaman yang halus, serta Fancybox untuk pengalaman galeri foto lightbox yang imersif.",
+                        results: "Menghasilkan undangan pernikahan digital yang memukau secara visual dan sepenuhnya responsif, dengan animasi halus, fitur interaktif, dan waktu muat yang cepat.  menciptakan pengalaman digital yang berkesan bagi para tamu."
                     }
                 },
                 {
@@ -336,7 +336,7 @@ export const translations = {
                     ],
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://www.fitmindai.my.id",
+                    liveUrl: "https://fitmind-pdm.vercel.app",
                     codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
                     image: "/fitness.png",
                     caseStudyContent: {
@@ -380,8 +380,8 @@ export const translations = {
                     description: "Berhasil mencapai rank Immortal di Mobile Legends dengan total 324 match dan win rate 65.74% pada season 40.",
                     stats: [
                         { value: "35", label: "WIN STREAK" },
-                        { value: "52.76%", label: "WR ALL SEASON" },
-                        { value: "594", label: "TOTAL SKIN" },
+                        { value: "65.76%", label: "WR ALL SEASON" },
+                        { value: "605", label: "TOTAL SKIN" },
                     ],
                     archiveLabel: "ARSIP FOTO",
                     archiveTap: "Ketuk untuk buka folder",
