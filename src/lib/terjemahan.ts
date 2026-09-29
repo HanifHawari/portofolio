@@ -134,7 +134,7 @@ export const translations = {
                     stats: [
                         { value: "35", label: "WIN STREAK" },
                         { value: "65.76%", label: "WR ALL SEASON" },
-                        { value: "594", label: "ALL SKIN" },
+                        { value: "605", label: "ALL SKIN" },
                     ],
                     archiveLabel: "PHOTO ARCHIVE",
                     archiveTap: "Click to open folder",
