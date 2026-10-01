@@ -69,7 +69,7 @@ export const translations = {
                     tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Read Case Study",
                     liveUrl: "https://kartu-nikah.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/kartu-nikah",
+                    codeUrl: "https://github.com/HanifHawari",
                     image: "/kartu-nikah.png",
                     caseStudyContent: {
                         overview: "A digital wedding invitation web application built for wedding. The site presents couple profiles, ceremony schedules, venue locations, a photo gallery, kisah perjalanan, gift info, and an RSVP system. all in a responsive and elegant design.",
@@ -90,7 +90,7 @@ export const translations = {
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Read Case Study",
                     liveUrl: "https://fitmind-pdm.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
+                    codeUrl: "https://github.com/HanifHawari",
                     image: "/fitness.png",
                     caseStudyContent: {
                         overview: "Developing a next-generation virtual health assistant that not only tracks passive metrics but proactively provides context-based recommendations using Generative AI.",
@@ -100,9 +100,9 @@ export const translations = {
                     }
                 },
                 {
-                    category: "WEB DEVELOPMENT",
-                    title: "Kovana Coffee",
-                    description: "A modern web application serving as a company profile, interactive landing page, and digital menu for Kovana Coffee.",
+                    category: "E-COMMERCE",
+                    title: "Stallion Store",
+                    description: "A modern e-commerce web application featuring a digital storefront, product catalog, and seamless shopping experience for Stallion Store.",
                     stats: [
                         { value: "100%", label: "Responsive" },
                         { value: "Modern", label: "UI/UX" },
@@ -110,14 +110,14 @@ export const translations = {
                     ],
                     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
                     caseStudy: "Read Case Study",
-                    liveUrl: "https://kovanacoffee.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/kovanacoffee",
-                    image: "/kovana.png",
+                    liveUrl: "https://stallion-store-yk.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari",
+                    image: "/stallion.png",
                     caseStudyContent: {
-                        overview: "Developing a modern web application for Kovana Coffee to introduce their brand identity and provide a digital catalog of their food and beverages.",
-                        challenges: "The main challenge was creating an elegant and cozy digital experience that matches the physical atmosphere of the coffee shop, while ensuring high performance and responsive design across all devices.",
-                        solutions: "Utilized Next.js and React for a fast, server-rendered application. Styled with Tailwind CSS to create a beautiful, modern, and fully responsive user interface.",
-                        results: "Delivered a visually stunning and highly performant website that effectively showcases Kovana Coffee's offerings and enhances their online presence."
+                        overview: "Developing a modern e-commerce platform for Stallion Store to showcase their products and provide a seamless online shopping experience.",
+                        challenges: "Building a highly performant and user-friendly interface with fast page loads, while ensuring an intuitive product browsing system.",
+                        solutions: "Utilized Next.js and React for server-side rendering and fast performance. Styled with Tailwind CSS for a modern, responsive design that adapts to all devices.",
+                        results: "Delivered a fast, visually appealing, and fully responsive e-commerce website that enhances the online shopping experience and boosts digital presence."
                     }
                 },
             ],
@@ -316,7 +316,7 @@ export const translations = {
                     tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://kartu-nikah.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/kartu-nikah",
+                    codeUrl: "https://github.com/HanifHawari",
                     image: "/kartu-nikah.png",
                     caseStudyContent: {
                         overview: "Aplikasi web undangan pernikahan digital yang dibangun untuk acara pernikahan. Menampilkan profil kedua mempelai, jadwal acara, lokasi venue, galeri foto, kisah perjalanan, info hadiah, dan sistem RSVP. semua dalam desain yang responsif dan elegan.",
@@ -337,7 +337,7 @@ export const translations = {
                     tech: ["React Native", "Google Gemini API", "Firebase", "Tailwind"],
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://fitmind-pdm.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/ProjectPDMLLM",
+                    codeUrl: "https://github.com/HanifHawari",
                     image: "/fitness.png",
                     caseStudyContent: {
                         overview: "Mengembangkan asisten kesehatan virtual generasi berikutnya yang tidak hanya melacak metrik pasif, tetapi secara proaktif memberikan rekomendasi berbasis konteks menggunakan AI Generatif.",
@@ -347,9 +347,9 @@ export const translations = {
                     }
                 },
                 {
-                    category: "WEB DEVELOPMENT",
-                    title: "Kovana Coffee",
-                    description: "Aplikasi web modern yang berfungsi sebagai profil perusahaan, landing page interaktif, dan menu digital untuk Kovana Coffee.",
+                    category: "E-COMMERCE",
+                    title: "Stallion Store",
+                    description: "Aplikasi web e-commerce modern yang menampilkan etalase digital, katalog produk, dan pengalaman berbelanja yang mulus untuk Stallion Store.",
                     stats: [
                         { value: "100%", label: "Responsif" },
                         { value: "Modern", label: "UI/UX" },
@@ -357,14 +357,14 @@ export const translations = {
                     ],
                     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
                     caseStudy: "Baca Studi Kasus",
-                    liveUrl: "https://kovanacoffee.vercel.app",
-                    codeUrl: "https://github.com/HanifHawari/kovanacoffee",
-                    image: "/kovana.png",
+                    liveUrl: "https://stallion-store-yk.vercel.app",
+                    codeUrl: "https://github.com/HanifHawari",
+                    image: "/stallion.png",
                     caseStudyContent: {
-                        overview: "Mengembangkan aplikasi web modern untuk Kovana Coffee untuk memperkenalkan identitas merek mereka dan menyediakan katalog digital untuk makanan dan minuman.",
-                        challenges: "Tantangan utamanya adalah menciptakan pengalaman digital yang elegan dan nyaman yang sesuai dengan suasana fisik kedai kopi, sekaligus memastikan performa tinggi dan desain responsif di semua perangkat.",
-                        solutions: "Memanfaatkan Next.js dan React untuk aplikasi yang cepat. Menggunakan Tailwind CSS untuk menciptakan antarmuka pengguna yang indah, modern, dan sepenuhnya responsif.",
-                        results: "Menghasilkan situs web yang memukau secara visual dan berkinerja tinggi yang secara efektif memamerkan menu Kovana Coffee dan meningkatkan kehadiran online mereka."
+                        overview: "Mengembangkan platform e-commerce modern untuk Stallion Store guna memamerkan produk mereka dan memberikan pengalaman berbelanja online yang lancar.",
+                        challenges: "Membangun antarmuka yang sangat performan dan ramah pengguna dengan waktu muat halaman yang cepat, sekaligus memastikan sistem penelusuran produk yang intuitif.",
+                        solutions: "Memanfaatkan Next.js dan React untuk rendering sisi server dan performa cepat. Menggunakan Tailwind CSS untuk desain modern dan responsif di semua perangkat.",
+                        results: "Menghasilkan situs web e-commerce yang cepat, menarik secara visual, dan sepenuhnya responsif yang meningkatkan pengalaman belanja online dan memperkuat kehadiran digital."
                     }
                 },
             ],
