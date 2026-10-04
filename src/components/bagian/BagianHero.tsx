@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Matter from "matter-js";
 
@@ -19,8 +19,11 @@ const BADGES = [
 export default function HeroSection() {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sceneRef);
 
   useEffect(() => {
+    if (!isInView) return;
 
     let timeout: NodeJS.Timeout;
     if (isTyping) {
@@ -38,10 +41,10 @@ export default function HeroSection() {
       }, 500);
     }
     return () => clearTimeout(timeout);
-  }, [displayedText, isTyping]);
+  }, [displayedText, isTyping, isInView]);
 
-  const sceneRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
+  const runnerRef = useRef<Matter.Runner | null>(null);
   const badgeBodiesRef = useRef<Matter.Body[]>([]);
   const badgeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -120,20 +123,7 @@ export default function HeroSection() {
     World.add(engine.world, bodies);
 
     const runner = Runner.create();
-    Runner.run(runner, engine);
-    Render.run(render);
-
-    // Use rAF for smooth DOM sync with browser repaint instead of afterUpdate event
-    const animationLoop = () => {
-      badgeBodiesRef.current.forEach(body => {
-        const el = badgeRefs.current[body.label];
-        if (el) {
-          el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
-        }
-      });
-      rafRef.current = requestAnimationFrame(animationLoop);
-    };
-    rafRef.current = requestAnimationFrame(animationLoop);
+    runnerRef.current = runner;
 
     let lastBubbleTime = 0;
     Events.on(engine, 'collisionStart', (event) => {
@@ -198,7 +188,28 @@ export default function HeroSection() {
     };
   }, []);
 
+  useEffect(() => {
+    const engine = engineRef.current;
+    const runner = runnerRef.current;
+    if (!isInView || !engine || !runner) return;
 
+    Matter.Runner.run(runner, engine);
+    const animationLoop = () => {
+      badgeBodiesRef.current.forEach(body => {
+        const el = badgeRefs.current[body.label];
+        if (el) {
+          el.style.transform = `translate(${body.position.x}px, ${body.position.y}px) rotate(${body.angle}rad)`;
+        }
+      });
+      rafRef.current = requestAnimationFrame(animationLoop);
+    };
+    rafRef.current = requestAnimationFrame(animationLoop);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      Matter.Runner.stop(runner);
+    };
+  }, [isInView]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent, badgeId: string) => {
     e.preventDefault();

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useLanguage } from "@/lib/KonteksBahasa";
 
 type Mood = "normal" | "fear" | "angry" | "dizzy" | "happy" | "sleepy";
@@ -347,6 +347,7 @@ export default function GeistVillage() {
   const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef);
   
   const robotsRef = useRef<VirtualRobot[]>([]);
   const draggingRef = useRef<number | null>(null);
@@ -572,6 +573,7 @@ export default function GeistVillage() {
   }, [checkCollisions]);
 
   useEffect(() => {
+    if (!isInView) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -592,7 +594,7 @@ export default function GeistVillage() {
     };
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [updatePhysics]);
+  }, [updatePhysics, isInView]);
 
   const getMousePos = (e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
     if (!containerRef.current) return { x: 0, y: 0 };

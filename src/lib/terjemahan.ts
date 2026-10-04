@@ -63,8 +63,8 @@ export const translations = {
                     description: "A beautiful digital wedding invitation web app. Features an interactive cover with background music, countdown timer, ceremony details, Google Maps location, live streaming links, photo gallery, and RSVP form.",
                     stats: [
                         { value: "100%", label: "Responsive" },
-                        { value: "Smooth", label: "Animation" },
-                        { value: "Fast", label: "Load Time" },
+                        { value: "100", label: "Desktop Performance" },
+                        { value: "0.65 s", label: "Desktop LCP" },
                     ],
                     tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Read Case Study",
@@ -105,8 +105,8 @@ export const translations = {
                     description: "A modern e-commerce web application featuring a digital storefront, product catalog, and seamless shopping experience for Stallion Store.",
                     stats: [
                         { value: "100%", label: "Responsive" },
-                        { value: "Modern", label: "UI/UX" },
-                        { value: "Fast", label: "Performance" },
+                        { value: "89", label: "Desktop Performance" },
+                        { value: "1.50 s", label: "Desktop LCP" },
                     ],
                     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
                     caseStudy: "Read Case Study",
@@ -310,8 +310,8 @@ export const translations = {
                     description: "Aplikasi web undangan pernikahan digital. Dilengkapi cover interaktif dengan musik latar, hitung mundur, detail akad & resepsi, lokasi Google Maps, tautan live streaming, galeri foto, dan form konfirmasi kehadiran.",
                     stats: [
                         { value: "100%", label: "Responsif" },
-                        { value: "Smooth", label: "Animasi" },
-                        { value: "Cepat", label: "Waktu Muat" },
+                        { value: "100", label: "Performa Desktop" },
+                        { value: "0,65 dtk", label: "LCP Desktop" },
                     ],
                     tech: ["React", "Vite", "Framer Motion", "Fancybox"],
                     caseStudy: "Baca Studi Kasus",
@@ -352,8 +352,8 @@ export const translations = {
                     description: "Aplikasi web e-commerce modern yang menampilkan etalase digital, katalog produk, dan pengalaman berbelanja yang mulus untuk Stallion Store.",
                     stats: [
                         { value: "100%", label: "Responsif" },
-                        { value: "Modern", label: "UI/UX" },
-                        { value: "Cepat", label: "Performa" },
+                        { value: "89", label: "Performa Desktop" },
+                        { value: "1,50 dtk", label: "LCP Desktop" },
                     ],
                     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
                     caseStudy: "Baca Studi Kasus",
