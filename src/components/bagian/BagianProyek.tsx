@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, BookOpen, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
+import { useBodyScrollLock, useEscapeKey } from "@/lib/modal";
 
 interface ProjectItem {
   category: string;
@@ -110,6 +111,7 @@ function CaseStudyModal({
           >
             <button
               onClick={onClose}
+              aria-label="Close"
               className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-white/80 dark:bg-black/50 md:backdrop-blur-md border border-black/10 dark:border-white/20 text-black dark:text-white hover:scale-110 transition-all duration-300 shadow-sm"
             >
               <X size={18} />
@@ -193,17 +195,10 @@ function CaseStudyModal({
 export default function ProjectsSection() {
   const { t } = useLanguage();
   const [activeCaseStudy, setActiveCaseStudy] = useState<number | null>(null);
+  const closeCaseStudy = useCallback(() => setActiveCaseStudy(null), []);
 
-  useEffect(() => {
-    if (activeCaseStudy !== null) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [activeCaseStudy]);
+  useBodyScrollLock(activeCaseStudy !== null);
+  useEscapeKey(activeCaseStudy !== null, closeCaseStudy);
 
   return (
     <section id="projects" className="py-24 sm:py-32 bg-[#0a0a0a]" style={{ fontFamily: "var(--font-geist-sans), system-ui, sans-serif" }}>
@@ -365,7 +360,7 @@ export default function ProjectsSection() {
 
       <CaseStudyModal
         activeCaseStudy={activeCaseStudy}
-        onClose={() => setActiveCaseStudy(null)}
+        onClose={closeCaseStudy}
       />
     </section>
   );

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
+import { useBodyScrollLock, useEscapeKey } from "@/lib/modal";
 
 interface GalleryImage {
   src: string;
@@ -107,6 +108,7 @@ function PhotoModal({
           </div>
           <button
             onClick={() => { onClose(); }}
+            aria-label="Close"
             className="ml-auto text-zinc-600 hover:text-white transition-colors"
           >
             <X size={20} />
@@ -172,16 +174,14 @@ export default function AchievementsSection() {
   const achievements = (t as any).achievements;
   const [activeDetail, setActiveDetail] = useState<number | null>(null);
 
-  useEffect(() => {
-    document.body.style.overflow = activeDetail !== null ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [activeDetail]);
-
   const handleOpen = useCallback((i: number) => {
     setActiveDetail(i);
   }, []);
 
   const handleClose = useCallback(() => setActiveDetail(null), []);
+
+  useBodyScrollLock(activeDetail !== null);
+  useEscapeKey(activeDetail !== null, handleClose);
 
   return (
     <section

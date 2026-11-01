@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
 import { useTheme } from "@/lib/KonteksTema";
 import Logo from "@/components/umum/Logo";
+import { useBodyScrollLock } from "@/lib/modal";
 
 const navLinks = [
   { key: "home", href: "#home" },
@@ -54,10 +55,7 @@ export default function Navbar() {
   }, []);
 
   // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [mobileOpen]);
+  useBodyScrollLock(mobileOpen);
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
