@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Muhammad Hanif Hawari",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Muhammad Hanif Hawari | Web Developer",
     description:
       "Professional portfolio of Muhammad Hanif Hawari — Fullstack Developer specializing in modern web technologies.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
   verification: {
     google: "S_tyokcVXFzZzwp0F-XfOXHxZ35_IBTDzFdYZI-iwN4",
