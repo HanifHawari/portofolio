@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useIsClient } from "./useIsClient";
 
 type Theme = "dark" | "light";
 
@@ -25,37 +26,25 @@ function applyTheme(t: Theme) {
   }
 }
 
+/** Mobile is always dark; desktop restores the saved preference. */
+function preferredTheme(): Theme {
+  if (isMobileViewport()) return "dark";
+  return localStorage.getItem("portfolio-theme") === "light" ? "light" : "dark";
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Starts as "dark" to match the server render. The inline script in layout.tsx
-  // has already applied the real theme to <html>; the effect below syncs state to it.
-  const [theme, setTheme] = useState<Theme>("dark");
+  // "dark" on the server and during hydration, matching the server HTML. The inline
+  // script in layout.tsx has already applied the real theme to <html>.
+  const isClient = useIsClient();
+  const [chosen, setChosen] = useState<Theme | null>(null);
+  const theme = chosen ?? (isClient ? preferredTheme() : "dark");
 
   useEffect(() => {
-    const isMobile = isMobileViewport();
-
-    if (isMobile) {
-      // Mobile: always lock to dark
-      setTheme("dark");
-      applyTheme("dark");
-    } else {
-      // Desktop: restore saved preference
-      const saved = localStorage.getItem("portfolio-theme") as Theme;
-      const initial = saved === "light" || saved === "dark" ? saved : "dark";
-      setTheme(initial);
-      applyTheme(initial);
-    }
-
     // Listen for viewport resize so switching desktop→mobile auto-locks to dark
     const handleResize = () => {
-      if (isMobileViewport()) {
-        setTheme("dark");
-        applyTheme("dark");
-      } else {
-        const saved = localStorage.getItem("portfolio-theme") as Theme;
-        const restored = saved === "light" || saved === "dark" ? saved : "dark";
-        setTheme(restored);
-        applyTheme(restored);
-      }
+      const next = preferredTheme();
+      setChosen(next);
+      applyTheme(next);
     };
 
     window.addEventListener("resize", handleResize);
@@ -66,7 +55,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // Only allow toggle on desktop
     if (isMobileViewport()) return;
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+    setChosen(next);
     localStorage.setItem("portfolio-theme", next);
     applyTheme(next);
   };

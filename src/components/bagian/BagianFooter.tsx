@@ -3,9 +3,13 @@
 import { motion } from "framer-motion";
 import { MapPin, Wifi } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
+import { useIsClient } from "@/lib/useIsClient";
 
 export default function Footer() {
   const { t } = useLanguage();
+  // The page is prerendered at build time, so take the year from the visitor's
+  // clock instead of baking the build year into the HTML
+  const isClient = useIsClient();
 
   return (
     <motion.footer
@@ -18,8 +22,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
           <span className="tracking-wider">
-            {/* The year is rendered at build time on the server; let the client correct it without a hydration error */}
-            ©<span suppressHydrationWarning>{new Date().getFullYear()}</span> {t.footer.copyright}
+            ©{isClient ? new Date().getFullYear() : null} {t.footer.copyright}
           </span>
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 px-3 py-1.5 border border-zinc-800 rounded-full hover:border-zinc-600 transition-colors">

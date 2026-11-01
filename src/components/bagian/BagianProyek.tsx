@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -60,134 +60,121 @@ const itemVariants = {
   },
 };
 
-/* ── Case Study Modal — rendered via portal, always mounted for AnimatePresence ── */
+/* ── Case Study Modal — rendered via portal only while open; the AnimatePresence in
+   ProjectsSection keeps it (with its last props) mounted for the exit animation ── */
 function CaseStudyModal({
-  activeCaseStudy,
+  index,
   onClose,
 }: {
-  activeCaseStudy: number | null;
+  index: number;
   onClose: () => void;
 }) {
   const { t } = useLanguage();
-  // document.body doesn't exist during server rendering, so only portal after mount
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  // Keep a snapshot of the last active index so content stays visible during exit animation
-  const lastIndexRef = useRef<number>(0);
-  if (activeCaseStudy !== null) {
-    lastIndexRef.current = activeCaseStudy;
-  }
-  const displayIndex = activeCaseStudy ?? lastIndexRef.current;
-  const project = t.projects.items[displayIndex] as unknown as ProjectItem | undefined;
-
-  if (!mounted) return null;
+  const project = t.projects.items[index] as unknown as ProjectItem | undefined;
+  if (!project) return null;
 
   return createPortal(
-    <AnimatePresence>
-      {activeCaseStudy !== null && project && (
-        <motion.div
-          key="case-study-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
+    <motion.div
+      key="case-study-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="absolute inset-0 z-0 bg-black/60 dark:bg-black/80 md:backdrop-blur-none dark:md:backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        className="cs-modal relative z-10 w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl"
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-white/80 dark:bg-black/50 md:backdrop-blur-md border border-black/10 dark:border-white/20 text-black dark:text-white hover:scale-110 transition-all duration-300 shadow-sm"
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0 z-0 bg-black/60 dark:bg-black/80 md:backdrop-blur-none dark:md:backdrop-blur-sm"
-            onClick={onClose}
-          />
+          <X size={18} />
+        </button>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="cs-modal relative z-10 w-full max-w-3xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-[32px] overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-2xl"
-          >
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="absolute top-4 right-4 z-30 flex items-center justify-center w-9 h-9 rounded-full bg-white/80 dark:bg-black/50 md:backdrop-blur-md border border-black/10 dark:border-white/20 text-black dark:text-white hover:scale-110 transition-all duration-300 shadow-sm"
-            >
-              <X size={18} />
-            </button>
+        <div className="overflow-y-auto w-full flex-1">
+          <div className="relative w-full h-52 sm:h-64 bg-zinc-100 dark:bg-zinc-900 overflow-hidden shrink-0">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover opacity-100 dark:opacity-80"
+              sizes="(min-width: 768px) 768px, 100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
+          </div>
 
-            <div className="overflow-y-auto w-full flex-1">
-              <div className="relative w-full h-52 sm:h-64 bg-zinc-100 dark:bg-zinc-900 overflow-hidden shrink-0">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover opacity-100 dark:opacity-80"
-                  sizes="(min-width: 768px) 768px, 100vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-transparent dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
+          <div className="p-6 sm:p-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+              <div className="space-y-1 border-l-2 border-red-500/60 pl-4">
+                <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 dark:text-red-400">{t.projects.caseStudyLabels.problem}</p>
+                <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                  {project.caseStudyContent.challenges}
+                </p>
               </div>
-
-              <div className="p-6 sm:p-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-                  <div className="space-y-1 border-l-2 border-red-500/60 pl-4">
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 dark:text-red-400">{t.projects.caseStudyLabels.problem}</p>
-                    <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
-                      {project.caseStudyContent.challenges}
-                    </p>
-                  </div>
-                  <div className="space-y-1 border-l-2 border-green-500/60 pl-4">
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-green-600 dark:text-green-400">{t.projects.caseStudyLabels.solution}</p>
-                    <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
-                      {project.caseStudyContent.solutions}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 text-sm">
-                  <div>
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.overview}</p>
-                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      {project.caseStudyContent.overview}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.results}</p>
-                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      {project.caseStudyContent.results}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row gap-3">
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
-                  >
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {(t.projects as any).liveDemo}
-                    <ArrowUpRight size={15} className="animate-slide-diagonal" />
-                  </a>
-                  <a
-                    href={project.codeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 text-white border border-zinc-700 rounded-full text-sm font-bold tracking-wider hover:bg-zinc-700 transition-colors"
-                  >
-                    <Github size={15} className="animate-wiggle" />
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {(t.projects as any).sourceCode}
-                  </a>
-                </div>
+              <div className="space-y-1 border-l-2 border-green-500/60 pl-4">
+                <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-green-600 dark:text-green-400">{t.projects.caseStudyLabels.solution}</p>
+                <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                  {project.caseStudyContent.solutions}
+                </p>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>,
+
+            <div className="space-y-4 text-sm">
+              <div>
+                <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.overview}</p>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {project.caseStudyContent.overview}
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.results}</p>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {project.caseStudyContent.results}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row gap-3">
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-full text-sm font-bold tracking-wider hover:bg-zinc-200 transition-colors"
+              >
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {(t.projects as any).liveDemo}
+                <ArrowUpRight size={15} className="animate-slide-diagonal" />
+              </a>
+              <a
+                href={project.codeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 text-white border border-zinc-700 rounded-full text-sm font-bold tracking-wider hover:bg-zinc-700 transition-colors"
+              >
+                <Github size={15} className="animate-wiggle" />
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {(t.projects as any).sourceCode}
+              </a>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>,
     document.body
   );
 }
@@ -358,10 +345,15 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      <CaseStudyModal
-        activeCaseStudy={activeCaseStudy}
-        onClose={closeCaseStudy}
-      />
+      <AnimatePresence>
+        {activeCaseStudy !== null && (
+          <CaseStudyModal
+            key={activeCaseStudy}
+            index={activeCaseStudy}
+            onClose={closeCaseStudy}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

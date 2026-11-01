@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useRef, useState, useEffect, ElementType } from "react";
+import { useRef, useState, ElementType } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Download, MapPin, Cpu, Terminal, Target } from "lucide-react";
@@ -33,6 +33,7 @@ const techIcons: Record<string, { icon: ElementType, color: string }> = {
   "Postman": { icon: SiPostman, color: "#FF6C37" },
 };
 import { useLanguage } from "@/lib/KonteksBahasa";
+import { useIsClient } from "@/lib/useIsClient";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -240,20 +241,22 @@ function SectionCard({ children, className = "" }: { children: React.ReactNode; 
   );
 }
 
+function formatToday(language: string) {
+  const now = new Date();
+  const day = now.getDate();
+  const months = language === 'id'
+    ? ["JAN", "PEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOP", "DES"]
+    : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const month = months[now.getMonth()];
+  const year = now.getFullYear();
+  return `${day} ${month} ${year}`;
+}
+
 function StatusBar() {
   const { t, language } = useLanguage();
-  const [dateStr, setDateStr] = useState("");
-
-  useEffect(() => {
-    const now = new Date();
-    const day = now.getDate();
-    const months = language === 'id'
-      ? ["JAN", "PEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOP", "DES"]
-      : ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const month = months[now.getMonth()];
-    const year = now.getFullYear();
-    setDateStr(`${day} ${month} ${year}`);
-  }, [language]);
+  // Today's date only exists in the browser; leave it empty in the server HTML
+  const isClient = useIsClient();
+  const dateStr = isClient ? formatToday(language) : "";
 
   return (
     <div className="w-full border-t border-b border-zinc-800 bg-zinc-950/20 backdrop-blur-sm overflow-hidden">
