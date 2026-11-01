@@ -28,6 +28,10 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  images: {
+    // 90 keeps text in the project screenshots crisp; 75 is the Next.js default
+    qualities: [75, 90],
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

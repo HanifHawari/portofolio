@@ -114,6 +114,7 @@ function CaseStudyModal({
               fill
               className="object-cover opacity-100 dark:opacity-80"
               sizes="(min-width: 768px) 768px, 100vw"
+              quality={90}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-transparent dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
           </div>
@@ -305,7 +306,9 @@ export default function ProjectsSection() {
                     alt={project.title}
                     fill
                     className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                    sizes="(min-width: 1024px) 640px, 100vw"
+                    // On lg the box is taller than the landscape covers, so object-cover draws them up to ~900px wide
+                    sizes="(min-width: 1024px) 920px, 100vw"
+                    quality={90}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
 
