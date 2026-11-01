@@ -85,8 +85,12 @@ html {
   -webkit-overflow-scrolling: touch;
   /* Prevent horizontal overflow from fixed-position elements (robot bar tooltips) */
   overflow-x: hidden;
-  /* Prevent layout shift on Windows when auto-hiding scrollbar appears */
-  scrollbar-gutter: stable;
+  /* Hide the page scrollbar everywhere; the page still scrolls */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 /* The navbar only stays on screen on mobile, so desktop needs no scroll offset */
