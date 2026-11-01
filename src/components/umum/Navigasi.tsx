@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
 import { useTheme } from "@/lib/KonteksTema";
 import Logo from "@/components/umum/Logo";
-import { useBodyScrollLock } from "@/lib/modal";
+import { useBodyScrollLock, useEscapeKey } from "@/lib/modal";
 
 const navLinks = [
   { key: "home", href: "#home" },
@@ -40,9 +40,15 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const closeMobileMenu = useCallback(() => setMobileOpen(false), []);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      // The drawer has no close button on desktop widths, so don't leave it open there
+      if (!mobile) setMobileOpen(false);
+    };
     handleResize(); // Check on mount
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -50,12 +56,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Lock body scroll when mobile menu is open
   useBodyScrollLock(mobileOpen);
+  useEscapeKey(mobileOpen, closeMobileMenu);
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -66,19 +73,20 @@ export default function Navbar() {
   };
 
   const isDark = theme === "dark";
+  // Only the mobile bar stays on screen while scrolling, so only it needs a backdrop
+  const solidBar = scrolled && isMobile;
 
   return (
     <>
-      {/* zIndex 60 keeps the menu toggle above the mobile drawer (50) and backdrop (40) */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+      {/* Mobile: fixed so the menu toggle is always reachable. Desktop: sits at the top of
+          the page and scrolls away. zIndex 60 keeps the toggle above the drawer (50) and backdrop (40). */}
+      <div className="fixed md:absolute" style={{ top: 0, left: 0, right: 0, zIndex: 60, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
       <motion.nav
-        layout
         initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: scrolled && !isMobile ? 24 : 0, 
+        animate={{
+          y: 0,
           opacity: 1,
-          borderRadius: scrolled && !isMobile ? 9999 : 0,
-          background: scrolled ? (isDark ? "rgba(10,10,10,0.85)" : "rgba(240,240,240,0.9)") : "transparent",
+          background: solidBar ? (isDark ? "rgba(10,10,10,0.85)" : "rgba(240,240,240,0.9)") : "transparent",
         }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
@@ -86,19 +94,18 @@ export default function Navbar() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          width: scrolled && !isMobile ? "fit-content" : "100%",
+          width: "100%",
           maxWidth: 1280,
-          height: scrolled && !isMobile ? 60 : 64,
+          height: 64,
           padding: "0 24px",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          border: scrolled && !isMobile ? `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}` : "1px solid transparent",
-          borderBottom: scrolled && isMobile ? `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` : undefined,
-          boxShadow: scrolled && !isMobile ? "0 10px 40px -10px rgba(0,0,0,0.3)" : "none",
-          gap: scrolled && !isMobile ? 48 : 0,
+          backdropFilter: solidBar ? "blur(20px)" : "none",
+          border: "1px solid transparent",
+          borderBottom: solidBar ? `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` : undefined,
         }}
       >
         <button
             onClick={() => handleNavClick("#home")}
+            aria-label="Home"
             style={{ background: "none", border: "none", cursor: "pointer", color: "var(--foreground)", display: "flex", alignItems: "center" }}
           >
             <Logo variant="monogram" />
