@@ -8,11 +8,14 @@ let scrollLocks = 0;
 export function useBodyScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return;
+    // Lock <html>, not <body>: globals.css gives html `overflow-x: hidden`, which
+    // makes html the page's scroll container, so overflow on body does nothing.
+    const root = document.documentElement;
     scrollLocks++;
-    document.body.style.overflow = "hidden";
+    root.style.overflow = "hidden";
     return () => {
       scrollLocks--;
-      if (scrollLocks === 0) document.body.style.overflow = "";
+      if (scrollLocks === 0) root.style.overflow = "";
     };
   }, [locked]);
 }
