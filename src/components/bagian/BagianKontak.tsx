@@ -85,7 +85,8 @@ export default function ContactSection() {
           access_key: "b6671fcb-16bd-4af7-8c77-4540891c0a94", 
           name: formData.name,
           email: formData.email,
-          subject: formData.subject,
+          // The select stores an index so a language switch keeps the choice
+          subject: t.contact.form.subjects[Number(formData.subject)],
           message: formData.message,
           from_name: "Notifikasi Portfolio",
           // Same as a native form: only sent when ticked; Web3Forms rejects it as spam
@@ -246,10 +247,11 @@ export default function ContactSection() {
                     aria-hidden="true"
                   />
                   <div>
-                    <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
+                    <label htmlFor="contact-name" className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                       {t.contact.form.name}
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
                       maxLength={100}
@@ -263,10 +265,11 @@ export default function ContactSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
+                    <label htmlFor="contact-email" className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                       {t.contact.form.email}
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
                       maxLength={254}
@@ -280,11 +283,12 @@ export default function ContactSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
+                    <label htmlFor="contact-subject" className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                       {t.contact.form.subject}
                     </label>
                     <div className="relative">
                       <select
+                        id="contact-subject"
                         required
                         value={formData.subject}
                         onChange={(e) =>
@@ -300,7 +304,7 @@ export default function ContactSection() {
                           {t.contact.form.selectSubject}
                         </option>
                         {t.contact.form.subjects.map((subject, i) => (
-                          <option key={i} value={subject} className="bg-zinc-900">
+                          <option key={i} value={String(i)} className="bg-zinc-900">
                             {subject}
                           </option>
                         ))}
@@ -314,10 +318,11 @@ export default function ContactSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
+                    <label htmlFor="contact-message" className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                       {t.contact.form.message}
                     </label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={5}
                       maxLength={5000}

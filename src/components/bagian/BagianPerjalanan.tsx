@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { X } from "lucide-react";
 import { useLanguage } from "@/lib/KonteksBahasa";
+import type { Language } from "@/lib/i18n";
 import { useBodyScrollLock, useEscapeKey } from "@/lib/modal";
 
 const itemVariants = {
@@ -21,7 +22,7 @@ function FolderIcon({ size = 40 }: { size?: number }) {
   return (
     <Image
       src="/icons/folder.gif" 
-      alt="Project Archive"
+      alt=""
       width={size}
       height={size}
       unoptimized={true}
@@ -32,12 +33,12 @@ function FolderIcon({ size = 40 }: { size?: number }) {
 
 // Satu entry per item journey (urutan sama). null = folder tampil "Coming Soon";
 // ganti dengan { src, caption } kalau fotonya sudah ada.
-const GALLERY_DATA: ({ src: string; caption: string } | null)[] = [
+const GALLERY_DATA: ({ src: string; caption: Record<Language, string> } | null)[] = [
   null, // Full-Stack Developer
   null, // Fullstack Developer Intern
-  { src: "/foto-web2025.webp", caption: "Pengembangan Web 2025" },
-  { src: "/foto-mahasiswa2024.webp", caption: "Mahasiswa Informatika" },
-  { src: "/foto-maba2023.webp", caption: "Mahasiswa Baru 2023" },
+  { src: "/foto-web2025.webp", caption: { en: "Web Development 2025", id: "Pengembangan Web 2025" } },
+  { src: "/foto-mahasiswa2024.webp", caption: { en: "Informatics Student", id: "Mahasiswa Informatika" } },
+  { src: "/foto-maba2023.webp", caption: { en: "New Student 2023", id: "Mahasiswa Baru 2023" } },
 ];
 
 function FolderModal({
@@ -49,8 +50,10 @@ function FolderModal({
   title: string;
   onClose: () => void;
 }) {
+  const { t, language } = useLanguage();
   const photo = GALLERY_DATA[index];
   const isComingSoon = photo === null;
+  const caption = photo?.caption[language] ?? "";
 
   return createPortal(
     <motion.div
@@ -83,7 +86,7 @@ function FolderModal({
             <FolderIcon size={30} />
           </motion.div>
           <div>
-            <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">Project Archive</p>
+            <p className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase">{t.journey.items[index]?.archiveLabel}</p>
             <h3 className="text-white font-bold text-sm leading-tight">{title}</h3>
           </div>
           <button onClick={() => { onClose(); }} aria-label="Close" className="ml-auto text-zinc-600 hover:text-white transition-colors">
@@ -113,7 +116,7 @@ function FolderModal({
                 </motion.div>
                 <div className="text-center">
                   <p className="text-white font-black text-2xl tracking-[0.3em] uppercase">Coming Soon</p>
-                  <p className="text-zinc-500 text-xs mt-2 tracking-widest">Konten sedang disiapkan</p>
+                  <p className="text-zinc-500 text-xs mt-2 tracking-widest">{t.journey.comingSoonNote}</p>
                 </div>
               </div>
               <div className="h-60" />
@@ -127,19 +130,19 @@ function FolderModal({
             >
               <Image
                 src={photo.src}
-                alt={photo.caption}
+                alt={caption}
                 className="w-full h-auto object-contain max-h-[70vh] bg-zinc-950/50"
                 width={1024}
                 height={1024}
                 sizes="(min-width: 768px) 640px, 100vw"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
-                <p className="text-xs text-zinc-200 font-semibold">{photo.caption}</p>
+                <p className="text-xs text-zinc-200 font-semibold">{caption}</p>
               </div>
             </motion.div>
           ) : (
             <div className="text-center py-12 text-zinc-600 text-sm border border-dashed border-zinc-800 rounded-lg">
-              Belum ada foto di folder ini
+              {t.journey.emptyFolder}
             </div>
           )}
         </div>

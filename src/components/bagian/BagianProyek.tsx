@@ -132,13 +132,13 @@ function CaseStudyModal({
               <div className="p-6 sm:p-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
                   <div className="space-y-1 border-l-2 border-red-500/60 pl-4">
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 dark:text-red-400">The Problem</p>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 dark:text-red-400">{t.projects.caseStudyLabels.problem}</p>
                     <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
                       {project.caseStudyContent.challenges}
                     </p>
                   </div>
                   <div className="space-y-1 border-l-2 border-green-500/60 pl-4">
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-green-600 dark:text-green-400">The Solution</p>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-green-600 dark:text-green-400">{t.projects.caseStudyLabels.solution}</p>
                     <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
                       {project.caseStudyContent.solutions}
                     </p>
@@ -147,13 +147,13 @@ function CaseStudyModal({
 
                 <div className="space-y-4 text-sm">
                   <div>
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">Overview</p>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.overview}</p>
                     <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       {project.caseStudyContent.overview}
                     </p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">Results</p>
+                    <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400 dark:text-zinc-500 mb-1">{t.projects.caseStudyLabels.results}</p>
                     <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       {project.caseStudyContent.results}
                     </p>

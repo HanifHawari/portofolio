@@ -56,6 +56,7 @@ export const translations = {
             subtitle: "A curated collection of projects that showcase my skills and passion for building digital experiences.",
             liveDemo: "Live Demo",
             sourceCode: "Code",
+            caseStudyLabels: { problem: "The Problem", solution: "The Solution", overview: "Overview", results: "Results" },
             items: [
                 {
                     category: "WEB DEVELOPMENT",
@@ -72,10 +73,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari",
                     image: "/kartu-nikah.webp",
                     caseStudyContent: {
-                        overview: "A digital wedding invitation web application built for wedding. The site presents couple profiles, ceremony schedules, venue locations, a photo gallery, kisah perjalanan, gift info, and an RSVP system. all in a responsive and elegant design.",
-                        challenges: "Crafting an emotionally engaging experience that feels personal and elegant, while ensuring smooth animations and performance across all devices. from the interactive opening cover to the gallery lightbox and countdown timer.",
+                        overview: "A digital wedding invitation web application built for a wedding. The site presents couple profiles, ceremony schedules, venue locations, a photo gallery, a love story, gift info, and an RSVP system. All in a responsive and elegant design.",
+                        challenges: "Crafting an emotionally engaging experience that feels personal and elegant, while ensuring smooth animations and performance across all devices. From the interactive opening cover to the gallery lightbox and countdown timer.",
                         solutions: "Built with React and Vite for a fast, modular architecture. Used Framer Motion for fluid entrance animations and page transitions, and Fancybox for the immersive photo gallery lightbox experience.",
-                        results: "Delivered a visually stunning and fully responsive digital wedding invitation with smooth animations, interactive features, and fast load times. creating a memorable digital experience for guests."
+                        results: "Delivered a visually stunning and fully responsive digital wedding invitation with smooth animations, interactive features, and fast load times. Creating a memorable digital experience for guests."
                     }
                 },
                 {
@@ -125,7 +126,8 @@ export const translations = {
         achievements: {
             title: "MY ACHIEVEMENTS",
             subtitle: "An achievement that is rarely achieved by other people and this is the proudest award for me.",
-            liveDemo: "Kunjungi",
+            liveDemo: "Visit",
+            emptyFolder: "No photos in this folder yet",
             items: [
                 {
                     category: "ALL PRESTASI",
@@ -150,6 +152,8 @@ export const translations = {
         journey: {
             title: "MY JOURNEY",
             subtitle: "A timeline of my professional and academic milestones.",
+            comingSoonNote: "Content is being prepared",
+            emptyFolder: "No photos in this folder yet",
             items: [
                 {
                     year: "2026",
@@ -262,7 +266,7 @@ export const translations = {
             openToWork: "TERBUKA UNTUK BEKERJA",
             basedIn: "BERBASIS DI INDONESIA, ID",
             today: "HARI INI:",
-            scrollDown: "GULIR KEBAWAH",
+            scrollDown: "GULIR KE BAWAH",
         },
         about: {
             title: "TENTANG SAYA",
@@ -304,6 +308,7 @@ export const translations = {
             subtitle: "Koleksi proyek yang menampilkan keterampilan dan passion saya dalam membangun pengalaman digital.",
             liveDemo: "Live Demo",
             sourceCode: "Code",
+            caseStudyLabels: { problem: "Masalah", solution: "Solusi", overview: "Ringkasan", results: "Hasil" },
             items: [
                 {
                     category: "WEB DEVELOPMENT",
@@ -320,10 +325,10 @@ export const translations = {
                     codeUrl: "https://github.com/HanifHawari",
                     image: "/kartu-nikah.webp",
                     caseStudyContent: {
-                        overview: "Aplikasi web undangan pernikahan digital yang dibangun untuk acara pernikahan. Menampilkan profil kedua mempelai, jadwal acara, lokasi venue, galeri foto, kisah perjalanan, info hadiah, dan sistem RSVP. semua dalam desain yang responsif dan elegan.",
-                        challenges: "Menciptakan pengalaman yang terasa personal dan elegan sekaligus memastikan animasi yang mulus dan performa optimal di semua perangkat. mulai dari cover pembuka interaktif hingga galeri lightbox dan hitung mundur.",
+                        overview: "Aplikasi web undangan pernikahan digital yang dibangun untuk acara pernikahan. Menampilkan profil kedua mempelai, jadwal acara, lokasi venue, galeri foto, kisah perjalanan, info hadiah, dan sistem RSVP. Semua dalam desain yang responsif dan elegan.",
+                        challenges: "Menciptakan pengalaman yang terasa personal dan elegan sekaligus memastikan animasi yang mulus dan performa optimal di semua perangkat. Mulai dari cover pembuka interaktif hingga galeri lightbox dan hitung mundur.",
                         solutions: "Dibangun dengan React dan Vite untuk arsitektur yang cepat dan modular. Menggunakan Framer Motion untuk animasi masuk dan transisi halaman yang halus, serta Fancybox untuk pengalaman galeri foto lightbox yang imersif.",
-                        results: "Menghasilkan undangan pernikahan digital yang memukau secara visual dan sepenuhnya responsif, dengan animasi halus, fitur interaktif, dan waktu muat yang cepat.  menciptakan pengalaman digital yang berkesan bagi para tamu."
+                        results: "Menghasilkan undangan pernikahan digital yang memukau secara visual dan sepenuhnya responsif, dengan animasi halus, fitur interaktif, dan waktu muat yang cepat. Menciptakan pengalaman digital yang berkesan bagi para tamu."
                     }
                 },
                 {
@@ -374,6 +379,7 @@ export const translations = {
             title: "PENCAPAIAN SAYA",
             subtitle: "Suatu pencapaian yang jarang di dapati oleh orang lain dan ini menjadi penghargaan yang paling membanggakan bagi saya.",
             liveDemo: "Kunjungi",
+            emptyFolder: "Belum ada foto di folder ini",
             items: [
                 {
                     category: "ALL PRESTASI",
@@ -398,6 +404,8 @@ export const translations = {
         journey: {
             title: "PERJALANAN SAYA",
             subtitle: "Garis waktu pencapaian profesional dan akademis saya.",
+            comingSoonNote: "Konten sedang disiapkan",
+            emptyFolder: "Belum ada foto di folder ini",
             items: [
                 {
                     year: "2026",
@@ -477,7 +485,7 @@ export const translations = {
                 name: "Nama",
                 namePlaceholder: "Nama lengkap",
                 email: "Email",
-                emailPlaceholder: "email@.com",
+                emailPlaceholder: "email@contoh.com",
                 subject: "Subjek",
                 selectSubject: "Pilih subjek",
                 subjects: ["Kolaborasi Proyek", "Kesempatan Kerja", "Pertanyaan Umum"],

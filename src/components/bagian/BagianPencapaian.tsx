@@ -47,7 +47,7 @@ function FolderIcon({ size = 40 }: { size?: number }) {
   return (
     <Image
       src="/icons/folder.gif" 
-      alt="Folder Icon"
+      alt=""
       width={size}
       height={size}
       unoptimized={true}
@@ -64,6 +64,7 @@ function PhotoModal({
   item: AchievementItem;
   onClose: () => void;
 }) {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const photos = item.galleryImages;
   const photo = photos[currentIndex];
@@ -140,7 +141,7 @@ function PhotoModal({
             </motion.div>
           ) : (
             <div className="text-center py-12 text-zinc-600 text-sm border border-dashed border-zinc-800 rounded-lg">
-              Belum ada foto di folder ini
+              {t.achievements.emptyFolder}
             </div>
           )}
 
