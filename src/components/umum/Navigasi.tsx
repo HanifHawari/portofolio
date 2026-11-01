@@ -39,15 +39,12 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const closeMobileMenu = useCallback(() => setMobileOpen(false), []);
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
       // The drawer has no close button on desktop widths, so don't leave it open there
-      if (!mobile) setMobileOpen(false);
+      if (window.innerWidth >= 768) setMobileOpen(false);
     };
     handleResize(); // Check on mount
     window.addEventListener("resize", handleResize);
@@ -56,6 +53,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
+    handleScroll(); // A reload can restore a scrolled position without firing a scroll event
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -73,21 +71,34 @@ export default function Navbar() {
   };
 
   const isDark = theme === "dark";
-  // Only the mobile bar stays on screen while scrolling, so only it needs a backdrop
-  const solidBar = scrolled && isMobile;
 
   return (
     <>
-      {/* Mobile: fixed so the menu toggle is always reachable. Desktop: sits at the top of
-          the page and scrolls away. zIndex 60 keeps the toggle above the drawer (50) and backdrop (40). */}
-      <div className="fixed md:absolute" style={{ top: 0, left: 0, right: 0, zIndex: 60, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+      {/* Fixed on every screen size so the menu is always reachable. Once the page is scrolled,
+          the full-width bar gets a backdrop so the links stay readable over the content.
+          zIndex 60 keeps the toggle above the drawer (50) and backdrop (40). */}
+      <div
+        className="fixed"
+        style={{
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 60,
+          display: "flex",
+          justifyContent: "center",
+          // Transparent at the top, so clicks beside the links reach the hero; once the bar is
+          // solid it blocks them, otherwise a click on its edge would hit the content beneath
+          pointerEvents: scrolled ? "auto" : "none",
+          background: scrolled ? (isDark ? "rgba(10,10,10,0.85)" : "rgba(240,240,240,0.9)") : "transparent",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+          borderBottom: `1px solid ${scrolled ? (isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)") : "transparent"}`,
+          transition: "background-color 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease",
+        }}
+      >
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
-        animate={{
-          y: 0,
-          opacity: 1,
-          background: solidBar ? (isDark ? "rgba(10,10,10,0.85)" : "rgba(240,240,240,0.9)") : "transparent",
-        }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
           pointerEvents: "auto",
@@ -98,9 +109,7 @@ export default function Navbar() {
           maxWidth: 1280,
           height: 64,
           padding: "0 24px",
-          backdropFilter: solidBar ? "blur(20px)" : "none",
           border: "1px solid transparent",
-          borderBottom: solidBar ? `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` : undefined,
         }}
       >
         <button

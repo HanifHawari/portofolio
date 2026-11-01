@@ -93,13 +93,6 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-/* The navbar only stays on screen on mobile, so desktop needs no scroll offset */
-@media (min-width: 768px) {
-  html {
-    scroll-padding-top: 0;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
