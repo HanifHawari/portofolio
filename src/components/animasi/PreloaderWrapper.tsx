@@ -7,8 +7,12 @@ import { useEffect, useState } from "react";
 // 35–58% : hold
 // 58–100%: panels slide OUT → page revealed
 
-export default function PreloaderWrapper({ children }: { children: React.ReactNode }) {
+export default function PreloaderWrapper({ navbar, children }: { navbar: React.ReactNode; children: React.ReactNode }) {
   const [phase, setPhase] = useState<"loading" | "reveal" | "done">("loading");
+  const fadeIn: React.CSSProperties = {
+    opacity: phase === "done" ? 1 : 0,
+    visibility: phase === "loading" ? "hidden" : "visible",
+  };
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -65,17 +69,28 @@ export default function PreloaderWrapper({ children }: { children: React.ReactNo
       {/* 3. Main content — rises into view as panels separate */}
       <div
         style={{
-          opacity:    phase === "done" ? 1 : 0,
+          ...fadeIn,
           // "none" when done: any other transform makes this div the containing block
-          // for position:fixed descendants, so the navbar would scroll away with the page
+          // for position:fixed descendants (the modals), so they would scroll with the page
           transform:  phase === "done" ? "none" : "scale(0.97) translateY(16px)",
           transition: phase === "done"
             ? "opacity 0.95s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1)"
             : "none",
-          visibility: phase === "loading" ? "hidden" : "visible",
         }}
       >
         {children}
+      </div>
+
+      {/* The fixed navbar only fades in: the content's transform above would trap it, so it
+          scrolled away if the visitor scrolled during the reveal. Rendered after the content
+          so it paints on top while both are still fading in. */}
+      <div
+        style={{
+          ...fadeIn,
+          transition: phase === "done" ? "opacity 0.95s cubic-bezier(0.22,1,0.36,1)" : "none",
+        }}
+      >
+        {navbar}
       </div>
 
       <style>{`

@@ -12,9 +12,8 @@ import PreloaderWrapper from "@/components/animasi/PreloaderWrapper";
 
 export default function Home() {
   return (
-    <PreloaderWrapper>
+    <PreloaderWrapper navbar={<Navigasi />}>
       <main className="min-h-screen" style={{ background: "var(--background)" }}>
-        <Navigasi />
         <BagianHero />
         <BagianTentang />
         <BagianProyek />
