@@ -67,6 +67,8 @@ export default function ContactSection() {
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  // Honeypot: the checkbox is hidden from people, so only bots tick it
+  const [botcheck, setBotcheck] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,6 +88,8 @@ export default function ContactSection() {
           subject: formData.subject,
           message: formData.message,
           from_name: "Notifikasi Portfolio",
+          // Same as a native form: only sent when ticked; Web3Forms rejects it as spam
+          ...(botcheck ? { botcheck: "on" } : {}),
         }),
       });
 
@@ -231,6 +235,16 @@ export default function ContactSection() {
             <div className="section-card p-8 transition-all duration-300">
               <div className="relative z-10">
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  <input
+                    type="checkbox"
+                    name="botcheck"
+                    checked={botcheck}
+                    onChange={(e) => setBotcheck(e.target.checked)}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
                   <div>
                     <label className="block text-xs font-bold tracking-[0.15em] text-zinc-500 uppercase mb-2">
                       {t.contact.form.name}
@@ -238,6 +252,7 @@ export default function ContactSection() {
                     <input
                       type="text"
                       required
+                      maxLength={100}
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
@@ -254,6 +269,7 @@ export default function ContactSection() {
                     <input
                       type="email"
                       required
+                      maxLength={254}
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
@@ -281,7 +297,7 @@ export default function ContactSection() {
                         }}
                       >
                         <option value="" disabled className="bg-zinc-900">
-                          Select a subject
+                          {t.contact.form.selectSubject}
                         </option>
                         {t.contact.form.subjects.map((subject, i) => (
                           <option key={i} value={subject} className="bg-zinc-900">
@@ -304,6 +320,7 @@ export default function ContactSection() {
                     <textarea
                       required
                       rows={5}
+                      maxLength={5000}
                       value={formData.message}
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
