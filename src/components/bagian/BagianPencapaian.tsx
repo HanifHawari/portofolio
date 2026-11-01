@@ -130,7 +130,7 @@ function PhotoModal({
                 style={{ aspectRatio: "1024/573" }}
                 width={1024}
                 height={573}
-                unoptimized={true}
+                sizes="(min-width: 768px) 640px, 100vw"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
                 <p className="text-xs text-zinc-200 font-semibold">{photo.caption}</p>
@@ -153,7 +153,7 @@ function PhotoModal({
                     i === currentIndex ? "border-white" : "border-zinc-700 opacity-50 hover:opacity-80"
                   }`}
                 >
-                  <Image src={p.src} alt={p.caption} fill className="object-cover" unoptimized />
+                  <Image src={p.src} alt={p.caption} fill className="object-cover" sizes="64px" />
                 </button>
               ))}
             </div>
@@ -286,7 +286,7 @@ export default function AchievementsSection() {
                     alt={item.title}
                     fill
                     className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                    unoptimized={true}
+                    sizes="(min-width: 1024px) 640px, 100vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
 

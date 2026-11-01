@@ -70,7 +70,7 @@ export const translations = {
                     caseStudy: "Read Case Study",
                     liveUrl: "https://kartu-nikah.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/kartu-nikah.png",
+                    image: "/kartu-nikah.webp",
                     caseStudyContent: {
                         overview: "A digital wedding invitation web application built for wedding. The site presents couple profiles, ceremony schedules, venue locations, a photo gallery, kisah perjalanan, gift info, and an RSVP system. all in a responsive and elegant design.",
                         challenges: "Crafting an emotionally engaging experience that feels personal and elegant, while ensuring smooth animations and performance across all devices. from the interactive opening cover to the gallery lightbox and countdown timer.",
@@ -91,7 +91,7 @@ export const translations = {
                     caseStudy: "Read Case Study",
                     liveUrl: "https://fitmind-pdm.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/fitness.png",
+                    image: "/fitness.webp",
                     caseStudyContent: {
                         overview: "Developing a next-generation virtual health assistant that not only tracks passive metrics but proactively provides context-based recommendations using Generative AI.",
                         challenges: "Keeping AI response latency low on the mobile app, and designing a data architecture capable of synchronizing user health profiles in real-time across devices.",
@@ -112,7 +112,7 @@ export const translations = {
                     caseStudy: "Read Case Study",
                     liveUrl: "https://stallion-store-yk.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/stallion.png",
+                    image: "/stallion.webp",
                     caseStudyContent: {
                         overview: "Developing a modern e-commerce platform for Stallion Store to showcase their products and provide a seamless online shopping experience.",
                         challenges: "Building a highly performant and user-friendly interface with fast page loads, while ensuring an intuitive product browsing system.",
@@ -140,9 +140,9 @@ export const translations = {
                     archiveTap: "Click to open folder",
                     detail: "View Details",
                     liveUrl: "https://www.mobilelegends.com",
-                    image: "/pencapaian.png",
+                    image: "/pencapaian.webp",
                     galleryImages: [
-                        { src: "/rank-immortal.png", caption: "Rank Immortal" },
+                        { src: "/rank-immortal.webp", caption: "Rank Immortal" },
                     ],
                 },
             ],
@@ -317,7 +317,7 @@ export const translations = {
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://kartu-nikah.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/kartu-nikah.png",
+                    image: "/kartu-nikah.webp",
                     caseStudyContent: {
                         overview: "Aplikasi web undangan pernikahan digital yang dibangun untuk acara pernikahan. Menampilkan profil kedua mempelai, jadwal acara, lokasi venue, galeri foto, kisah perjalanan, info hadiah, dan sistem RSVP. semua dalam desain yang responsif dan elegan.",
                         challenges: "Menciptakan pengalaman yang terasa personal dan elegan sekaligus memastikan animasi yang mulus dan performa optimal di semua perangkat. mulai dari cover pembuka interaktif hingga galeri lightbox dan hitung mundur.",
@@ -338,7 +338,7 @@ export const translations = {
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://fitmind-pdm.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/fitness.png",
+                    image: "/fitness.webp",
                     caseStudyContent: {
                         overview: "Mengembangkan asisten kesehatan virtual generasi berikutnya yang tidak hanya melacak metrik pasif, tetapi secara proaktif memberikan rekomendasi berbasis konteks menggunakan AI Generatif.",
                         challenges: "Menjaga latensi respons AI tetap rendah di aplikasi mobile, serta merancang arsitektur data yang mampu menyinkronkan profil kesehatan pengguna secara real-time antar perangkat.",
@@ -359,7 +359,7 @@ export const translations = {
                     caseStudy: "Baca Studi Kasus",
                     liveUrl: "https://stallion-store-yk.vercel.app",
                     codeUrl: "https://github.com/HanifHawari",
-                    image: "/stallion.png",
+                    image: "/stallion.webp",
                     caseStudyContent: {
                         overview: "Mengembangkan platform e-commerce modern untuk Stallion Store guna memamerkan produk mereka dan memberikan pengalaman berbelanja online yang lancar.",
                         challenges: "Membangun antarmuka yang sangat performan dan ramah pengguna dengan waktu muat halaman yang cepat, sekaligus memastikan sistem penelusuran produk yang intuitif.",
@@ -387,9 +387,9 @@ export const translations = {
                     archiveTap: "Ketuk untuk buka folder",
                     detail: "Lihat Detail",
                     liveUrl: "https://www.mobilelegends.com",
-                    image: "/pencapaian.png",
+                    image: "/pencapaian.webp",
                     galleryImages: [
-                        { src: "/rank-immortal.png", caption: "Rank Immortal" },
+                        { src: "/rank-immortal.webp", caption: "Rank Immortal" },
                     ],
                 },
             ],

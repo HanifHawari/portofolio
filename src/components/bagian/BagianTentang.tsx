@@ -141,11 +141,10 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
         className="w-full h-full overflow-hidden relative section-card select-none"
       >
         <Image
-          src="/profile.png"
+          src="/profile.webp"
           alt="Profile"
           fill
-          quality={100}
-          unoptimized={true}
+          sizes="(min-width: 1024px) 600px, 100vw"
           className="object-contain pointer-events-none" style={{ backgroundColor: '#c8ccd5' }}
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
@@ -359,7 +358,7 @@ export default function AboutSection() {
               <div className="space-y-5">
                 <h2 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-2">
                   {/* 🖼️ GIF — taruh file di: public/icons/wave.gif */}
-                  <img src="/icons/wave.gif" alt="wave" width={36} height={36} style={{ display: "inline-block", verticalAlign: "middle" }} />
+                  <img src="/icons/wave.gif" alt="wave" width={36} height={36} loading="lazy" style={{ display: "inline-block", verticalAlign: "middle" }} />
                   <span>
                     {t.about.hi}{""}<span className="text-white">{t.about.name}</span>
                   </span>
@@ -404,7 +403,7 @@ export default function AboutSection() {
               <h3 className="text-lg sm:text-xl font-black text-white tracking-tight mb-1 flex items-center gap-2">
                 {t.about.education.title}
                   {/* 🖼️ GIF — taruh file di: public/icons/graduate.gif */}
-                  <img src="/icons/graduate.gif" alt="graduate" width={28} height={28} style={{ display: "inline-block", verticalAlign: "middle" }} />
+                  <img src="/icons/graduate.gif" alt="graduate" width={28} height={28} loading="lazy" style={{ display: "inline-block", verticalAlign: "middle" }} />
               </h3>
               <div className="flex items-center gap-2 text-zinc-500 text-sm mb-3">
                 <MapPin size={14} />
@@ -475,6 +474,7 @@ export default function AboutSection() {
                         Contoh: public/icons/philosophy-1.gif, philosophy-2.gif, philosophy-3.gif */}
                     <img
                       src={`/icons/philosophy-${i + 1}.gif`}
+                      loading="lazy"
                       alt={item.title}
                       width={44}
                       height={44}

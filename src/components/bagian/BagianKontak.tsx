@@ -177,7 +177,8 @@ export default function ContactSection() {
                   className="flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-zinc-200 transition-colors flex-1"
                 >
                   <img 
-                    src="/icons/mail.gif" 
+                    src="/icons/mail.gif"
+                    loading="lazy"
                     alt="Mail" 
                     width={28} 
                     height={28} 
@@ -207,6 +208,7 @@ export default function ContactSection() {
                     <span className="flex-shrink-0 w-9 h-9 flex items-center justify-center">
                       <img
                         src={link.gif}
+                        loading="lazy"
                         alt={link.label}
                         width={32}
                         height={32}

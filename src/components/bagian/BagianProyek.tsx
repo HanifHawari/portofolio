@@ -117,7 +117,7 @@ function CaseStudyModal({
                   alt={project.title}
                   fill
                   className="object-cover opacity-100 dark:opacity-80"
-                  unoptimized={true}
+                  sizes="(min-width: 768px) 768px, 100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent dark:from-zinc-950 dark:via-zinc-950/40 to-transparent" />
               </div>
@@ -318,7 +318,7 @@ export default function ProjectsSection() {
                     alt={project.title}
                     fill
                     className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                    unoptimized={true}
+                    sizes="(min-width: 1024px) 640px, 100vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none z-10" />
 

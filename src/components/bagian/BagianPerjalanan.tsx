@@ -29,12 +29,14 @@ function FolderIcon({ size = 40 }: { size?: number }) {
   );
 }
 
-const GALLERY_DATA: { src: string; caption: string }[] = [
-  { src: "/proyek1.png", caption: "Full-Stack Developer" },
-  { src: "/proyek1.png", caption: "Proyek Freelance" },
-  { src: "/foto-web2025.png", caption: "Pengembangan Web 2025" },
-  { src: "/foto-mahasiswa2024.png", caption: "Mahasiswa Informatika" },
-  { src: "/foto-maba2023.png", caption: "Mahasiswa Baru 2023" },
+// Satu entry per item journey (urutan sama). null = folder tampil "Coming Soon";
+// ganti dengan { src, caption } kalau fotonya sudah ada.
+const GALLERY_DATA: ({ src: string; caption: string } | null)[] = [
+  null, // Full-Stack Developer
+  null, // Fullstack Developer Intern
+  { src: "/foto-web2025.webp", caption: "Pengembangan Web 2025" },
+  { src: "/foto-mahasiswa2024.webp", caption: "Mahasiswa Informatika" },
+  { src: "/foto-maba2023.webp", caption: "Mahasiswa Baru 2023" },
 ];
 
 function FolderModal({
@@ -47,7 +49,7 @@ function FolderModal({
   onClose: () => void;
 }) {
   const photo = GALLERY_DATA[index];
-  const isComingSoon = index === 0 || index === 1;
+  const isComingSoon = photo === null;
 
   return createPortal(
     <motion.div
@@ -128,7 +130,7 @@ function FolderModal({
                 className="w-full h-auto object-contain max-h-[70vh] bg-zinc-950/50"
                 width={1024}
                 height={1024}
-                unoptimized={true}
+                sizes="(min-width: 768px) 640px, 100vw"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
                 <p className="text-xs text-zinc-200 font-semibold">{photo.caption}</p>
@@ -203,12 +205,6 @@ export default function JourneySection() {
 
   return (
     <section id="journey" className="py-24 sm:py-32 bg-[#0a0a0a]">
-      {/* Preload images so they appear instantly when the modal is opened */}
-      <div style={{ display: "none" }}>
-        {GALLERY_DATA.map((photo, i) => (
-          <Image key={i} src={photo.src} alt="preload" width={10} height={10} priority unoptimized={true} />
-        ))}
-      </div>
       <div className="max-w-5xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
