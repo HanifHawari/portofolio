@@ -71,7 +71,8 @@ export default function Navbar() {
 
   return (
     <>
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+      {/* zIndex 60 keeps the menu toggle above the mobile drawer (50) and backdrop (40) */}
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
       <motion.nav
         layout
         initial={{ y: -100, opacity: 0 }}
@@ -187,6 +188,8 @@ export default function Navbar() {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
               style={{ background: "none", border: "none", color: "var(--foreground)", cursor: "pointer", padding: 4 }}
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}

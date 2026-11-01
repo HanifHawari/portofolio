@@ -66,7 +66,9 @@ export default function PreloaderWrapper({ children }: { children: React.ReactNo
       <div
         style={{
           opacity:    phase === "done" ? 1 : 0,
-          transform:  phase === "done" ? "scale(1) translateY(0)" : "scale(0.97) translateY(16px)",
+          // "none" when done: any other transform makes this div the containing block
+          // for position:fixed descendants, so the navbar would scroll away with the page
+          transform:  phase === "done" ? "none" : "scale(0.97) translateY(16px)",
           transition: phase === "done"
             ? "opacity 0.95s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1)"
             : "none",
