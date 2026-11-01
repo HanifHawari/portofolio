@@ -13,16 +13,20 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  // The server always renders English; a saved "id" preference is applied right
+  // after hydration, while the preloader still hides the page.
   const [language, setLanguageState] = useState<Language>("en");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("portfolio-lang") as Language;
     if (saved && (saved === "en" || saved === "id")) {
       setLanguageState(saved);
     }
-    setMounted(true);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -30,10 +34,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = translations[language];
-
-  if (!mounted) {
-    return <div style={{ background: "#0a0a0a", minHeight: "100vh" }} />;
-  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

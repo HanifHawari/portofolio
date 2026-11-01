@@ -241,7 +241,7 @@ export const translations = {
             },
         },
         footer: {
-            copyright: `©${new Date().getFullYear()} Muhammad Hanif Hawari. All Rights Reserved`,
+            copyright: "Muhammad Hanif Hawari. All Rights Reserved",
             location: "Indonesia",
             remote: "Available for Remote Work",
         },
@@ -488,7 +488,7 @@ export const translations = {
             },
         },
         footer: {
-            copyright: `©${new Date().getFullYear()} Muhammad Hanif Hawari. Hak Cipta Dilindungi`,
+            copyright: "Muhammad Hanif Hawari. Hak Cipta Dilindungi",
             location: "Indonesia",
             remote: "Tersedia untuk Kerja Remote",
         },

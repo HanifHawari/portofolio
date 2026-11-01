@@ -68,6 +68,9 @@ function CaseStudyModal({
   onClose: () => void;
 }) {
   const { t } = useLanguage();
+  // document.body doesn't exist during server rendering, so only portal after mount
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   // Keep a snapshot of the last active index so content stays visible during exit animation
   const lastIndexRef = useRef<number>(0);
   if (activeCaseStudy !== null) {
@@ -75,6 +78,8 @@ function CaseStudyModal({
   }
   const displayIndex = activeCaseStudy ?? lastIndexRef.current;
   const project = t.projects.items[displayIndex] as unknown as ProjectItem | undefined;
+
+  if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>

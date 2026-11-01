@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useLayoutEffect, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
@@ -166,7 +166,7 @@ export default function JourneySection() {
   const [trackHeight, setTrackHeight] = useState(0);
 
   // Ukur tinggi track setiap kali konten berubah
-  useLayoutEffect(() => {
+  useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
     const observer = new ResizeObserver(([entry]) => {

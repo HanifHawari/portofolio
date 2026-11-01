@@ -57,13 +57,21 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs before first paint so the saved theme is applied without a flash.
+// Same rules as ThemeProvider: mobile is always dark, desktop uses the saved choice.
+const themeScript = `(function(){try{var d=document.documentElement;var t=window.innerWidth<768?"dark":(localStorage.getItem("portfolio-theme")==="light"?"light":"dark");d.setAttribute("data-theme",t);d.classList.toggle("dark",t==="dark");}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: themeScript changes class/data-theme on <html> before hydration
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} ${spaceGrotesk.variable} antialiased`}
         style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}

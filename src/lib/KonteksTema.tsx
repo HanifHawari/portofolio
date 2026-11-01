@@ -26,8 +26,9 @@ function applyTheme(t: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  // Starts as "dark" to match the server render. The inline script in layout.tsx
+  // has already applied the real theme to <html>; the effect below syncs state to it.
   const [theme, setTheme] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const isMobile = isMobileViewport();
@@ -58,7 +59,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     };
 
     window.addEventListener("resize", handleResize);
-    setMounted(true);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -70,8 +70,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("portfolio-theme", next);
     applyTheme(next);
   };
-
-  if (!mounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

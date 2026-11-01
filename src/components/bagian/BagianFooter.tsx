@@ -17,7 +17,10 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <span className="tracking-wider">{t.footer.copyright}</span>
+          <span className="tracking-wider">
+            {/* The year is rendered at build time on the server; let the client correct it without a hydration error */}
+            ©<span suppressHydrationWarning>{new Date().getFullYear()}</span> {t.footer.copyright}
+          </span>
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 px-3 py-1.5 border border-zinc-800 rounded-full hover:border-zinc-600 transition-colors">
               <MapPin size={12} />
