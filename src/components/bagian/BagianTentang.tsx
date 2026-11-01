@@ -142,10 +142,11 @@ function IDCard({ t }: { t: { about: { name: string; discordUser: string; online
       >
         <Image
           src="/profile.webp"
-          alt="Profile"
+          alt="Muhammad Hanif Hawari"
           fill
           sizes="(min-width: 1024px) 600px, 100vw"
-          className="object-contain pointer-events-none" style={{ backgroundColor: '#c8ccd5' }}
+          // Fill the card; keep the upper part (the face) in frame when cropping
+          className="object-cover pointer-events-none" style={{ objectPosition: "50% 30%" }}
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
           }}
